@@ -31,7 +31,6 @@ class Eleve :
               
     
     def make_req(self):
-        print(self.num)
         req = 'INSERT INTO eleves\
             (nom,prenom,num,num_ano,annee,mail,classe) \
                 VALUES ("'+self.nom+'",\
