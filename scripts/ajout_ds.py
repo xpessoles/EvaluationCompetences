@@ -4,57 +4,70 @@ Created on Wed Dec 15 22:03:05 2021
 
 @author: Xavier Pessoles
 """
-## Paramètres 
-classe = 'PSIe'
-annee = "2022" # Année de passage du concours
-bdd = "BDD_Evaluation.db"
-type_eval = "DS"
-num_eval  = "1"
-date_eval = "16/12/2021"
-dossier_notes = "Competences"
-fichier_notes = "DS_N.xlsx"
+
 
 ## Import de bibliothèques
 import openpyxl
 from pathlib import Path
 import sqlite3
+from evaluation.class_evaluation import Evaluation
+from evaluation.class_question import Question
 
+## Paramètres 
+classe = 'PSIe'
+annee = "2022" # Année de passage du concours
+bdd = "BDD_Evaluation.db"
+type_eval = "DS"
+num_eval  = 1
+date_eval = "16/12/2021"
+dossier_notes = "Competences"
+fichier_notes = "DS_N.xlsx"
 
-class Evaluation : 
-    """ Définition d'un élève """
-    def __init__(self,classe,type_eval,num_eval,date_eval):
-        self.classe = classe
-        self.type_eval = type_eval
-        self.num_eval = num_eval
-        self.date_eval = date_eval
-             
-    def make_req(self):
-        req = 'INSERT INTO evaluations\
-            (type,date,classe,numero) \
-                VALUES ("'+self.type_eval+'",\
-                        "'+self.date_eval+'",\
-                        "'+self.classe+'",\
-                        "'+self.num_eval+'" )'
-                           
-        return req
+evaluation = Evaluation(classe,type_eval,num_eval,date_eval)
     
-class Question :
-    """ Définition d'une question """
-    def __init__(self,id_eval,num_ques,id_comp,note,poids):
-        self.id_eval = id_eval
-        self.num_ques = num_ques
-        self.id_comp = id_comp
-        self.note = note
-        self.poids = poids
-        
-class Question_Eleve :
-    """ Définition d'une question pour un élève"""
-    def __init__(self):
-        self.id_eleve = 0
-        self.id_ds = 0
-        self.id_ques = 0
-        self.note = 0
-        
+def is_eval_exist(evaluation) -> str :
+    """
+    Renvoie -1 si l'évalation exite. 
+    Renvoi l'ID si elle existe. 
+    """
+    conn = sqlite3.connect(bdd)
+    c = conn.cursor()
+    req  = evaluation.make_req_exist()
+    c.execute(req)
+    res = c.fetchall()
+    conn.commit()
+    conn.close()
+    if res ==[] or res[0][0]=="" :
+        return -1
+    else : 
+        return res[0][0]        
+
+def add_evaluation_bdd(evaluation:Evaluation):
+    id_eval = is_eval_exist(evaluation)
+    if id_eval >-1 : 
+        # On supprime l'évaluation
+        conn = sqlite3.connect(bdd)
+        c = conn.cursor()
+        req = evaluation.make_req_del_eval()
+        print(req)
+        c.execute(req)
+        conn.commit()
+        conn.close()
+        # On supprime les compétences liées à l'évaluation.       
+    
+  
+    # On crée l'évaluation
+    conn = sqlite3.connect(bdd)
+    c = conn.cursor()
+    req = evaluation.make_req_insertion()
+    print(req)
+    c.execute(req)
+    conn.commit()
+    conn.close()
+    
+    
+
+add_evaluation_bdd(evaluation)
 
 
 
@@ -158,7 +171,12 @@ def is_competence_evaluable(comp:str) -> bool :
     conn.close()
     return res[0][0]!=""
 
+
+
+
+
 def get_eval_id():
+    
     return True
 
 
@@ -183,5 +201,7 @@ def get_eval_id():
     
 # Création de l'évaluation dans la BDD
 
-all_eleves  = read_bareme(dossier_notes, fichier_notes)
+# a=is_eval_exist(type_eval, num_eval)
+# print(a)
+# #all_eleves  = read_bareme(dossier_notes, fichier_notes)
 #ajout_eleves_bdd(all_eleves)
