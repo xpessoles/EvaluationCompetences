@@ -56,3 +56,8 @@ class Evaluation :
             " AND date = '"+ self.date_eval+\
             "' AND classe = '"+ self.classe+"'"
         return req
+    
+    def make_req_del_question(self,id_eval) -> str :
+        req = "DELETE FROM questions WHERE "+\
+            "id_eval= '"+ str(id_eval)+"'"
+        return req

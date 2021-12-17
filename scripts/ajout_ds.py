@@ -15,6 +15,7 @@ from evaluation.class_question import Question
 
 ## Paramètres 
 classe = 'PSIe'
+filiere = "PCSI-PSI"
 annee = "2022" # Année de passage du concours
 bdd = "BDD_Evaluation.db"
 type_eval = "DS"
@@ -49,25 +50,35 @@ def add_evaluation_bdd(evaluation:Evaluation):
         conn = sqlite3.connect(bdd)
         c = conn.cursor()
         req = evaluation.make_req_del_eval()
-        print(req)
         c.execute(req)
         conn.commit()
         conn.close()
-        # On supprime les compétences liées à l'évaluation.       
+        
+        # On supprime les questions liées l'évaluation
+        conn = sqlite3.connect(bdd)
+        c = conn.cursor()
+        req = evaluation.make_req_del_question(id_eval)
+        
+        print(req)
+        c.execute(req)
+        
+        conn.commit()
+        conn.close()
+        # On supprime les questions éleves liées à l'évaluation.
+        # TODO
     
   
     # On crée l'évaluation
     conn = sqlite3.connect(bdd)
     c = conn.cursor()
     req = evaluation.make_req_insertion()
-    print(req)
     c.execute(req)
     conn.commit()
     conn.close()
     
     
 
-add_evaluation_bdd(evaluation)
+
 
 
 
@@ -87,7 +98,7 @@ def read_bareme(dossier_notes, fichier_notes) -> list:
         list(Questions).
 
     """
-    
+    id_eval = is_eval_exist(evaluation)
     
     # Lire un fichier de notes       
     xlsx_file = Path(dossier_notes, fichier_notes)
@@ -101,7 +112,8 @@ def read_bareme(dossier_notes, fichier_notes) -> list:
     
     
     
-    # Récupérer le nombre d'item evalués
+    ## Récupérer le nombre d'item evalués et la liste des questions
+    ###############################################################
     first_row = sheet[1] 
     nb_item=0
     ligne_Q = []
@@ -109,39 +121,40 @@ def read_bareme(dossier_notes, fichier_notes) -> list:
         if cell.value!=None and 'Q' in cell.value : 
             ligne_Q.append(cell.value)
             nb_item+=1
-    # Récupération des poids 
+
+    # Récupération des poids des questions
     poids_row = sheet[3]
     ligne_poids = []
     for cell in poids_row:
             ligne_poids.append(cell.value)
-            
 
     ligne_poids=ligne_poids[2:2+nb_item]
 
-    bareme = [0 for i in range(nb_item)]
-    
+    bareme = []
+
+
     for row in sheet.iter_rows(max_row=nb_ligne):
+
         ligne = []
         for cell in row:
              ligne.append(cell.value)
         
         # On vérifie que la ligne est une compétence évaluable
-        # Pour cela il faut :
-            # qu'elle ait un semestre dans la BDD
-            # qu'elle ne commence pas par None
-        if ligne[0]!=None and is_competence_evaluable(ligne[0]) :         
+        if ligne[0]!=None and is_competence_evaluable(ligne[0]) :
             code_comp = ligne[0]
-            val = ligne[2:2+nb_item]
-            for i in range(len(val)) :
-                if val[i]!=0:
-                    print(val)
-                    id_eval =  0 # TODO avec la bdd
-                    num_ques = 0 # TODO avec ligne_q
-                    note =     0 # TODO avec val ?
-                    poids=     0 # TODO avec ligne_poids
-                    bareme[i]=Question(
-                        id_eval,num_ques,code_comp,note,poids)
-            #print(ligne,val)
+            valeurs = ligne[2:2+nb_item]
+            if sum(valeurs)>0 :
+                index_q = -1
+                for i in range(len(valeurs)):
+                    if valeurs[i]!=0 :
+                        index_q = i
+                
+                # On supprime le Q
+                num_ques = int(ligne_Q[index_q][1:])
+                note  = valeurs[index_q]
+                poids = ligne_poids[index_q]
+                q = Question(id_eval,num_ques,code_comp,note,poids)
+                bareme.append(q)
     return bareme
 
 
@@ -171,14 +184,39 @@ def is_competence_evaluable(comp:str) -> bool :
     conn.close()
     return res[0][0]!=""
 
-
-
-
-
-def get_eval_id():
+def add_bareme_bdd(bareme:list) -> None:
+    """
+    bareme est une liste de question
+    """
     
-    return True
+    for question in bareme : 
+        # Détermination de l'id de la compétence    
+        conn = sqlite3.connect(bdd)
+        c = conn.cursor()
+        req = question.make_req_id_comp(filiere)
+        c.execute(req)
+        res = c.fetchall()
+        conn.commit()
+        conn.close()
+        id_comp = res[0][0]
+        
+        conn = sqlite3.connect(bdd)
+        c = conn.cursor()
+        req = question.make_req_insertion(id_comp)
+        c.execute(req)
+        conn.commit()
+        conn.close()
+        
+    
+    
 
+
+# On ajoute l'EVAL
+add_evaluation_bdd(evaluation)
+# On lit le bareme
+bareme = read_bareme(dossier_notes, fichier_notes)
+# On ajoute le bareme a la BDD
+add_bareme_bdd(bareme)
 
 # def ajout_eleves_bdd(eleves : list):
 #     # On vide la table
