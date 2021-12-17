@@ -74,6 +74,8 @@ def read_bareme(dossier_notes, fichier_notes) -> list:
         list(Questions).
 
     """
+    
+    
     # Lire un fichier de notes       
     xlsx_file = Path(dossier_notes, fichier_notes)
     wb_obj = openpyxl.load_workbook(xlsx_file) 
@@ -114,32 +116,50 @@ def read_bareme(dossier_notes, fichier_notes) -> list:
         # Pour cela il faut :
             # qu'elle ait un semestre dans la BDD
             # qu'elle ne commence pas par None
-        if ligne[0]!=None:
-            conn = sqlite3.connect(bdd)
-            c = conn.cursor()
-            req = "SELECT semestre FROM competences WHERE code = '"+ \
-                ligne[0]+"'"
-            c.execute(req)
-            res = c.fetchall()
-            conn.commit()
-            conn.close()
-            
-            # C'est une competence évaluable
-            if res[0][0]!="" :
-                code_comp = ligne[0]
-                val = ligne[2:2+nb_item]
-                for i in range(len(val)) :
-                    if val[i]!=0:
-                        print(val)
-                        id_eval =  0 # TODO avec la bdd
-                        num_ques = 0 # TODO avec ligne_q
-                        note =     0 # TODO avec val ?
-                        poids=     0 # TODO avec ligne_poids
-                        bareme[i]=Question(
-                            id_eval,num_ques,code_comp,note,poids)
-                #print(ligne,val)
+        if ligne[0]!=None and is_competence_evaluable(ligne[0]) :         
+            code_comp = ligne[0]
+            val = ligne[2:2+nb_item]
+            for i in range(len(val)) :
+                if val[i]!=0:
+                    print(val)
+                    id_eval =  0 # TODO avec la bdd
+                    num_ques = 0 # TODO avec ligne_q
+                    note =     0 # TODO avec val ?
+                    poids=     0 # TODO avec ligne_poids
+                    bareme[i]=Question(
+                        id_eval,num_ques,code_comp,note,poids)
+            #print(ligne,val)
     return bareme
 
+
+def is_competence_evaluable(comp:str) -> bool :
+    """
+    Renvoie True si une compétence est évaluable. 
+    Elle est évaluable si elle est associée à un semestre dans la BDD
+
+    Parameters
+    ----------
+    comp : str
+        DESCRIPTION.
+
+    Returns
+    -------
+    bool 
+        DESCRIPTION.
+
+    """
+    conn = sqlite3.connect(bdd)
+    c = conn.cursor()
+    req = "SELECT semestre FROM competences WHERE code = '"+ \
+        comp+"'"
+    c.execute(req)
+    res = c.fetchall()
+    conn.commit()
+    conn.close()
+    return res[0][0]!=""
+
+def get_eval_id():
+    return True
 
 
 # def ajout_eleves_bdd(eleves : list):
