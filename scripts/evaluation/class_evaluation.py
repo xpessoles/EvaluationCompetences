@@ -6,13 +6,22 @@ Created on Fri Dec 17 12:57:07 2021
 """
 
 class Evaluation : 
-    """ Définition d'un élève """
-    def __init__(self,classe,type_eval,num_eval,date_eval):
+    """ Définition d'une évalution """
+    def __init__(self,classe,annee,type_eval,num_eval,date_eval):
         self.classe = classe
+        self.annee = annee
         self.type_eval = type_eval
         self.num_eval = num_eval
         self.date_eval = date_eval
-             
+        self.id_eval = None
+        self.nb_ques = None
+    
+    def set_id_eval(self,ideval):
+        self.id_eval = ideval
+    
+    def set_nb_ques(self,nbques):
+            self.nb_ques = nbques
+        
     def make_req_insertion(self) -> str :
         """
         Création d'une requête peremttant d'ajouter une évaluation 
@@ -24,10 +33,11 @@ class Evaluation :
 
         """
         req = 'INSERT INTO evaluations '+\
-            '(type,date,classe,numero) '+ \
+            '(type,date,classe,annee,numero) '+ \
                 'VALUES ("'+self.type_eval+'",'+\
                          '"'+self.date_eval+'",'+\
                          '"'+self.classe+'",'+\
+                         '"'+str(self.annee)+'",'+\
                          '"'+str(self.num_eval)+'" )'
         return req
     
@@ -61,3 +71,14 @@ class Evaluation :
         req = "DELETE FROM questions WHERE "+\
             "id_eval= '"+ str(id_eval)+"'"
         return req
+    
+    def make_req_del_commentaires_eleves(self,id_eval) -> str :
+        req = "DELETE FROM commentaires_eleves WHERE "+\
+            "id_eval= '"+ str(id_eval)+"'"
+        return req
+    
+    def make_req_del_questions_eleves(self,id_eval) -> str :
+        req = "DELETE FROM questions_eleves WHERE "+\
+            "id_eval= '"+ str(id_eval)+"'"
+        return req
+    
