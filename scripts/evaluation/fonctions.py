@@ -400,7 +400,6 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
                     str(id_question)+",'"+\
                     str(n)+"')"
             
-            
             exec_insert(bdd,req)
             
         # Pour chaque éval, on met le commentaire
@@ -414,9 +413,6 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
         exec_insert(bdd,req)
     
        
-
-
-
 def exec_insert(bdd,req):
     conn = sqlite3.connect(bdd)
     c = conn.cursor()
@@ -432,4 +428,113 @@ def exec_select(bdd,req):
     conn.commit()
     conn.close()
     return res
+
+def get_eleves(classe:str,annee:int,bdd) -> list:
+    """
+    Liste des élèves sous forme d'Eleve
+    pour une classe donnée et pour une année donnée. 
+    Le tuple est ainsi constiués 
+    id_bdd,nom,prenom,num,num_ano,annee,classe,mail
+
+    Parameters
+    ----------
+    classe : str
+        DESCRIPTION.
+    annee : int
+        DESCRIPTION.
+    bdd : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    Liste d'élèves.
+
+    """
+    req = "SELECT id,nom,prenom,num,num_ano,annee,classe,mail FROM eleves WHERE"+\
+        " annee="+str(annee)+\
+        " AND classe ='"+classe+"'"+" ORDER BY num"
+    res = exec_select(bdd,req)
+    liste_eleves = []
+    for ligne in res :
+        eleve = Eleve.from_sql(ligne)
+        liste_eleves.append(eleve)
+    return liste_eleves 
+
+def get_questions_eleve(evaluation,eleve:Eleve,bdd):
+    id_eval = is_eval_exist(evaluation,bdd)
+
+    #Synthèse d'un élève
+    req = "SELECT id_eleve,id_eval,id_question,note_question FROM questions_eleves"+\
+        " WHERE id_eval="+str(id_eval)+" AND id_eleve="+str(eleve.id)+" ORDER BY id_question"
+    res = exec_select(bdd,req)
+    questions_eleve = []
+    for ligne in res :
+        q_el = {"id_eleve":ligne[0],
+                "id_eval":ligne[1],
+                "id_question":ligne[2],
+                "note_question":ligne[3]}
+        questions_eleve.append(q_el)
+    return questions_eleve
+    
+def get_questions_eval(id_eval,bdd):
+    """
+    Récupération du barème à partir de la BDD.
+
+    Parameters
+    ----------
+    id_eval : TYPE
+        DESCRIPTION.
+    bdd : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    liste_questions : list(Question)
+
+    """
+    req = "SELECT nom,num_ques,index_question,poids_comp,"+\
+          " note_ques,code FROM questions "+\
+          "JOIN competences ON questions.id_comp=competences.id "+\
+          " WHERE id_eval="+str(id_eval)+" ORDER BY questions.id"
+    res = exec_select(bdd,req)
+    liste_questions = []
+    for quest in res : 
+        question = Question.from_tuple(quest,id_eval)
+        liste_questions.append(question)
+    return liste_questions
+
+def calc_note_eval(bareme,notes_eleve):
+    note_brute = 0
+    total_brut = 0
+    note_traitee = 0
+    total_traite = 0
+    for i in range(len(bareme)):
+        note_quest = notes_eleve[i]['note_question']
+        poids_question = bareme[i].poids
+        note_quest_bareme = bareme[i].note
+        if note_quest!="NT":
+            note_traitee += float(note_quest)*note_quest_bareme
+            total_traite += note_quest_bareme*poids_question
+        else : 
+            note_quest = 0
+           
+        note_brute += float(note_quest)*note_quest_bareme
+        total_brut += note_quest_bareme*poids_question
+    
+    note_brute = note_brute*20/total_brut
+    note_traitee = note_traitee*20/total_traite
+    return {"note_brute":note_brute,"total_brut":total_brut,\
+            "note_traitee":note_traitee,"total_traite":total_traite}
+
+def insert_note_eval_bdd(id_eleve,id_eval,note_eval_eleve,bdd):
+    req = "INSERT INTO evaluations_eleves "+\
+        "(id_eleve,id_evaluation,note_brute_sur20,note_traitee_sur20) VALUES ("+\
+            str(id_eleve)+","+\
+            str(id_eval)+","+\
+            str(note_eval_eleve['note_brute'])+","+\
+            str(note_eval_eleve['note_traitee'])+")"
+    
+    exec_select(bdd,req)
+    
+    
     

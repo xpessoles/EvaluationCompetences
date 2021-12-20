@@ -19,6 +19,16 @@ class Question :
     def set_id_ques(self,id_ques):
         self.id_ques = id_ques
     
+    @classmethod
+    def from_tuple(cls,quest,id_eval):
+
+        nom_q,num_q,index_q,poids_comp_q,note_q,code_comp_q = quest
+        
+        return cls(id_eval,num_q,code_comp_q,note_q,\
+                   poids_comp_q,nom_q,index_q)
+    
+    
+    
     def make_req_id_comp(self,filiere):
         req = "SELECT id FROM competences WHERE "+\
             "code = '"+ self.code_comp+\
