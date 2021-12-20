@@ -50,11 +50,49 @@ req = "SELECT id,nom,prenom,num,num_ano,annee,classe,mail FROM eleves WHERE"+\
     " annee="+str(annee)+\
     " AND classe ='"+classe+"'"+" ORDER BY num"
 res = exec_select(bdd,req)
+print('ELEVE')
+print(res[0])
 
 id_eval = is_eval_exist(evaluation,bdd)
 
 #Synthèse d'un élève
-eleve = Eleve.from_sql(res[0])
+eleve = Eleve.from_sql(res[4])
 req = "SELECT id_eleve,id_eval,id_question,note_question FROM questions_eleves"+\
     " WHERE id_eval="+str(id_eval)+" AND id_eleve="+str(eleve.id)+" ORDER BY id_question"
 res = exec_select(bdd,req)
+print(req)
+print('EVAL')
+print("id_eleve,id_eval,id_question,note_question")
+for r in res : print(r)
+notes_eleve = res
+# Récup des questions
+req = "SELECT nom,num_ques,index_question,poids_comp,"+\
+      " note_ques,code FROM questions "+\
+          "JOIN competences ON questions.id_comp=competences.id "+\
+              " WHERE id_eval="+str(id_eval)+" ORDER BY questions.id"
+res = exec_select(bdd,req)
+print(req)
+print("nom,num_ques,index_question,poids_comp,note_ques,code")
+for r in res : print(r)
+
+bareme = res
+# Calcul de la moyenne par eleve
+note_brute=0
+total_brut = 0
+note_traitee=0
+total_traite = 0
+for i in range(len(bareme)):
+    note_quest = notes_eleve[i][3]
+    poids_question = bareme[i][3]
+    note_quest_bareme = bareme[i][4]
+    if note_quest!="NT":
+        note_traitee += float(note_quest)*note_quest_bareme
+        total_traite += note_quest_bareme*poids_question
+    else : 
+        note_quest = 0
+       
+    note_brute += float(note_quest)*note_quest_bareme
+    total_brut += note_quest_bareme*poids_question
+
+print(note_brute,total_brut,note_brute*20/total_brut)
+print(note_traitee,total_traite,note_traitee*20/total_traite)

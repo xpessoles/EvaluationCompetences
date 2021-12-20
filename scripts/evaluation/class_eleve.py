@@ -19,6 +19,14 @@ class Eleve :
               
     @classmethod
     def from_sql(cls,el):
+        """
+        Requete permettant d'avoir un élève 
+        req = "SELECT id,nom,prenom,num,num_ano,annee,classe,mail FROM eleves WHERE"+\
+            " annee="+str(annee)+\
+            " AND classe ='"+classe+"'"+" ORDER BY num"
+        el=res[i]
+            
+        """
         el_id,nom,prenom,num,ano,annee,classe,mail = el
         elev = [nom,prenom,num,ano,mail]
         return cls(elev,annee,classe,el_id)
