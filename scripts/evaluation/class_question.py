@@ -30,6 +30,7 @@ class Question :
     
     
     def make_req_id_comp(self,filiere):
+        "Recupérer l'id de la competence"
         req = "SELECT id FROM competences WHERE "+\
             "code = '"+ self.code_comp+\
             "' AND filiere = '"+ filiere+"'"
@@ -59,6 +60,4 @@ class Question :
             " AND index_question="+str(self.index)
 
         return req
-    
-    
     

@@ -504,6 +504,7 @@ def get_questions_eval(id_eval,bdd):
     return liste_questions
 
 def calc_note_eval(bareme,notes_eleve):
+    id_eleve = notes_eleve[0]["id_eleve"]
     note_brute = 0
     total_brut = 0
     note_traitee = 0
@@ -524,9 +525,15 @@ def calc_note_eval(bareme,notes_eleve):
     note_brute = note_brute*20/total_brut
     note_traitee = note_traitee*20/total_traite
     return {"note_brute":note_brute,"total_brut":total_brut,\
-            "note_traitee":note_traitee,"total_traite":total_traite}
+            "note_traitee":note_traitee,"total_traite":total_traite,\
+            "id_eleve":id_eleve}
 
 def insert_note_eval_bdd(id_eleve,id_eval,note_eval_eleve,bdd):
+    req = "DELETE FROM evaluations_eleves WHERE  "+\
+        "id_eleve = '"+ str(id_eleve)+\
+        "' AND id_evaluation = "+ str(id_eval)
+    exec_select(bdd,req)
+
     req = "INSERT INTO evaluations_eleves "+\
         "(id_eleve,id_evaluation,note_brute_sur20,note_traitee_sur20) VALUES ("+\
             str(id_eleve)+","+\
@@ -537,4 +544,61 @@ def insert_note_eval_bdd(id_eleve,id_eval,note_eval_eleve,bdd):
     exec_select(bdd,req)
     
     
+def insert_comp_bdd(eleve,id_eval,notes_eleve,bareme,filiere,bdd):
     
+    id_eleve = eleve.id
+    req = "DELETE FROM competences_eleves WHERE  "+\
+         "id_eleve = '"+ str(id_eleve)+\
+         "' AND id_evaluation = "+ str(id_eval)
+    exec_select(bdd,req)
+    
+    
+    
+    for i in range(len(bareme)):
+        Ques = bareme[i]
+        req = Ques.make_req_id_comp(filiere)
+        id_comp = exec_select(bdd,req)[0][0]
+        
+        score = 'NT'
+        poids_ques = bareme[i].poids
+        note = notes_eleve[i]["note_question"]
+        if note=='NT':
+            score = 'NT'
+        else : 
+            score = float(note)*100/poids_ques
+        
+        
+        req = "INSERT INTO competences_eleves "+\
+            "(id_eleve,id_evaluation,id_comp,score) VALUES ("+\
+                str(id_eleve)+","+\
+                str(id_eval)+","+\
+                str(id_comp)+",'"+\
+                str(score)+"')"
+        
+        exec_select(bdd,req)
+        
+def classement_eval(bilan_evals):
+    # Ajouter le classement de l'évaluation
+    
+    # note_eval_eleve : liste de dictionnaire 
+    #{'note_brute': 0.00, 'total_brut': 105, 'note_traitee': 9.0, 
+    # 'total_traite': 100, 'id_eleve': 156}
+    
+    # Conversion de la liste de dico en liste de liste pour 
+    # pouvoir faire un tri
+    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'])
+    for i in range(0,len(liste_evals)):
+        dico = liste_evals[i]
+        dico["Rang_brut"]=i+1
+        liste_evals[i]=dico
+    
+    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_traitee'])
+    for i in range(0,len(liste_evals)):
+        dico = liste_evals[i]
+        dico["Rang_traite"]=i+1
+        liste_evals[i]=dico
+        
+    return liste_evals
+
+def plot_notes_brute(id_eleve,bilan_evals):
+    return None    
