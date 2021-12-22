@@ -7,18 +7,19 @@ Created on Wed Dec 15 22:03:05 2021
 
 
 ## Import de bibliothèques
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+import os
 from evaluation.class_evaluation import Evaluation
-from evaluation.class_eleve import Eleve
 
 from evaluation.fonctions import read_bareme,add_bareme_bdd
-from evaluation.fonctions import add_evaluation_bdd,del_evaluation_bdd
+from evaluation.fonctions import add_evaluation_bdd
 from evaluation.fonctions import read_notes,add_notes_bdd
-from evaluation.fonctions import exec_select,is_eval_exist
+from evaluation.fonctions import is_eval_exist
 from evaluation.fonctions import get_eleves,get_questions_eval
 from evaluation.fonctions import get_questions_eleve,insert_comp_bdd
 from evaluation.fonctions import calc_note_eval,insert_note_eval_bdd
-from evaluation.fonctions import classement_eval
+from evaluation.fonctions import classement_eval,ecriture_notes_eleves_tex
+from evaluation.fonctions import plot_notes_brute
 ## Paramètres 
 classe = 'PSIe'
 filiere = "PCSI-PSI"
@@ -34,7 +35,7 @@ fichier_notes = "DS_N.xlsx"
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 #del_evaluation_bdd(evaluation,bdd)
 
-"""
+
 # On ajoute l'EVAL
 add_evaluation_bdd(evaluation,bdd)
 # On lit le bareme
@@ -46,7 +47,7 @@ add_bareme_bdd(bareme,filiere, bdd)
 notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 
 add_notes_bdd(notes,evaluation,bareme,bdd)
-"""
+
 
 
 # Génération des bilans
@@ -79,12 +80,18 @@ for eleve in eleves :
 
 liste_evals = classement_eval(bilan_evals)
 
-
-
-bilan_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'])
-les_notes = [note["note_brute"] for note in bilan_evals]
-les_rang = [note["Rang_brut"] for note in bilan_evals]
-plt.plot(les_rang,les_notes,".")
-plt.plot(bilan_evals[5]["Rang_brut"],bilan_evals[5]["note_brute"],"rs")
-plt.grid()
-plt.show()
+for eleve in eleves : 
+    # Ecriture fichier tex
+    print(eleve.nom)
+    ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd)
+    plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
+    os.chdir("compil")
+    os.system("pdflatex FicheDS.tex")
+    os.system("pdflatex FicheDS.tex")
+    fichier_eleve = eleve.get_num()+"_"+\
+                    eleve.nom+"_"+\
+                    eleve.prenom+"_"+\
+                    evaluation.type_eval+"_"+\
+                    str(evaluation.num_eval)+".pdf"
+    os.rename("FicheDS.pdf",fichier_eleve)
+    os.chdir("..")

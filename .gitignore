@@ -1,2 +1,9 @@
 
 *.pyc
+*.pdf
+*.aux
+*.bcf
+*.idx
+*.log
+*.xml
+*.out

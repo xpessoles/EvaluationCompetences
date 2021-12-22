@@ -43,3 +43,9 @@ class Eleve :
                 self.classe+'" )'
                            
         return req
+    
+    def get_num(self):
+        if self.num < 10 :
+            return '0'+str(self.num)
+        else :
+            return str(self.num)

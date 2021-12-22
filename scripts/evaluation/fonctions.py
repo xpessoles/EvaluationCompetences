@@ -7,6 +7,9 @@ Created on Sun Dec 19 12:54:46 2021
 import openpyxl
 from pathlib import Path
 import sqlite3
+import matplotlib.pyplot as plt
+import codecs
+
 from evaluation.class_competence import Competence
 from evaluation.class_question import Question
 from evaluation.class_evaluation import Evaluation
@@ -63,11 +66,11 @@ def ajout_competences_bdd(competences : list, filiere, discipline, bdd:str):
     # On vide la table
     req = "DELETE FROM competences WHERE filiere = '"+filiere+\
               "' AND discipline = '"+discipline+"'"
-    res = exec_select(bdd,req)
+    exec_select(bdd,req)
     
     for competence in competences : 
         req = competence.make_req()
-        res = exec_select(bdd,req)
+        exec_select(bdd,req)
 
        
 
@@ -92,32 +95,31 @@ def del_evaluation_bdd(evaluation:Evaluation,bdd):
     if id_eval >-1 : 
         # On supprime l'évaluation
         req = evaluation.make_req_del_eval()
-        res = exec_select(bdd,req)
+        exec_select(bdd,req)
 
         
         # On supprime les questions liées l'évaluation
         req = evaluation.make_req_del_question(id_eval)
-        res = exec_select(bdd,req)
+        exec_select(bdd,req)
 
         
         # On supprime les questions éleves liées à l'évaluation.
         req = evaluation.make_req_del_commentaires_eleves(id_eval)
-        res = exec_select(bdd,req)
+        exec_select(bdd,req)
 
         req = evaluation.make_req_del_questions_eleves(id_eval)
-        res = exec_select(bdd,req)
+        exec_select(bdd,req)
 
         
         
     
 
 def add_evaluation_bdd(evaluation:Evaluation,bdd):
+    del_evaluation_bdd(evaluation,bdd)
     # On crée l'évaluation
     req = evaluation.make_req_insertion()
     exec_select(bdd,req)
 
-    
-    
     # On garde l'id de l'évalution
     id_eval = is_eval_exist(evaluation,bdd)
     evaluation.set_id_eval(id_eval)
@@ -600,5 +602,179 @@ def classement_eval(bilan_evals):
         
     return liste_evals
 
-def plot_notes_brute(id_eleve,bilan_evals):
-    return None    
+def plot_notes_brute(id_eleve,bilan_evals,fichier):
+    # Graphique des notes avec positionnement de l'élève
+    bilan_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'])
+    les_notes = [note["note_brute"] for note in bilan_evals]
+    les_rang = [note["Rang_brut"] for note in bilan_evals]
+    plt.plot(les_rang,les_notes,".")
+    plt.plot(bilan_evals[5]["Rang_brut"],bilan_evals[5]["note_brute"],"rs")
+    plt.xlabel("Classement")
+    plt.ylabel("Notes")
+    plt.grid()
+    plt.savefig(fichier)
+        
+
+def calc_moyenne_classe(liste_evals):
+    moyenne_brute=[]
+    for l in liste_evals:
+        moyenne_brute.append(l["note_brute"])
+    return sum(moyenne_brute)/len(moyenne_brute)
+
+def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd):
+    
+    id_eleve = eleve.id
+    nom = eleve.nom
+    prenom = eleve.prenom
+    for l in liste_evals : 
+        if l["id_eleve"]==id_eleve :
+            note_brute = l["note_brute"]
+            rang_brut = l["Rang_brut"]
+            note_traitee = l["note_traitee"]
+            Rang_traite = l["Rang_traite"]
+    moyenne_classe = calc_moyenne_classe(liste_evals)
+    
+    
+    # Récupération des commentaires perso
+    req = "SELECT commentaire FROM commentaires_eleves WHERE "+\
+        " id_eleve="+str(id_eleve)+" AND"+\
+        " id_eval="+str(id_eval)
+    
+    
+    commentaire = exec_select(bdd, req)[0][0]
+    fid = codecs.open(file_el, "w", "utf-8")
+
+    nb_questions = len(notes_eleve)
+    
+    # ===== EN TETE ELEVE ====
+    
+    fid.write("\\begin{minipage}[c]{.45\\linewidth} \n")
+    
+    fid.write("\\Large \\textbf{\\textsf{"+nom.upper()+" "+prenom+"}} \n \n")  
+    
+    fid.write(" \\normalsize Note harmonisée "+str(round(note_brute,2))+"/20 \n \n")
+    fid.write("Rang "+str(rang_brut)+"\n \n")
+    #fid.write("Note brute "+str(round(bilan_el[1],2))+"/20 \n \n")
+    
+    fid.write("Moyenne classe harmonisée "+str(round(moyenne_classe,2))+"/20 \n \n")
+
+    fid.write("Moyenne question traitées "+str(round(note_traitee,2))+"/20 \n \n")
+    fid.write("Rang question traitées "+str(Rang_traite)+" \n \n")
+    
+    fid.write("Commentaires : \n")
+    fid.write(commentaire+" \n")
+    fid.write("\\end{minipage}\\hfill \n")
+    fid.write("\\begin{minipage}[c]{.45\\linewidth}  \n")
+    fid.write("\\begin{center}\n")
+    fid.write("\\includegraphics[width=.8\\linewidth]{../histo.pdf} \n")
+    fid.write("\\end{center}\n")
+    
+    fid.write("\\end{minipage}\n")
+    
+    
+
+    
+    # ===== NOTES PAR QUESTIONS =====
+    # On ajoute les notes par questions
+    fid.write("\\footnotesize \n")
+    fid.write("\\begin{center} \n")
+    fid.write("\\begin{tabular}{|c|c|m{1cm}|c||c|c|m{1cm}|c||c|c|m{1cm}|c||c|c|m{1cm}|c|} \n")
+    fid.write("\\hline "+\
+        "\\textbf{Qu} & \\textbf{Coef} & \\textbf{Comp} & \\textbf{/5} & "+\
+        "\\textbf{Qu} & \\textbf{Coef} & \\textbf{Comp} & \\textbf{/5} & "+\
+        "\\textbf{Qu} & \\textbf{Coef} & \\textbf{Comp} & \\textbf{/5} & "+\
+        "\\textbf{Qu} & \\textbf{Coef} & \\textbf{Comp} & \\textbf{/5} \\\ \n")
+    fid.write("\\hline \n")
+    fid.write("\\hline \n")
+    
+    
+    # On traite les n-1 premières lignes
+    nb_lignes = (nb_questions-1)//4
+    for i in range (0,nb_lignes):
+        col1 = 4*i
+        col2 = 4*i+1
+        col3 = 4*i+2
+        col4 = 4*i+3
+        
+        numques_1 = bareme[col1].nom
+        numques_2 = bareme[col2].nom
+        numques_3 = bareme[col3].nom
+        numques_4 = bareme[col4].nom
+        
+        #coef/poids
+        coef_1 = str(bareme[col1].poids)
+        coef_2 = str(bareme[col2].poids)
+        coef_3 = str(bareme[col3].poids)
+        coef_4 = str(bareme[col4].poids)
+        
+        # compétences
+        comp_1 = bareme[col1].code_comp
+        comp_2 = bareme[col2].code_comp
+        comp_3 = bareme[col3].code_comp
+        comp_4 = bareme[col4].code_comp
+        
+        # notes
+        note_1 = notes_eleve[col1]["note_question"]
+        note_2 = notes_eleve[col2]["note_question"]
+        note_3 = notes_eleve[col3]["note_question"]
+        note_4 = notes_eleve[col4]["note_question"]
+        
+        
+        ligne = numques_1+" & "+coef_1+" & "+comp_1+" & "+note_1+" & "+\
+            numques_2+" & "+coef_2+" & "+comp_2+" & "+note_2+" & "+\
+            numques_3+" & "+coef_3+" & "+comp_3+" & "+note_3+" & "+\
+            numques_4+" & "+coef_4+" & "+comp_4+" & "+note_4+" \\\ \\hline \n "
+              
+       
+        fid.write(ligne)
+        fid.write('\n')
+        
+    
+    # On écrit la dernière ligne
+    #############################
+    col1 = 4*nb_lignes
+    col2 = 4*nb_lignes+1
+    col3 = 4*nb_lignes+2
+    col4 = 4*nb_lignes+3
+    
+    numques_1, numques_2, numques_3, numques_4 = "","","",""
+    coef_1, coef_2, coef_3, coef_4 = "","","",""
+    comp_1,comp_2,comp_3,comp_4 = "","","",""
+    note_1,note_2,note_3,note_4 = "","","",""
+    
+    
+    if col1+1 <=nb_questions :
+        numques_1 = bareme[col1].nom
+        coef_1 = str(bareme[col1].poids)
+        comp_1 = bareme[col1].code_comp    
+        note_1 = notes_eleve[col1]["note_question"]
+    if col1+2 <=nb_questions :
+        numques_2 = bareme[col2].nom
+        coef_2 = str(bareme[col2].poids)
+        comp_2 = bareme[col2].code_comp    
+        note_2 = notes_eleve[col2]["note_question"]
+    if col1+3 <=nb_questions :
+        numques_3 = bareme[col3].nom
+        coef_3 = str(bareme[col3].poids)
+        comp_3 = bareme[col3].code_comp    
+        note_3 = notes_eleve[col3]["note_question"]
+    if col1+4 <=nb_questions :
+        numques_4 = bareme[col4].nom
+        coef_4 = str(bareme[col4].poids)
+        comp_4 = bareme[col4].code_comp    
+        note_4 = notes_eleve[col4]["note_question"]
+        
+    ligne = numques_1+" & "+coef_1+" & "+comp_1+" & "+note_1+" & "+\
+        numques_2+" & "+coef_2+" & "+comp_2+" & "+note_2+" & "+\
+        numques_3+" & "+coef_3+" & "+comp_3+" & "+note_3+" & "+\
+        numques_4+" & "+coef_4+" & "+comp_4+" & "+note_4+" \\\ \\hline \n "
+    fid.write(ligne)
+    fid.write('\n')
+    
+    ############################## FIN DERNIERE LIGNE ##########
+    
+    fid.write("\\end{tabular} \n")
+    fid.write("\\end{center} \n")
+    fid.write("\\normalsize \n \n")
+    # ===== FIN NOTES PAR QUESTIONS =====
+    fid.close()
