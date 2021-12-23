@@ -9,6 +9,8 @@ from pathlib import Path
 import sqlite3
 import matplotlib.pyplot as plt
 import codecs
+import os
+import shutil
 
 from evaluation.class_competence import Competence
 from evaluation.class_question import Question
@@ -777,4 +779,153 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.write("\\end{center} \n")
     fid.write("\\normalsize \n \n")
     # ===== FIN NOTES PAR QUESTIONS =====
+    fid.close()
+
+def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd):
+
+    # Récupération des élèves
+    eleves = get_eleves(classe,annee,bdd)
+    id_eval = is_eval_exist(evaluation,bdd)
+
+    bilan_evals = []
+
+
+    for eleve in eleves : 
+        # Récup du bareme Liste de Questions
+        bareme = get_questions_eval(id_eval,bdd)
+        
+        # Récupération des notes d'un élève
+        # Dictionnaire de notes d'un éleve
+        notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
+        
+        # Calcul de l'élève
+        note_eval_eleve = calc_note_eval(bareme,notes_eleve)
+        # On écrit ca dans la base de données
+        insert_note_eval_bdd(eleve.id,id_eval,note_eval_eleve,bdd)
+        
+        # On ajoute les compétences évaluées dans la base.
+        insert_comp_bdd(eleve,id_eval,notes_eleve,bareme,filiere,bdd)
+        
+        bilan_evals.append(note_eval_eleve)
+
+    # On réa
+    liste_evals = classement_eval(bilan_evals)
+
+    for eleve in eleves :
+        
+        # Ecriture fichier tex
+        print(eleve.nom)
+        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd)
+        plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
+        os.chdir("compil")
+        os.system("pdflatex FicheDS.tex")
+        os.system("pdflatex FicheDS.tex")
+        fichier_eleve = eleve.get_num()+"_"+\
+                        eleve.nom+"_"+\
+                        eleve.prenom+"_"+\
+                        evaluation.type_eval+"_"+\
+                        str(evaluation.num_eval)+".pdf"
+        shutil.move("FicheDS.pdf",fichier_eleve)
+        os.chdir("..")
+        
+
+def get_comp_id(code_comp,discipline, filiere, bdd):
+    # Récupération de l'id d'une compétence
+    req = "SELECT id from competences WHERE "+\
+        "code = '"+code_comp +"' AND "+\
+        "discipline = '"+discipline +"' AND "+\
+        "filiere = '"+filiere+"'"
+    res = exec_select(bdd,req)
+    return res[0][0]
+
+def get_liste_score_eleve(id_eleve,id_comp, bdd):
+    # Récupération du type d'éval, de la date, du score
+    req = "SELECT evaluations.type,evaluations.date,score FROM "+\
+    "competences_eleves JOIN evaluations ON "+\
+    "evaluations.id = competences_eleves.id_evaluation "+\
+    " WHERE id_eleve = "+str(id_eleve)+\
+    " AND id_comp = "+str(id_comp)+\
+    " order by evaluations.id"
+    print("ici IL Y A UN PROBLEME : on recupere pas tout ce qu'on veut")
+    res = exec_select(bdd,req)
+    return res
+
+def plot_score_comp(scores,filename):
+    notes, dates, type_eval = [], [], []
+    notes_DS, dates_DS = [], []
+    notes_colles, dates_colles = [], []
+    notes_DDS, dates_DDS = [], []
+    # scores: liste de score
+    # score : (type,date,score)
+    for score in scores :
+        type_eval.append(score[0])
+        dates.append(score[1])
+        notes.append(float(score[2]))
+        
+        if score[0] == "DS": 
+            dates_DS.append(score[1])
+            notes_DS.append(float(score[2]))
+        if score[0] == "DDS": 
+            dates_DDS.append(score[1])
+            notes_DDS.append(float(score[2]))
+        if score[0] == "colle": 
+            dates_colles.append(score[1])
+            notes_colles.append(float(score[2]))
+    
+    
+    labels = dates
+    val = notes
+    width = 0.35       # the width of the bars: can also be len(x) sequence
+
+    fig, ax = plt.subplots(figsize=(5,1.5))
+
+
+    ax.bar(labels, val, width)
+
+    ax.bar(dates_DS, notes_DS, width, label='DS')
+    ax.bar(dates_colles, notes_colles, width, label='Colles')
+    ax.bar(dates_DDS, notes_DDS, width, label='DDS')
+
+
+    ax.plot(labels, val)
+    ax.scatter(labels, val)
+    ax.set_ylim(0, 100)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_ylabel('Scores')
+    ax.legend()
+    plt.savefig(filename)
+
+def generation_bilan_competences(eleve,classe,filiere,discipline,bdd) :
+    req = "SELECT code,nom_long FROM competences WHERE "+\
+        "discipline = '"+discipline+\
+        "' AND filiere = '"+filiere+\
+        "' order by id"
+    id_eleve = eleve.id
+    res = exec_select(bdd,req)
+    fid = codecs.open("compil/comp.tex", "w", "utf-8")
+
+    for line in res : 
+        code = line[0]
+        nom = line[1]
+        if len(code)==1 : 
+            titre = "\section{"+code+" -- "+nom+"}  \n"
+            fid.write(titre)
+            #print(titre)
+        elif len(code)==2 : 
+            titre = "\subsection{"+code+" -- "+nom+"}  \n"
+            fid.write(titre)
+            #print(titre)
+        else :
+            titre = "\subsubsection*{"+code+" -- "+nom+"}  \n"
+            fid.write(titre)
+            id_comp = get_comp_id(code,discipline, filiere, bdd)
+            
+            scores = get_liste_score_eleve(id_eleve,id_comp, bdd)
+            
+            if len(scores)>0:
+                plot_score_comp(scores,"compil/"+code+".pdf")
+                fid.write("\\begin{center} \n")
+                fid.write("\\includegraphics{"+code+".pdf} \n")
+                fid.write("\\end{center} \n")
+                
     fid.close()

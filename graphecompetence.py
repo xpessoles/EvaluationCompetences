@@ -27,7 +27,7 @@ labels = dates
 val = notes
 width = 0.35       # the width of the bars: can also be len(x) sequence
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(30,15))
 
 
 ax.bar(labels, val, width)
