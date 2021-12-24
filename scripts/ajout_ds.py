@@ -12,7 +12,7 @@ import os
 from evaluation.class_evaluation import Evaluation
 
 from evaluation.fonctions import read_bareme,add_bareme_bdd
-from evaluation.fonctions import add_evaluation_bdd
+from evaluation.fonctions import add_evaluation_bdd,del_evaluation_bdd
 from evaluation.fonctions import read_notes,add_notes_bdd,get_eleves
 from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
@@ -25,33 +25,31 @@ discipline = 'SII'
 annee = "2022" # Année de passage du concours
 bdd = "BDD_Evaluation.db"
 type_eval = "DS"
-num_eval  = 2
-date_eval = "17/12/2021"
+num_eval  = 3
+date_eval = "3/12/2021"
 dossier_notes = "Competences"
-fichier_notes = "DS_N.xlsx"
+fichier_notes = "DS_03.xlsx"
 
 
-# evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
-
-
+evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
 # # On ajoute l'EVAL à la BDD
-# add_evaluation_bdd(evaluation,bdd)
+add_evaluation_bdd(evaluation,bdd)
 
 # # On lit le bareme
-# bareme = read_bareme(dossier_notes, fichier_notes, evaluation,bdd)
+bareme = read_bareme(dossier_notes, fichier_notes, evaluation,bdd)
 
 # # On ajoute le bareme a la BDD
-# add_bareme_bdd(bareme,filiere, bdd)
+add_bareme_bdd(bareme,filiere, bdd)
 
 # # On ajoute les notes de chacun des élèves dans la base de donnée
-# notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
-# add_notes_bdd(notes,evaluation,bareme,bdd)
+notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
+add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
-# # # generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd)
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd)
 
-# Génération du bilan de compétences
+# # Génération du bilan de compétences
 eleves = get_eleves(classe,annee,bdd)
 eleve = eleves[0]
 generation_bilan_competences(eleve,classe,filiere,discipline,bdd)

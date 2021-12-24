@@ -43,6 +43,8 @@ ax.scatter(labels, val)
 
 ax.set_ylabel('Scores')
 ax.set_title(ti_comp)
+
+
 ax.legend()
 
 plt.show()

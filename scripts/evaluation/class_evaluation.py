@@ -55,16 +55,17 @@ class Evaluation :
         req = "SELECT id FROM evaluations WHERE "+\
             "type = '"+ self.type_eval+\
             "' AND numero = "+ str(self.num_eval)+\
-            " AND date = '"+ self.date_eval+\
-            "' AND classe = '"+ self.classe+"'" 
+            " AND classe = '"+ self.classe+"'" 
+            #" AND date = '"+ self.date_eval+\
+            
         return req
     
     def make_req_del_eval(self) -> str :
         req = "DELETE FROM evaluations WHERE  "+\
             "type = '"+ self.type_eval+\
             "' AND numero = "+ str(self.num_eval)+\
-            " AND date = '"+ self.date_eval+\
-            "' AND classe = '"+ self.classe+"'"
+            " AND classe = '"+ self.classe+"'"
+        #print(req)
         return req
     
     def make_req_del_question(self,id_eval) -> str :
@@ -80,5 +81,10 @@ class Evaluation :
     def make_req_del_questions_eleves(self,id_eval) -> str :
         req = "DELETE FROM questions_eleves WHERE "+\
             "id_eval= '"+ str(id_eval)+"'"
+        return req
+    
+    def make_req_del_competences_eleves(self,id_eval) -> str :
+        req = "DELETE FROM competences_eleves WHERE "+\
+            "id_evaluation= '"+ str(id_eval)+"'"
         return req
     

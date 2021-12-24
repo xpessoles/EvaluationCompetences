@@ -105,14 +105,18 @@ def del_evaluation_bdd(evaluation:Evaluation,bdd):
         exec_select(bdd,req)
 
         
-        # On supprime les questions éleves liées à l'évaluation.
+        # On supprime les commentaires liés à l'évaluation
         req = evaluation.make_req_del_commentaires_eleves(id_eval)
         exec_select(bdd,req)
-
+        
+        # On supprime les questions éleves liées à l'évaluation.
         req = evaluation.make_req_del_questions_eleves(id_eval)
         exec_select(bdd,req)
-
         
+        #  supprimer les compétences
+        # On supprime les questions éleves liées à l'évaluation.
+        req = evaluation.make_req_del_competences_eleves(id_eval)
+        exec_select(bdd,req)
         
     
 
@@ -818,14 +822,14 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd):
         ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd)
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
-        os.system("pdflatex FicheDS.tex")
-        os.system("pdflatex FicheDS.tex")
+        #os.system("pdflatex FicheDS.tex")
+        #os.system("pdflatex FicheDS.tex")
         fichier_eleve = eleve.get_num()+"_"+\
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
                         str(evaluation.num_eval)+".pdf"
-        shutil.move("FicheDS.pdf",fichier_eleve)
+        #shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
 
@@ -846,7 +850,7 @@ def get_liste_score_eleve(id_eleve,id_comp, bdd):
     " WHERE id_eleve = "+str(id_eleve)+\
     " AND id_comp = "+str(id_comp)+\
     " order by evaluations.id"
-    print("ici IL Y A UN PROBLEME : on recupere pas tout ce qu'on veut")
+    #print("ici IL Y A UN PROBLEME : on recupere pas tout ce qu'on veut")
     res = exec_select(bdd,req)
     return res
 
@@ -860,39 +864,49 @@ def plot_score_comp(scores,filename):
     for score in scores :
         type_eval.append(score[0])
         dates.append(score[1])
-        notes.append(float(score[2]))
+        if score[2]=="NT" : 
+            nnn = 0
+        else :
+            nnn = float(score[2])
+        notes.append(nnn)
         
         if score[0] == "DS": 
             dates_DS.append(score[1])
-            notes_DS.append(float(score[2]))
+            notes_DS.append(nnn)
         if score[0] == "DDS": 
             dates_DDS.append(score[1])
-            notes_DDS.append(float(score[2]))
+            notes_DDS.append(nnn)
         if score[0] == "colle": 
             dates_colles.append(score[1])
-            notes_colles.append(float(score[2]))
+            notes_colles.append(nnn)
     
     
     labels = dates
     val = notes
-    width = 0.35       # the width of the bars: can also be len(x) sequence
+    width = 0.01      # the width of the bars: can also be len(x) sequence
 
-    fig, ax = plt.subplots(figsize=(5,1.5))
+    fig, ax = plt.subplots(figsize=(6.5,1.5))
 
 
     ax.bar(labels, val, width)
 
-    ax.bar(dates_DS, notes_DS, width, label='DS')
-    ax.bar(dates_colles, notes_colles, width, label='Colles')
-    ax.bar(dates_DDS, notes_DDS, width, label='DDS')
+    ax.bar(dates_DS, notes_DS, width, label='DS',color="cornflowerblue")
+    ax.bar(dates_colles, notes_colles, width, label='Colles',color="cornflowerblue")
+    ax.bar(dates_DDS, notes_DDS, width, label='DDS',color="cornflowerblue")
 
 
-    ax.plot(labels, val)
-    ax.scatter(labels, val)
+    ax.plot(labels, val,color="cornflowerblue",linewidth=1)
+    ax.scatter(labels, val,color="royalblue",s=20)
     ax.set_ylim(0, 100)
-    ax.set_yticks([0, 25, 50, 75, 100])
-    ax.set_ylabel('Scores')
-    ax.legend()
+    
+    
+    
+    #ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_xticklabels(dates,fontsize=6)
+    ax.set_yticklabels([0, 25, 50, 75, 100],fontsize=7)
+    #ax.set_xticklabels(fontsize=6)
+    ax.set_ylabel('Scores',fontsize=6)
+    ax.legend(prop={'size': 6})
     plt.savefig(filename)
 
 def generation_bilan_competences(eleve,classe,filiere,discipline,bdd) :
