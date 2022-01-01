@@ -255,19 +255,23 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]
             valeurs = ligne[2:2+nb_item]
-            if sum(valeurs)>0 :
-                index_q = -1
+            
+            if sum(valeurs)>0 : # Il y a des valeurs sur la ligne donc la compétence est évaluée
+                
+               
+                l_index_q = [] # liste des questions ou la compétence est évaluée
                 for i in range(len(valeurs)):
                     if valeurs[i]!=0 :
-                        index_q = i
+                        l_index_q.append(i)
                 
-                # On supprime le Q
-                num_ques = int(ligne_Q[index_q][1:])
-                note  = valeurs[index_q]
-                poids = ligne_poids[index_q]
-                nom = ligne_Q[index_q]
-                q = Question(id_eval,num_ques,code_comp,note,poids,nom,index_q)
-                bareme.append(q)
+                for index_q in l_index_q :
+                    # On supprime le Q
+                    num_ques = int(ligne_Q[index_q][1:])
+                    note  = valeurs[index_q]
+                    poids = ligne_poids[index_q]
+                    nom = ligne_Q[index_q]
+                    q = Question(id_eval,num_ques,code_comp,note,poids,nom,index_q)
+                    bareme.append(q)
     return bareme
 
 
@@ -415,8 +419,8 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
         req = "INSERT INTO commentaires_eleves "+\
             "(id_eleve,id_eval,commentaire) VALUES ("+\
                 str(id_eleve)+","+\
-                str(id_eval)+",'"+\
-                comment+"')"
+                str(id_eval)+',"'+\
+                comment+'")'
         
         exec_insert(bdd,req)
     
