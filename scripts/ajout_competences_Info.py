@@ -10,7 +10,7 @@ fichier_comp = "CompetencesInformatique.xlsx"
 onglet_comp  = "Competences"
 filiere = 'All'
 discipline = "Info"
-bdd = "BDD_Evaluation.db"
+bdd = "BDD_Evaluations.db"
 
 ## Import de bibliothèques
 
@@ -19,4 +19,4 @@ from evaluation.fonctions import read_file_competences,ajout_competences_bdd
     
     
 all_comp  = read_file_competences(dossier_comp, fichier_comp,filiere,discipline)
-ajout_competences_bdd(all_comp)
+ajout_competences_bdd(all_comp,filiere,discipline,bdd)
