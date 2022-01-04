@@ -264,6 +264,7 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
                     if valeurs[i]!=0 :
                         l_index_q.append(i)
                 
+        
                 for index_q in l_index_q :
                     # On supprime le Q
                     num_ques = int(ligne_Q[index_q][1:])
@@ -271,7 +272,11 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
                     poids = ligne_poids[index_q]
                     nom = ligne_Q[index_q]
                     q = Question(id_eval,num_ques,code_comp,note,poids,nom,index_q)
-                    bareme.append(q)
+                    bareme.append([q,index_q])
+        
+    # Tri des questions dans l'ordre du sujet
+    bareme = sorted(bareme, key=lambda numq: numq[1])
+    bareme = [q[0] for q in bareme]
     return bareme
 
 
@@ -535,7 +540,10 @@ def calc_note_eval(bareme,notes_eleve):
         total_brut += note_quest_bareme*poids_question
     
     note_brute = note_brute*20/total_brut
-    note_traitee = note_traitee*20/total_traite
+    if total_traite > 0 : # Si l'élève est présent
+        note_traitee = note_traitee*20/total_traite
+    else : 
+        note_traitee = 0
     return {"note_brute":note_brute,"total_brut":total_brut,\
             "note_traitee":note_traitee,"total_traite":total_traite,\
             "id_eleve":id_eleve}
@@ -598,13 +606,13 @@ def classement_eval(bilan_evals):
     
     # Conversion de la liste de dico en liste de liste pour 
     # pouvoir faire un tri
-    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'])
+    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'], reverse=True)
     for i in range(0,len(liste_evals)):
         dico = liste_evals[i]
         dico["Rang_brut"]=i+1
         liste_evals[i]=dico
     
-    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_traitee'])
+    liste_evals =  sorted(bilan_evals, key=lambda evals: evals['note_traitee'], reverse=True)
     for i in range(0,len(liste_evals)):
         dico = liste_evals[i]
         dico["Rang_traite"]=i+1
@@ -614,15 +622,24 @@ def classement_eval(bilan_evals):
 
 def plot_notes_brute(id_eleve,bilan_evals,fichier):
     # Graphique des notes avec positionnement de l'élève
-    bilan_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'])
+    bilan_evals =  sorted(bilan_evals, key=lambda evals: evals['note_brute'], reverse=True)
+    
+    # On cherche le rang et la note brutes de id_eleve
+    for eleve in bilan_evals : 
+        if eleve["id_eleve"] == id_eleve :
+            note = eleve["note_brute"]
+            rang = eleve["Rang_brut"]
     les_notes = [note["note_brute"] for note in bilan_evals]
     les_rang = [note["Rang_brut"] for note in bilan_evals]
-    plt.plot(les_rang,les_notes,".")
-    plt.plot(bilan_evals[5]["Rang_brut"],bilan_evals[5]["note_brute"],"rs")
+    # Toutes les notes
+    plt.plot(les_rang,les_notes,"b.") 
+    # Les notes de l'éleve
+    plt.plot(rang,note,"rs")
     plt.xlabel("Classement")
     plt.ylabel("Notes")
     plt.grid()
     plt.savefig(fichier)
+    plt.close()
         
 
 def calc_moyenne_classe(liste_evals):
@@ -712,10 +729,10 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
         numques_4 = bareme[col4].nom
         
         #coef/poids
-        coef_1 = str(bareme[col1].poids)
-        coef_2 = str(bareme[col2].poids)
-        coef_3 = str(bareme[col3].poids)
-        coef_4 = str(bareme[col4].poids)
+        coef_1 = str(bareme[col1].note)
+        coef_2 = str(bareme[col2].note)
+        coef_3 = str(bareme[col3].note)
+        coef_4 = str(bareme[col4].note)
         
         # compétences
         comp_1 = bareme[col1].code_comp
@@ -755,22 +772,22 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     
     if col1+1 <=nb_questions :
         numques_1 = bareme[col1].nom
-        coef_1 = str(bareme[col1].poids)
+        coef_1 = str(bareme[col1].note)
         comp_1 = bareme[col1].code_comp    
         note_1 = notes_eleve[col1]["note_question"]
     if col1+2 <=nb_questions :
         numques_2 = bareme[col2].nom
-        coef_2 = str(bareme[col2].poids)
+        coef_2 = str(bareme[col2].note)
         comp_2 = bareme[col2].code_comp    
         note_2 = notes_eleve[col2]["note_question"]
     if col1+3 <=nb_questions :
         numques_3 = bareme[col3].nom
-        coef_3 = str(bareme[col3].poids)
+        coef_3 = str(bareme[col3].note)
         comp_3 = bareme[col3].code_comp    
         note_3 = notes_eleve[col3]["note_question"]
     if col1+4 <=nb_questions :
         numques_4 = bareme[col4].nom
-        coef_4 = str(bareme[col4].poids)
+        coef_4 = str(bareme[col4].note)
         comp_4 = bareme[col4].code_comp    
         note_4 = notes_eleve[col4]["note_question"]
         
@@ -816,24 +833,26 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd):
         
         bilan_evals.append(note_eval_eleve)
 
-    # On réa
+    # Ajouter le classement de l'évaluation
     liste_evals = classement_eval(bilan_evals)
 
     for eleve in eleves :
         
         # Ecriture fichier tex
         print(eleve.nom)
+        notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
+        
         ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd)
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
-        #os.system("pdflatex FicheDS.tex")
-        #os.system("pdflatex FicheDS.tex")
+        os.system("pdflatex FicheDS.tex")
+        os.system("pdflatex FicheDS.tex")
         fichier_eleve = eleve.get_num()+"_"+\
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
                         str(evaluation.num_eval)+".pdf"
-        #shutil.move("FicheDS.pdf",fichier_eleve)
+        shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
 
