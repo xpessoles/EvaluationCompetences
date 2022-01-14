@@ -6,14 +6,60 @@ Created on Thu Jan 13 13:10:17 2022
 """
 
 # Lecture d'un fichier de note d'écrit
-import xlrd
-import sqlite3
+import xlrd     # fichiers xls
+import sqlite3  
+import openpyxl # fichiers xlsx
+from pathlib import Path
+
 
 
 file = "2021_PSI_Etoile_CentraleSupelec_Oral.xls"
 file = "2012_PSI_Etoile_CCINP_Ecrit.xls"
+file_banque = "Ecoles.xlsx"
+dossier_banque = ""
+bdd = "StatConcours.db"
 
 
+def lecture_banques(dossier:str, file:str) : #-> list[dict]:
+    # Lire un fichier de notes       
+    xlsx_file = Path(dossier, file)
+    wb_obj = openpyxl.load_workbook(xlsx_file) 
+    
+    # Lecture du bareme
+    # Read the active sheet:
+    sheet = wb_obj['Banque']
+    nb_ligne = sheet.max_row
+    #nb_col = sheet.max_column
+    banques = []
+    for row in sheet.iter_rows(max_row=nb_ligne):
+        ligne = []
+        for cell in row:
+            ligne.append(cell.value)
+        banques.append(ligne[0])
+    return banques
+
+def lecture_ecoles(dossier:str, file:str) : #-> list[dict]:
+    # Lire un fichier de notes       
+    xlsx_file = Path(dossier, file)
+    wb_obj = openpyxl.load_workbook(xlsx_file) 
+    
+    # Lecture du bareme
+    # Read the active sheet:
+    sheet = wb_obj['Ecoles']
+    nb_ligne = sheet.max_row
+    #nb_col = sheet.max_column
+    ecoles = []
+    for row in sheet.iter_rows(max_row=nb_ligne):
+        ligne = []
+        for cell in row:
+            ligne.append(cell.value)
+        ecole={"banque":ligne[0],"ecole":ligne[1],'filiere':ligne[2],\
+               "inscription":ligne[3],"places":ligne[4]}
+        ecoles.append(ecole)
+    return ecoles[1:]
+    
+    
+    
 def lecture_notes(file:str) : #-> list[dict]:
     """
     A partir d'un fichier xls provenant de scei, renvoie une liste de dictionnaires
@@ -83,6 +129,34 @@ def is_eleve_existe(num_scei:int,annee:int,bdd:str) -> bool:
     else : 
         return True
 
+def is_banque_existe(banque:str,bdd:str) -> bool:
+    """
+    Verfie qu'un banque existe dans la bdd
+    """
+    req = "SELECT id FROM banques WHERE "+\
+        "nom='"+banque+"'"
+    res = exec_req(bdd,req)
+    
+    if res ==[] or res[0][0]=="" :
+        return False
+    else : 
+        return True
+
+def is_ecole_existe(ecole:dict,bdd:str) -> bool:
+    """
+    Verfie qu'une école existe dans la bdd
+    """
+    req = "SELECT id FROM ecoles WHERE "+\
+        'nom="'+ecole['ecole']+'"'
+    print(req)
+    res = exec_req(bdd,req)
+    print(res)
+    if res ==[] or res[0][0]=="" :
+        return None
+    else : 
+        return res[0]
+
+
 def get_id_eleve(num_scei:int,annee:int,bdd:str) -> bool:
     """
     Verfie si un eleve existe dans la BDD
@@ -118,4 +192,84 @@ def ecrire_notes_bdd(bdd,dico_notes,classe,annee):
         # les écoles de la banque 
         if eleve["ecole"]=='Concours Commun INP PSI':
             banque = "CCINP"
+
+def ajout_banque(banques,bdd):
+    """
+    banques : liste des banques
+    Parameters
+    ----------
+    banques : TYPE
+        DESCRIPTION.
+    bdd : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    for banque in banques : 
+        if not(is_banque_existe(banque, bdd)):
+            req = "INSERT INTO banques "+\
+            "(nom) VALUES ('"+\
+                str(banque)+"')"
+          
+            exec_req(bdd,req)
+
+def get_banque_id(ecole,bdd):
+    req = "SELECT id FROM banques WHERE "+\
+        "nom='"+ecole["banque"]+"'"
+        
+    res = exec_req(bdd,req)
+    return res
+
+
+def add_ecole_bdd(ecole,id_banque,bdd):
     
+    if ecole["places"]==None : ecole["places"]=-1
+    
+    req = "INSERT INTO ecoles "+\
+    '(nom,id_banque,inscription,filiere,places) VALUES ("'+\
+        ecole["ecole"]+'","'+\
+        str(id_banque)+'","'+\
+        ecole["inscription"]+'","'+\
+        ecole["filiere"]+'",'+\
+        str(ecole["places"])+')'
+    print(req)
+        
+    res = exec_req(bdd,req)
+    return res
+
+def ajout_ecoles(ecoles,bdd):
+    """
+
+    Parameters
+    ----------
+    ecoles : Liste de dictionnaires de la forme 
+    {'banque': 'CCINP',
+     'ecole': 'ESM Saint-Cyr',
+     'filiere': 'PSI',
+     'inscription': 'ecole',
+     'places': None}
+    
+    bdd : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    for ecole in ecoles :
+        # On vérifie si l'école existe dans la BDD
+        id_ecole = is_ecole_existe(ecole, bdd)
+        if id_ecole == None : 
+            # SI l'ecole n'existe pas on cherche l'id de la banque associée
+            banque_id = get_banque_id(ecole,bdd)[0][0]
+            add_ecole_bdd(ecole, banque_id, bdd)
+
+        
+banques = lecture_banques(dossier_banque,file_banque)
+ajout_banque(banques, bdd)
+ecoles = lecture_ecoles(dossier_banque,file_banque)
+ajout_ecoles(ecoles, bdd)
