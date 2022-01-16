@@ -18,7 +18,10 @@ file_ccinp = "2012_PSI_Etoile_CCINP_Ecrit.xls"
 file_banque = "Ecoles.xlsx"
 dossier_banque = ""
 bdd = "StatConcours.db"
-
+ecole="CCINP"
+classe = "PSI_Etoile"
+annee = "2021"
+filiere = "PSI"
 
 def lecture_banques(dossier:str, file:str) : #-> list[dict]:
     # Lire un fichier de notes       
@@ -129,6 +132,20 @@ def is_eleve_existe(num_scei:int,annee:int,bdd:str) -> bool:
     else : 
         return True
 
+def is_eleve_inscrit_ecole(id_eleve:int,id_ecole:int,bdd:str) -> bool:
+    """
+    Verfie si un eleve est inscrit dans une école
+    """
+    req = "SELECT * FROM eleve_ecole WHERE "+\
+        "id_eleve='"+str(id_eleve)+"'" +\
+        " AND id_ecole='"+str(id_ecole)+"'"
+    res = exec_req(bdd,req)
+    
+    if res ==[] or res[0][0]=="" :
+        return False
+    else : 
+        return True
+    
 def is_banque_existe(banque:str,bdd:str) -> bool:
     """
     Verfie qu'un banque existe dans la bdd
@@ -165,32 +182,42 @@ def get_id_eleve(num_scei:int,annee:int,bdd:str) -> bool:
         " AND annee='"+str(annee)+"'"
     res = exec_req(bdd,req)
     
-    return res[0]
+    return res[0][0]
     
-def creation_eleve_bdd(eleve:dict,redoublant,classe,annee,bdd:str) -> None:
-    req = "INSERT INTO eleves "+\
-        "(num_scei,nom_prenom,classe,redoublant,annee) VALUES ("+\
-            eleve["N°"]+","+\
-            eleve["Nom"]+","+\
-            classe+",'"+\
-            redoublant+",'"+\
-            str(annee)+"')"
+def inscription_eleve(id_eleve,id_ecole,bdd:str) -> bool:
+    """
+    Inscrit élève
+    """
+    req = "INSERT INTO 'eleve_ecole' (id_eleve,id_ecole) VALUES " +\
+        "("+str(id_eleve)+","+str(id_ecole)+")"
     exec_req(bdd,req)
     
-def ecrire_notes_bdd(bdd,dico_notes,classe,annee):
+
+
+# def creation_eleve_bdd(eleve:dict,redoublant,classe,annee,bdd:str) -> None:
+#     req = "INSERT INTO eleves "+\
+#         "(num_scei,nom_prenom,classe,redoublant,annee) VALUES ("+\
+#             eleve["N°"]+","+\
+#             eleve["Nom"]+","+\
+#             classe+",'"+\
+#             redoublant+",'"+\
+#             str(annee)+"')"
+#     exec_req(bdd,req)
     
-    for eleve in dico_notes : 
-        num_scei = eleve["N°"]
-        # On regarde si l'eleve existe, sinon on le crée
-        if not(is_eleve_existe(num_scei,bdd)):
-            # Par défaut on met les élèves en 3/2
-            creation_eleve_bdd(eleve, "Non", classe, annee, bdd)
-        id_eleve = get_id_eleve(num_scei,annee)
-        # On inscrit l'élève aux écoles, si c'est des notes d'écrit
-        # Pour CCMP, CCINP, CCMT, quand on inscrit aux banques, on inscrit à toutes
-        # les écoles de la banque 
-        if eleve["ecole"]=='Concours Commun INP PSI':
-            banque = "CCINP"
+# def ecrire_notes_bdd(bdd,dico_notes,classe,annee):
+    
+#     for eleve in dico_notes : 
+#         num_scei = eleve["N°"]
+#         # On regarde si l'eleve existe, sinon on le crée
+#         if not(is_eleve_existe(num_scei,bdd)):
+#             # Par défaut on met les élèves en 3/2
+#             creation_eleve_bdd(eleve, "Non", classe, annee, bdd)
+#         id_eleve = get_id_eleve(num_scei,annee)
+#         # On inscrit l'élève aux écoles, si c'est des notes d'écrit
+#         # Pour CCMP, CCINP, CCMT, quand on inscrit aux banques, on inscrit à toutes
+#         # les écoles de la banque 
+#         if eleve["ecole"]=='Concours Commun INP PSI':
+#             banque = "CCINP"
 
 def ajout_banque(banques,bdd):
     """
@@ -216,11 +243,50 @@ def ajout_banque(banques,bdd):
             exec_req(bdd,req)
 
 def get_banque_id(ecole,bdd):
+    """
+    Parameters
+    ----------
+    ecole : TYPE
+        DESCRIPTION.
+    bdd : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    res : TYPE
+        DESCRIPTION.
+
+    """
+    if type(ecole)==dict :
+        banque = ecole["banque"]
+    else : 
+        banque = ecole
+        
     req = "SELECT id FROM banques WHERE "+\
-        "nom='"+ecole["banque"]+"'"
+        "nom='"+banque+"'"
         
     res = exec_req(bdd,req)
+    return res[0][0]
+
+
+def get_liste_ecole_id(banque,bdd):
+    """
+    banque : int
+    Récupération de la liste des écoles d'une banque dont l'inscription se fait par banque
+    (Dans CCINP pour l'inscription est directe pour certains ecoles (CPE Lyon par exemple) 
+     ou par ecole pour d'autres (ESM par exemple))
+    """
+    
+
+        
+    req = "SELECT id FROM ecoles WHERE "+\
+        "id_banque="+str(banque)+\
+        " AND inscription='banque'"
+        
+    res = exec_req(bdd,req)
+    res = [e[0] for e in res]
     return res
+
 
 
 def add_ecole_bdd(ecole,id_banque,bdd):
@@ -238,19 +304,17 @@ def add_ecole_bdd(ecole,id_banque,bdd):
     return res
 
 def add_eleve_bdd(note,classe,redoublant,annee):
-    num_scei = note["N°"]
+    num_scei = int(note["N°"])
     nom_prenom = note["Nom"]
     if not(is_eleve_existe(num_scei, annee, bdd)):
             
         req = "INSERT INTO eleves "+\
         '(num_scei,nom_prenom,classe,redoublant,annee) VALUES ("'+\
-            num_scei+'","'+\
+            str(num_scei)+'","'+\
             nom_prenom+'","'+\
             classe+'","'+\
             redoublant+'",'+\
-            annee+')'
-        print(req)
-        
+            annee+')'        
     res = exec_req(bdd,req)
     return res
 
@@ -282,7 +346,7 @@ def ajout_ecoles(ecoles,bdd):
             banque_id = get_banque_id(ecole,bdd)[0][0]
             add_ecole_bdd(ecole, banque_id, bdd)
 
-def ecriture_notes_bdd(notes:list,ecole:str,filiere:str,annee:int,bdd):
+def ecriture_notes_bdd(notes:list,ecole:str,classe:str,filiere:str,annee:int,bdd):
     """
     ecole :nom de la banque ou de l'école suivant le fichier de notes
     """
@@ -294,11 +358,37 @@ def ecriture_notes_bdd(notes:list,ecole:str,filiere:str,annee:int,bdd):
         
         # Si l'eleve n'existe pas, on l'inscrit
         if eleve_id == False : 
-            add_eleve(note,classe,redoublant,annee)
-            
-        # on regarde si la note existe
+            # Par défaut on le met 3/2
+            redoublant = "non"
+            add_eleve_bdd(note,classe,redoublant,annee)
         
-        return None
+        eleve_id = get_id_eleve(num_scei, annee, bdd)
+        
+        # on regarde si la note existe
+        print(eleve_id)
+        
+        # Si l'école est une banque, on l'inscrit à toutes les écoles de la banque
+        if ecole=="CCMP" or ecole == "CCMT" or ecole == "CCINP":
+            # On récupèr l'id de la banque
+            id_banque = get_banque_id(ecole, bdd)
+            print(id_banque)
+            
+            # On récupère toutes les écoles de la banque en question
+            # ou l'inscription se fait par école
+            liste_ecoles = get_liste_ecole_id(id_banque, bdd)
+            for id_ecole in liste_ecoles :
+                if not(is_eleve_inscrit_ecole(eleve_id, id_ecole, bdd)) :
+                    inscription_eleve(eleve_id, id_ecole, bdd)
+            
+                # On ajoute les notes si ca n'a pas été fait
+                if not(is_*****(eleve_id, id_ecole, bdd)) :
+                    add_notes_eleve_ccinp_ecrit(eleve_id, id_ecole, bdd)
+                    
+           
+            
+        
+        
+    return None
     
     
 banques = lecture_banques(dossier_banque,file_banque)
@@ -306,3 +396,4 @@ ajout_banque(banques, bdd)
 ecoles = lecture_ecoles(dossier_banque,file_banque)
 ajout_ecoles(ecoles, bdd)
 notes = lecture_notes(file_ccinp)
+ecriture_notes_bdd(notes, ecole, classe, filiere, annee, bdd)
