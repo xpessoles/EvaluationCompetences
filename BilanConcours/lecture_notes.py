@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 file = "2021_PSI_Etoile_CentraleSupelec_Oral.xls"
-file = "2012_PSI_Etoile_CCINP_Ecrit.xls"
+file_ccinp = "2012_PSI_Etoile_CCINP_Ecrit.xls"
 file_banque = "Ecoles.xlsx"
 dossier_banque = ""
 bdd = "StatConcours.db"
@@ -148,9 +148,8 @@ def is_ecole_existe(ecole:dict,bdd:str) -> bool:
     """
     req = "SELECT id FROM ecoles WHERE "+\
         'nom="'+ecole['ecole']+'"'
-    print(req)
     res = exec_req(bdd,req)
-    print(res)
+
     if res ==[] or res[0][0]=="" :
         return None
     else : 
@@ -234,8 +233,23 @@ def add_ecole_bdd(ecole,id_banque,bdd):
         str(id_banque)+'","'+\
         ecole["inscription"]+'","'+\
         ecole["filiere"]+'",'+\
-        str(ecole["places"])+')'
-    print(req)
+        str(ecole["places"])+')'        
+    res = exec_req(bdd,req)
+    return res
+
+def add_eleve_bdd(note,classe,redoublant,annee):
+    num_scei = note["N°"]
+    nom_prenom = note["Nom"]
+    if not(is_eleve_existe(num_scei, annee, bdd)):
+            
+        req = "INSERT INTO eleves "+\
+        '(num_scei,nom_prenom,classe,redoublant,annee) VALUES ("'+\
+            num_scei+'","'+\
+            nom_prenom+'","'+\
+            classe+'","'+\
+            redoublant+'",'+\
+            annee+')'
+        print(req)
         
     res = exec_req(bdd,req)
     return res
@@ -268,8 +282,27 @@ def ajout_ecoles(ecoles,bdd):
             banque_id = get_banque_id(ecole,bdd)[0][0]
             add_ecole_bdd(ecole, banque_id, bdd)
 
+def ecriture_notes_bdd(notes:list,ecole:str,filiere:str,annee:int,bdd):
+    """
+    ecole :nom de la banque ou de l'école suivant le fichier de notes
+    """
+    
+    for note in notes : 
+        # on regarde si l'eleve existe
+        num_scei = note["N°"]
+        eleve_id = is_eleve_existe(num_scei, annee, bdd)
         
+        # Si l'eleve n'existe pas, on l'inscrit
+        if eleve_id == False : 
+            add_eleve(note,classe,redoublant,annee)
+            
+        # on regarde si la note existe
+        
+        return None
+    
+    
 banques = lecture_banques(dossier_banque,file_banque)
 ajout_banque(banques, bdd)
 ecoles = lecture_ecoles(dossier_banque,file_banque)
 ajout_ecoles(ecoles, bdd)
+notes = lecture_notes(file_ccinp)
