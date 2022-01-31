@@ -131,6 +131,7 @@ def is_eleve_existe(num_scei:int,annee:int,bdd:str) -> bool:
         return False
     else : 
         return True
+    
 
 def is_eleve_inscrit_ecole(id_eleve:int,id_ecole:int,bdd:str) -> bool:
     """
@@ -346,7 +347,7 @@ def ajout_ecoles(ecoles,bdd):
             banque_id = get_banque_id(ecole,bdd)[0][0]
             add_ecole_bdd(ecole, banque_id, bdd)
 
-def ecriture_notes_bdd(notes:list,ecole:str,classe:str,filiere:str,annee:int,bdd):
+def ecriture_notes_ecrit_bdd(notes:list,ecole:str,classe:str,filiere:str,annee:int,bdd):
     """
     ecole :nom de la banque ou de l'école suivant le fichier de notes
     """
@@ -380,9 +381,10 @@ def ecriture_notes_bdd(notes:list,ecole:str,classe:str,filiere:str,annee:int,bdd
                 if not(is_eleve_inscrit_ecole(eleve_id, id_ecole, bdd)) :
                     inscription_eleve(eleve_id, id_ecole, bdd)
             
-                # On ajoute les notes si ca n'a pas été fait
-                if not(is_*****(eleve_id, id_ecole, bdd)) :
-                    add_notes_eleve_ccinp_ecrit(eleve_id, id_ecole, bdd)
+                # TODO On ajoute les notes si ca n'a pas été fait
+                # 
+                if ecole == "CCINP":
+                   *** add_notes_eleve_ccinp_ecrit(note, id_ecole, bdd)
                     
            
             
