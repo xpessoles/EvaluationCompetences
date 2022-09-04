@@ -6,10 +6,10 @@ Created on Wed Dec 15 22:03:05 2021
 """
 ## Paramètres 
 dossier_eleve = "Competences"
-fichier_eleve = "Eleves_PSIe.xlsx"
+fichier_eleve = "Eleves_PSIe_2022_2023.xlsx"
 classe = 'PSIe'
-annee = "2022" # Année de passage du concours
-bdd = "BDD_Evaluation.db"
+annee = "2023" # Année de passage du concours
+bdd = "BDD_2022_2023.db"
     
 from evaluation.fonctions import read_file_eleves,ajout_eleves_bdd 
     
