@@ -246,11 +246,10 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
 
 
     for row in sheet.iter_rows(max_row=nb_ligne):
-
+        
         ligne = []
         for cell in row:
              ligne.append(cell.value)
-        
         # On vérifie que la ligne est une compétence évaluable
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]
@@ -401,9 +400,9 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
         
 
         res = exec_select(bdd,req)
-        
+     
         id_eleve = res[0][0]
-        
+
         # Pour chacune des questions on met la note
         for i in range(nb_quest):
             index_note = i+2
@@ -648,7 +647,7 @@ def calc_moyenne_classe(liste_evals):
         moyenne_brute.append(l["note_brute"])
     return sum(moyenne_brute)/len(moyenne_brute)
 
-def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd):
+def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd,coef_ds):
     
     id_eleve = eleve.id
     nom = eleve.nom
@@ -679,12 +678,14 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     
     fid.write("\\Large \\textbf{\\textsf{"+nom.upper()+" "+prenom+"}} \n \n")  
     
-    fid.write(" \\normalsize Note harmonisée "+str(round(note_brute,2))+"/20 \n \n")
+    fid.write(" \\normalsize Note brute "+str(round(note_brute,2))+"/20 \n \n")
+    fid.write(" \\normalsize Note harmonisée "+str(round(coef_ds*note_brute,2))+"/20 \n \n")
     fid.write("Rang "+str(rang_brut)+"\n \n")
     #fid.write("Note brute "+str(round(bilan_el[1],2))+"/20 \n \n")
     
-    fid.write("Moyenne classe harmonisée "+str(round(moyenne_classe,2))+"/20 \n \n")
+    fid.write("Moyenne classe brute "+str(round(moyenne_classe,2))+"/20 \n \n")
 
+    
     fid.write("Moyenne question traitées "+str(round(note_traitee,2))+"/20 \n \n")
     fid.write("Rang question traitées "+str(Rang_traite)+" \n \n")
     
@@ -806,7 +807,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     # ===== FIN NOTES PAR QUESTIONS =====
     fid.close()
 
-def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd):
+def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
 
     # Récupération des élèves
     eleves = get_eleves(classe,annee,bdd)
@@ -842,7 +843,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd):
         print(eleve.nom)
         notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
         
-        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd)
+        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds)
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
         os.system("pdflatex FicheDS.tex")
