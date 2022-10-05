@@ -64,20 +64,39 @@
 \end{tikzpicture}
 
 \vspace{6cm}
+
+
 \textbf{Commentaires généraux : }
-Trucs trucs trucs
+Globalement c'est assez bien. Les questions sont traitées dans l'ordre, de façon cohérente. Pas de grosses absurdités.
+
+
+
+Pour tout le monde, les éléments suivants doivent être maitrisés : 
 \begin{itemize}
-\item ITEM 1
-\item ITEM 2
-\item ITEM 4
+\item calcul \textbf{RAPIDE et JUSTE} de fonctions de transfert (en BO, en BF, avec perturbation, sans perturbation);
+\item calcul \textbf{RAPIDE et JUSTE} de la fonction $\varepsilon(p)$ avec perturbation et sans perturbation;
+\item calcul \textbf{immédiat et juste} de l'erreur statique, de trainage et accélération pour des systèmes non perturbés;
+\item identifier quand un calcul d'erreur statique est indispensable ou non;
+\item tracer un diagramme de Bode en \textbf{justifiant} le raisonnement;
+\item avoir une culture élémentaire sur les composants de la chaine d'information et de la chaîne d'énergie et en particulier sur les capteurs;
+\item savoir convertir des nombres en base 2, 10 et 16. 
 \end{itemize}
 
+Autres remarques : 
+\begin{itemize}
+\item lorsqu'il s'agit de négiger $L$ par exemple, \textbf{on ne peut pas négliger L devant R}, cela n'a aucun sens. $L$ et $R$ ne sont pas des grandeurs physiques comparables. On peut éventuellement dire que la tension aux bornes de la bobine est négligeable devant celle aux bornes de la résistance;
+\item même remarque pour $f$ et $J$;
+\item la détermination des marges de gain et des marges de phases n'est pas acquise pour tout le monde. C'est une lecture graphique il ne doit pas y avoir d'erreurs la dessus;
+\item beaucoup d'entre vous on voulu déterminer le dépassement un utilisant la formule (souvent juste) mais on pouvait plus simplement utiliser les abaques qui vous étaient donnés;
+\item pour le tracer de diagramme de Bode avec intégrateurs, il faut préciser rigoureusement comment est positionnée la courbe de gain;
+\item les questions qualitatives doivent être traitées avec concision et précision. Dire que les courbes descendent ou montent n'a que peu d'intérêt. Il faut mettre en regard le comportement des courbes avec celui du système (Question 27).
+\end{itemize}
 
 
 
 
 \input{f1}
 
-\input{comp}
+%\input{comp}
 
 \end{document}
