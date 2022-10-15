@@ -250,6 +250,7 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
         ligne = []
         for cell in row:
              ligne.append(cell.value)
+   
         # On vérifie que la ligne est une compétence évaluable
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]

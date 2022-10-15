@@ -6,8 +6,8 @@ Created on Wed Dec 15 22:03:05 2021
 """
 ## Paramètres 
 dossier_eleve = "Competences"
-fichier_eleve = "Eleves_PSIe_2022_2023.xlsx"
-classe = 'PSIe'
+fichier_eleve = "Eleves_MPSI1_2022_2023.xlsx"#"Eleves_PSIe_2022_2023.xlsx"
+classe = "MPSI1"#'PSIe'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
     

@@ -10,7 +10,7 @@ fichier_comp = "CompetencesInformatique.xlsx"
 onglet_comp  = "Competences"
 filiere = 'All'
 discipline = "Info"
-bdd = "BDD_Evaluations.db"
+bdd = "BDD_2022_2023.db"
 
 ## Import de bibliothèques
 
