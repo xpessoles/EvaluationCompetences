@@ -67,20 +67,16 @@
 
 
 \textbf{Commentaires généraux}
-Le niveau global de la classe est très hétérogène. Les activités à réaliser à la maison et les TP sont à faire absolument pour progresser.
-
-Une partie d'entre vous ont compris l'objectif et l'enchainement des questions, mais ne répondent pas avec la rigueur demandée par un langage de programmation. 
-Il faut en particuler maîtriser le parcours d'une liste par indice ou par éléments. 
-
-
+Globalement c'est assez bien. Les questions sont traitées dans l'ordre, de façon cohérente. Pas de grosses absurdités. Les rudiments du Python semblent acquis.
 
 \textbf{Remarques}
 \begin{itemize}
-\item Question 1 : lorsqu'on demande une instruction, il faut répondre à la question avec autant de simplicité que possible. Une instruction est une ligne de commande qu'on peut exécuter dans un shell ou dans une cas d'un notebook. 
-\item Question 2 : il est nécessaire de savoir convertir les degrés en radians...
-\item Question 3 : il est recommandé d'utiliser les fonctions écrites aux questions précédentes à une questions donnée. 
-\item Penser à utiliser des noms de variables qui ont du sens à la lecture. Appeler \texttt{nb} ou \texttt{i} une chaîne de caractères est assez maladroit. Il est puis lisible de l'appeler \texttt{mot} ou \texttt{chaine}. 
-\item Question 8 : il est préférable d'éviter de faire plusieurs fois des calculs identiques. Par exemple on peut appeler \texttt{delta} la différence entre deux altitudes successives et éviter de recalculer la distance à plusieurs reprises. 
+\item Sur la résolution d'une équation du second degré, beaucoup d'entre vous appellent la fonction discriminant à plusieurs reprises. Cela peut nuire à la rapidité d'un programme. \textbf{Préferez réaliser un seul appel en stockant le résultat. Réaliser ensuite vos tests et vos calculs avec le résultat stocké}.
+\item Sur la résolution d'une équation du second degré (encore). \textbf{Il ne faut JAMAIS tester l'égalité entre deux nombres de type float.} En effet, nous verrons que la précision de le représentation des flottants dans la mémoire machine peut impacter le résultat attendu.
+\item Lors du calcul d'expression, noter que \texttt{1/a*2} est différent de \texttt{1/(a*2)}.
+\item Dans la résolution de l'équation $f(x)=0$, l'élément << moyen >> entre $a$ et $b$ se calcule par $\dfrac{a+b}{2}$.
+\item Je le répète une nouvelle fois : \texttt{True != ``True''}. En effet \texttt{True} est un booléen. \texttt{``True''} est une chaîne de caractères. 
+\item Dans le cas où l'année dont on veut le nombre de jours est bissextile, il faut distinguer le cas ou la date est antérieure ou postérieure au 29/02.
 \end{itemize}
 
 
