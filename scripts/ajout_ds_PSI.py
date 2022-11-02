@@ -25,12 +25,12 @@ discipline = 'SII'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 1
-date_eval = "26/09/2022"
+num_eval  = 2
+date_eval = "17/10/2022"
 dossier_notes = "2022_2023"
-fichier_notes = "DS_01_Robovolc.xlsx"
+fichier_notes = "DS_02_PlateformeHexapode_03.xlsx"
 
-COEF_DS = 1.5
+COEF_DS = 1
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 

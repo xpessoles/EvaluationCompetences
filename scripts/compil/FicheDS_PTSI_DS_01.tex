@@ -1,0 +1,93 @@
+\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+\input{style/macros_SII}
+\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+
+\fichetrue
+%\fichefalse
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Commentaires généraux}
+Le niveau global de la classe est très hétérogène. Les activités à réaliser à la maison et les TP sont à faire absolument pour progresser.
+
+Une partie d'entre vous ont compris l'objectif et l'enchainement des questions, mais ne répondent pas avec la rigueur demandée par un langage de programmation. 
+Il faut en particuler maîtriser le parcours d'une liste par indice ou par éléments. 
+
+
+
+\textbf{Remarques}
+\begin{itemize}
+\item Question 1 : lorsqu'on demande une instruction, il faut répondre à la question avec autant de simplicité que possible. Une instruction est une ligne de commande qu'on peut exécuter dans un shell ou dans une cas d'un notebook. 
+\item Question 2 : il est nécessaire de savoir convertir les degrés en radians...
+\item Question 3 : il est recommandé d'utiliser les fonctions écrites aux questions précédentes à une questions donnée. 
+\item Penser à utiliser des noms de variables qui ont du sens à la lecture. Appeler \texttt{nb} ou \texttt{i} une chaîne de caractères est assez maladroit. Il est puis lisible de l'appeler \texttt{mot} ou \texttt{chaine}. 
+\item Question 8 : il est préférable d'éviter de faire plusieurs fois des calculs identiques. Par exemple on peut appeler \texttt{delta} la différence entre deux altitudes successives et éviter de recalculer la distance à plusieurs reprises. 
+\end{itemize}
+
+
+
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}
