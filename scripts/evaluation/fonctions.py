@@ -172,12 +172,11 @@ def read_file_eleves(dossier_eleve, fichier_eleve,annee,classe) -> list:
         ligne = []
         for cell in row:
             ligne.append(cell.value)
-        
         nb_none = 0
         for e in ligne : 
-            if e==None :
+            if e == None :
                 nb_none +=1
-        if nb_none ==0 :
+        if nb_none == 0 :
             
             # On numérote les élèves de 00 à nn.
             if ligne[2]<10:
