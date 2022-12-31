@@ -1,0 +1,89 @@
+\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+\input{style/macros_SII}
+\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+
+\fichetrue
+%\fichefalse
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Remraques générales}
+\begin{itemize}
+\item Les noms des variables doivent-être choisis de manière judicieuse et pas seulement par ordre alphabétique.
+\item Certaines variables utilisées ne sont pas définies.
+\item La gestion des indices dans les listes n’est pas totalement maitrisée. Il n’est pas rare de lire
+\cde{L(len(L))} dans des copies.
+\item Le nombre d’itérations d’une boucle doit être bien réfléchi, en notant que l’instruction \cde{range(n)}
+permet de réaliser \cde{n} itérations indicées de 0 à \cde{n-1}.
+\item Il faut lire attentivement le sujet pour utiliser correctement les fonctions décrites et fournies par
+l’énoncé.
+\item L’instruction \cde{del} (ou \cde{L.pop(i)}) est très souvent utilisée pour un résultat régulièrement faux (surtout dans une
+boucle).
+\item Dans l’écriture de fonctions, il est naturel d’attendre quelques explications, mêmes succinctes.
+\end{itemize}
+
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}
