@@ -25,12 +25,12 @@ discipline = 'SII'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 3
-date_eval = "21/11/2022"
+num_eval  = 4
+date_eval = "06/01/2023"
 dossier_notes = "2022_2023"
-fichier_notes = "DS_3_FLIR.xlsx"
+fichier_notes = "PSI_DS_04.xlsx"
 
-COEF_DS = 1
+COEF_DS = 1.35
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 

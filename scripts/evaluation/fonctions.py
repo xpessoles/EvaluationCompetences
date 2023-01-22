@@ -520,7 +520,7 @@ def get_questions_eval(id_eval,bdd):
     return liste_questions
 
 def calc_note_eval(bareme,notes_eleve):
-    print(notes_eleve)
+    
     id_eleve = notes_eleve[0]["id_eleve"]
     note_brute = 0
     total_brut = 0
