@@ -66,43 +66,98 @@
 \vspace{6cm}
 
 
-\textbf{Commentaires généraux}
-Le calcul d'hyperstatisme, de moment d'inertie ou de torseur dynamique n'est pas suffisamment maîtrisé. 
-Il faut être au point sur ces bases !
-
-%
-%\textbf{Remarques}
-%\begin{itemize}
-%\item Question 1 : lors de la réalisation du schéma cinématique, l'algnement des liaisons doit être respecté, comme c'est le cas dans le mécanisme réel. Les couleurs des pièces participant aux la liaison doivent être respectées (une liaisons met deux pièces en relation, il faut respecter la couleur de l'axe et du corps de la liaison \textit{etc}.). 
-%\item Question 2 : beaucoup d'entre vous ont du mal à identifier quelles sont les liaisons en parallèle et en série dans le mécanisme donné. Par ailleurs, intuiter une liaison équivalente ne suffit pas. Il faut justifier par le calcul. 
-%Enfin, dans le cas des liaisons hélicoïdales et pivot qui étaient en série. On trouve une liaison avec une composante en $\omega_x$ et en $V_x$ parmi lesquelles il y a 3 inconnues indépendantes. La liaison équivalente est donc une liaison pivot glissant.
-%\item Question 3 : deux raisonnements élémentaires de cinématiques non maîtrisés par la plupart d'entre vous : décomposition du vecteur vitesse, utilisation de la formule de Varignon.
-%\item Question 5, il s'agissait de projeter le vecteur $\vect{n}$ dnas la base $\base{x_0}{y_0}{z_0}$. Beaucoup y parviennent sans erreur.
-%\item Question 6 et 7 : calcul de la norme d'un vecteur qui n'aurait pas du poser de problème... puis application numérique...
-%\item Question 8 : la résolution du capteur n'aurait pas dû poser de problème (il fallait aussi prendre en compte l'existence d'un réducteur).
-%\item Question 9 : attention, il s'agissait d'isoler l'ensemble motorisé. Cet ensemble était situé entre 2 rotules qui sont des glisseurs... le PFS indique directement que l'action est dans la direction joignant le centre des rotules.
-%\item Question 10 : question délicate sur le papier ... mais qui ne se passe pas si mal en écrivant la démarche méthodiquement. 
-%\item Question 11 : il s'agissait de LA QUESTION d'hyperstatisme... que peu ont vu.
-%\item Question 12 : question sans vraiment de diffuculté. 
-%\item Question 13 : bien traitée par la plupart.
-%\item Question 14 à 16 : questions qui n'auraient pas dû poser de difficulté. 
-%\item Question 17 à 20 : questions difficiles. Beaucoup d'entre vous les ont sauter et on eu raison... mais n'ont pas pris suffisamment de points ailleurs...
-%\item Question 21 : il faut savoir tracer le diagramme de Bode d'un retard. Le module de $e^{-Tj\omega}$ est 1. La phase est $-T\omega$ (en rad).
-%\item Question 22 : beaucoup d'aspects dans cette question, mais il faut tout traiter avec rigueur : 
-%\begin{itemize}
-%\item déterminer des marges avec et sans retard;
-%\item exprimer les conditions de stablité;
-%\item tracer le Bode d'un correcteur.
-%\end{itemize}
-%Même si cette question peut paraître difficile vous devez être capables de traiter tous les aspects de la question.
-%\item Question 23 : TB.
-%\item Question 24 : beaucoup d'erreurs dans le calcul du module et de la phase d'une fonction de transfert. \textbf{Il faut s'entrainer abolument !!}
-%\item Question 25 et 26 : beaucoup d'erreurs sur ces questions. Ce n'est pas normal. \textbf{Il faut s'entrainer abolument !!}
-%\item Question 27 : cette question doit être absolument traitée. Il faut déterminer des valeurs numériques sur des courbes et valider (ou non) le cahier des charges. \textbf{A faire !}
-%\end{itemize}
-%
-
-
+\textbf{Remarques générales -- Rapport du jury}
+\begin{itemize}
+\item Q1 : première question assez élémentaire qui n’a pas souvent été correctement traitée. Audelà de confusion entre les sinus et cosinus, des résultats farfelus ont souvent été donnés.
+\item Q2 : question assez simple quand la précédente a été traitée correctement. On notera que
+des candidats ne réutilisent pas le résultat précédent et arrivent avec du bon sens à traiter
+celle-ci.
+\item Q3 : question assez bien traitée.
+\item Q4 : question très souvent mal traitée faute d’utiliser une méthode correcte. On notera des
+erreurs dans la formule de dérivation vectorielle (calculs et/ou point fixe mal choisi), ou bien
+des formules de Varignon utilisées avec des points où les vitesses étaient non nulles comme
+les candidats l’avançaient. De nombreuses projections inutiles ont aussi compliqué les
+calculs et complexifié l’expression du résultat.
+\item Q5 : question peu traitée et souvent fausse à cause du résultat précédent. De grandes
+difficultés dans les conversions élémentaires tr/min en rad/s, degrés en radians… Bien que
+l'énoncé le suggérait, rares sont les candidats qui ont cherché à apprécier l'importance
+relative des différentes composantes de la vitesse.
+\item Q6 : beaucoup de candidats utilisent la formule du corps 0 au lieu de prendre celle du bras 1.
+\item Q6 et Q7 : pour les questions de dynamique, l’imagination des candidats pour produire des
+formules non homogènes est quasiment sans limite. Les candidats devraient s’abstenir de
+répondre plutôt que d’écrire n’importe quoi. De nombreuses copies ne contiennent que des
+calculs illisibles sans aucune explication sur la démarche suivie et l’origine des
+simplifications effectuées au cours du calcul.
+\item Q8 : question souvent mal traitée quand la précédente l’a été correctement. Les candidats
+jugeant souvent que le résultat se devait d’être identique à celui de la Q7.
+\item Q9 : peu de candidats écrivent explicitement que le moment dynamique de l’ensemble est
+la somme des moments dynamiques…
+\item Q10 : question assez bien traitée quand elle a été abordée.
+\item Q11 : beaucoup de candidats pensent obtenir une matrice diagonale sans aucune
+justification.
+\item Q12 : question numérique qui a été assez bien traitée si on omet les interprétations farfelues
+sur les variations d’inertie.
+\item Q13 : beaucoup de candidats n’ont pas compris que la portance étant toujours vers le haut
+comme l’indiquait très clairement l’énoncé.
+\item Q14 : question rarement traitée et plutôt mal comprise.
+\item Q15 : question qui a semblé très difficile pour les candidats. Il s’agissait d’un simple
+changement de point d’un torseur donné. Les calculs ont souvent été faux, la formule de
+changement de point utilisée avec le vecteur vitesse de rotation !!!…
+\item Q16 : les candidats tentent d’utiliser les solutions classiques en plaçant des sphériques mais
+ils en placent souvent partout. D’autres remplacent toutes les liaisons pivots par des pivots
+glissants… Il ne suffit pas d’ajouter des degrés de liberté. Une analyse des nouvelles
+mobilités est nécessaire. Les correcteurs sont conscients que ce type de questions reste
+difficile pour les candidats.
+\item Q17 : question assez étonnamment non traitée par l’ensemble des candidats.
+\item Q18 : un très grand nombre de candidats n’arrivent pas à conclure à cette question pourtant
+élémentaire.
+\item Q19 : question où l’on a vu assez peu d’estimations des valeurs numériques avec des
+ordres de grandeur. Un nombre assez important estime qu’une longueur s’exprime en mm²,
+ou encore juge inutile de donner la variation angulaire dans l’unité demandée par l’énoncé.
+\item Q20 : question peu mais assez bien traitée. Pourtant il suffisait de lire l’intersection d’une
+courbe avec l’axe y = 0 ! Environ un tiers des candidats n’a pas pu le faire !
+\item Q21 : les candidats oublient trop souvent de regarder tous les critères possibles.
+\item Q22 : question peu traitée.
+\item Q23 : peu de candidats arrivent à justifier le choix d’un modèle d’ordre 1 pour identifier le
+comportement du moteur (connaissance trop fragile du cours). Peu de candidats ont
+compris que la consigne était exprimée en % (le texte était pourtant clair) et ils ont souvent
+repris la valeur de l’axe des ordonnées en vitesse. Bien que la question n’était pas exprimée
+sous la forme la plus classique, les correcteurs s’étonnent de la non réussite à cette
+question.
+\item Q24 : question assez bien traitée.
+\item Q25 : question assez bien traitée. Beaucoup de candidats ne vont pas au bout de
+l’application numérique, même d’un ordre de grandeur.
+\item Q26 : la justification d’un modèle du second ordre est souvent partielle, mais l’identification
+est globalement correcte.
+\item Q27 : question assez mal traitée. Les candidats savent calculer la FTBO, mais ont du mal
+à tracer le diagramme asymptotique en gain dans un premier temps car ils n’arrivent pas à
+placer la valeur particulière avec le terme 150/p ! De plus, l’allure du diagramme réel est
+4 / 4
+souvent fausse, notamment au niveau de la résonance qu’il suffisait pourtant de recopier…
+Le tracé de la phase est globalement correct.
+\item Q28 : question mal traitée souvent à cause des tracés faux aux questions précédentes.
+Cependant la définition des marges ne semble pas du tout être maîtrisée. Notamment sur
+leurs signes. À rappeler que la représentation d’une marge par une double flèche est une
+erreur. Trop de candidats relèvent à tort les marges sur le tracé asymptotique
+\item Q29 : question peu traitée et rarement juste avec l’enchaînement des questions
+précédentes.
+\item Q30 : question étonnamment assez mal traitée ! Il s’agit d’une question de début de 1re
+année que les candidats n’ont pas réussi à traiter correctement. Les correcteurs attendaient
+au moins un résultat sous forme de fraction rationnelle en remplaçant les blocs par les
+fonctions de transfert données dans l’énoncé.
+\item Q31 : le théorème de la valeur finale a été très peu énoncé proprement et un résultat, parfois
+juste, a simplement été donné.
+\item Q32 : question assez rarement traitée. Lorsqu’elle est traitée, la mauvaise exigence du
+cahier des charges est retenue rendant le raisonnement hors sujet.
+\item Q33 : pour beaucoup de candidats le correcteur PI améliore la stabilité.
+\item Q34 : la robustesse est assez mal mesurée par les candidats qui regardent plutôt la valeur
+maximale de l’écartement à la position d’équilibre que la valeur au retour à l’équilibre.
+Beaucoup oublient de vérifier l’ensemble des critères et se contentent de la précision ou de
+la rapidité ou de la stabilité.
+\item Q35 : question très peu traitée. Un peu trop de réponses sous forme « donc tout
+fonctionne » sans aucune justification avec ce qui a été fait avant. Certes la place était
+limitée sur le document réponse.
+\end{itemize}
 
 \input{f1}
 

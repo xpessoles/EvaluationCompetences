@@ -526,6 +526,7 @@ def calc_note_eval(bareme,notes_eleve):
     total_brut = 0
     note_traitee = 0
     total_traite = 0
+    
     for i in range(len(bareme)):
         note_quest = notes_eleve[i]['note_question']
         poids_question = bareme[i].poids
