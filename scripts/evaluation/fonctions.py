@@ -393,6 +393,7 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
     for note in notes :
         # On récupère l'id de l'élève
         num_el = note[1]
+        
         req = "SELECT id from eleves WHERE"+\
             " num="+str(num_el) +\
             " AND"+" classe='"+classe +"'"+\
@@ -520,7 +521,6 @@ def get_questions_eval(id_eval,bdd):
     return liste_questions
 
 def calc_note_eval(bareme,notes_eleve):
-    
     id_eleve = notes_eleve[0]["id_eleve"]
     note_brute = 0
     total_brut = 0
@@ -854,7 +854,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+".pdf"
+                        str(evaluation.num_eval)+"_CCINP.pdf"
         shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         

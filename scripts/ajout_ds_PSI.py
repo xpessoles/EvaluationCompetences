@@ -25,12 +25,12 @@ discipline = 'SII'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "06/01/2023"
+num_eval  = 6
+date_eval = "27/02/2023"
 dossier_notes = "2022_2023"
-fichier_notes = "PSI_DS_04.xlsx"
+fichier_notes = "DS_06_CCINP_Trooper.xlsx"
 
-COEF_DS = 1.35
+COEF_DS = 1
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
@@ -48,6 +48,7 @@ notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
+print("Génération bilan indiv")
 generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS)
 
 # # Génération du bilan de compétences
