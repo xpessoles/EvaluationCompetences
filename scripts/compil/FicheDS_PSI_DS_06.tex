@@ -1,0 +1,287 @@
+\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+\input{style/macros_SII}
+\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+
+\fichetrue
+%\fichefalse
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Commentaires généraux}
+
+\begin{itemize}
+\item Il faut être plus rigoureux sur les énoncés des théorèmes (théorème du moment dynamique $\neq$ théorème de lé résultante dynamqiue $\neq$ PFD).
+\item Revoir le calcul de l'énergie cinétique d'une roue. 
+\item Revoir le calcul de la puissance dans une liaison ponctuelle avec frottement et RSG. 
+\item Il faut être plus rigoureux sur les notations en énergétiques ($\pext{1}{2}{0}$).
+\item PLEASE : je ne veux plus lire que $FTBF=FTBO/(1+FTBO)$ c'est une horreur inqualifiable quand le retour n'est pas unitaire. 
+\item L'avantage du correcteur PI est avant tout d'ajouter une classe au système et donc de réduire les erreurs (statique, en vitesse, en accélération ...). Il peut ensuite stabiliser le système ou le désabiliser s'il est mal réglé...
+\end{itemize}
+
+Extrait du rapport CCMP -- PSI -- 2021
+\begin{itemize}
+\item Q1 - Question classique d’étude d’une loi de vitesse en trapèze. Il faut veiller à répondre correctement
+à la question, en donnant les expressions littérales demandées. Le résultat seul ne suffit pas, et les
+applications numériques doivent être correctement effectuées.
+\item Q2 - Question souvent bien traitée, malgré une erreur de signe fréquente liée à une mauvaise analyse
+du paramétrage. Trop d’erreurs sur les calculs simples d’énergie cinétique (POUR LA ROUE, OUBLI DE L'ENRGIE CINETIQUE DE ROTATION OU DE TRANSLATION).
+\item Q3 - Il était demandé un bilan de puissance nécessaire à l’application du Théorème de l’Energie
+Cinétique (Q4). Cette question a été extrêmement mal traitée. Il faut absolument identifier clairement
+le système étudié, et lister proprement les actions mécaniques intérieures et extérieures. Le roulement
+sans glissement a posé beaucoup de problèmes dans l’expression des puissances extérieures. Ce genre
+de question ne peut être traité correctement qu’avec rigueur. 
+\item Q4 - Question mal traitée, du fait des problèmes rencontrés en Q3. Attention à bien donner le résultat
+sous la forme demandée dans l’énoncé.
+\item Q5 - Question destinée à préparer la Q6. Beaucoup d’erreurs ont été commises suite à un mauvais
+Bilan des Actions Mécaniques Extérieures s’exerçant sur la roue. Identifier un cas simple permet de
+s’affranchir de calculs inutilement compliqués.
+\item Q6 - Application du Théorème du Moment Dynamique à un solide unique. Cette question a été bien
+réussie quand la Q5 l’a été également. Trop de réponses sont données sans se soucier de la forme
+demandée dans la question. C’est dommage de perdre des points pour cela alors que la méthode est
+bonne.
+\item Q7 - Cette question interrogeait le candidat sur sa capacité à choisir la méthode de résolution du
+problème posé. Choisir la bonne équation à écrire permet d’optimiser la résolution du problème.
+Cependant, même lorsque la méthode choisie était la bonne, les calculs menés pour déterminer le
+moment dynamique n’ont que trop rarement abouti.
+\item Q8 - Comme pour Q7, cette question évaluait plutôt la capacité du candidat à définir une démarche
+de résolution. Aucun calcul n’était demandé, mais on peut noter qu’une fois encore, le Bilan des
+Actions Mécaniques Extérieures a été trop souvent négligé. Le jury souhaite mettre l’accent sur le
+fait qu’annoncer un Bilan des Actions Mécaniques Extérieures et un théorème sans avoir au préalable
+indiqué l’isolement n’a pas de sens ! Le jury a donc sanctionné les candidats qui n’auraient pas indiqué
+l’isolement.
+\item Q9 - Cette question permettait de relier les calculs menés de Q5 à Q8 à la problématique de la partie
+1. En utilisant le modèle de Coulomb, visiblement mal maitrisé par les candidats, il suffisait de relier le
+facteur de frottement aux actions mécaniques déterminées précédemment. Attention à ne pas oublier
+les valeurs absolues dans le calcul lorsqu’on établit le facteur de frottement nécessaire.
+\item Q10 - Les valeurs étant données, le candidat devait simplement prendre en considération la simplification
+du modèle (passage de 2 à 4 roues) et le coefficient de sécurité pour définir le facteur de frottement
+minimal à prendre en compte pour choisir le couple de matériaux en jeu. Une fois encore, trop de
+réponses ont été incomplètes ou incorrectes, du fait d’une mauvaise compréhension des phénomènes et
+d’une mauvaise lecture de l’énoncé.
+\item  Q11 - Dans cette question, il n’était pas
+demandé de mener intégralement les calculs. Une analyse des mobilités permettait notamment de
+répondre à la question de manière rapide et efficace. Les candidats qui se sont lancés dans des calculs
+ont perdu beaucoup de temps. Quoi qu’il en soit, la démarche devait être expliquée, quelle que soit
+la méthode choisie. A noter que la réponse était immédiate quand on pensait à écrire directement
+les torseurs des liaisons sphère/plan en L et L’ (la forme des torseurs se conserve en tout point de la
+normale au contact).
+\item Q12 - Mêmes remarques que pour Q11. Pour ce qui est de la conclusion, trop de candidats utilisent
+l’hyperstatisme comme réponse magique pour justifier le choix d’architecture, sans maîtriser les concepts
+utilisés. Il ne s’agissait ici que d’un choix fonctionnel.
+\item Q13 - Beaucoup d’erreurs dans l’inventaire des actions mécaniques extérieures, qui aboutissent à une
+mauvaise utilisation du Théorème de la Résultante Statique, alors qu’un simple Théorème du Moment
+Statique permettait de résoudre ce problème très facilement. Trop de candidats proposent une réponse
+sans recul, notamment en laissant de côté les problématiques de signe et leur interprétation physique.
+\item Q14 - Trop d’erreurs sur le calcul simple de volume. Là aussi, beaucoup de problèmes de signes qui
+aboutissent à des non-sens physiques.
+\item Q15 - Cette question a été plutôt réussie par les candidats, surtout sur l’analyse de l’intérêt du
+dispositif de contrepoids. En revanche, l’analyse de l’influence de la position du poids d’ancrage a
+souvent été mal menée, de nombreux candidats se contentant de répondre sans argumenter.
+\item Q16 - De nombreux résultats fantaisistes ont été proposés par les candidats pour cette étude de théorie
+des mécanismes, démontrant une fois encore que la notion d’hyperstatisme est mal maîtrisée. Il est
+important d’être rigoureux dans la méthode pour aboutir à un résultat correct. De nombreux candidats
+se sont par exemple trompés dans l’analyse des mobilités (les correcteurs ont parfois eu l’impression que
+les mobilités étaient une variable d’ajustement pour aboutir miraculeusement à un modèle isostatique).
+Dire simplement sans argumenter que le système est isostatique en guise de conclusion n’est pas
+suffisant.
+\item Q17 - Malgré les indices proposés par le sujet, peu de candidats ont pensé à appliquer le Principe
+Fondamental de la Dynamique pour cette question, qui a finalement été peu abordée. Là encore,
+impossible de s’en sortir sans un Bilan des Actions Mécaniques Extérieures rigoureux.
+\item Q18 - Cette question a été bien traitée par les candidats qui ont bien traité Q17. Dans ce cas, cette
+question restait très abordable.
+\item Q19 - Trop de candidats se sont focalisés sur la démonstration (plus ou moins approximative) que le
+torseur proposé était un glisseur, alors que l’esprit de la question était d’étudier l’équilibre de la barre
+soumise à 2 glisseurs, pour en déterminer la droite support.
+\item Q20 - L’objectif de cette question était de préparer le Bilan des Actions Mécaniques Extérieures pour
+la Q21. Elle a très peu été abordée par les candidats alors qu’elle était le simple prolongement de la
+question précédente. Le jury rappelle au candidat la nécessité d’écrire les torseurs avec rigueur (point,
+base, etc. . . ).
+\item Q21 - Cette question, bien qu’assez calculatoire, ne présentait pas d’autre difficulté majeure. En effet,
+il suffisait d’isoler un seul solide et d’exprimer tous les torseurs au même point. Les calculs ont été
+dans l’ensemble plutôt bien menés lorsque cette partie du sujet a été traitée par les candidats.
+\item Q22 - Les expressions trouvées en Q21 faisant apparaître la grandeur $\lambda$, il fallait proposer un dispositif
+permettant de connaître cette grandeur en temps réel. Le diagramme de définition de blocs en annexe
+5 donnait la réponse. A défaut, toute solution technologique crédible et correctement définie a été
+acceptée par le jury.
+\item Q23 - Cette première question d’asservissement demandait aux candidats d’analyser un schéma-blocs
+et d’en déduire le modèle de 3 gains. En particulier, les candidats étaient invités à bien faire apparaitre
+les unités et devaient maitriser une condition « de bon fonctionnement ».
+\item Q24 - Cette question, destinée à préparer la question Q25, demandait de calculer 2 fonctions de
+transfert d’un asservissement, l’une vis-à-vis de la seule consigne et l’autre vis-à-vis de la seule
+perturbation. C’est dommage que certains candidats n’aient pas pris le temps de bien lire les définitions
+des grandeurs et se soient trompés de signe. Une question pratiquement toujours traitée avec beaucoup
+de réussite.
+\item Q25 - Une question bien traitée en général quand la question Q24 l’avait été correctement.
+\item Q26 - Question classique demandant de calculer l’erreur statique et l’erreur de trainage, en utilisant
+le théorème de la valeur finale. La FTBO étant de classe 1, il était possible de répondre sans calcul.
+Attention à la manipulation des inégalités dans la détermination de la condition limite sur C.
+\item Q27 - Une question classique qui évaluait la capacité des candidats à déterminer une valeur limite du
+gain du correcteur proportionnel-Intégral à partir d’un diagramme de Bode de la FTBO afin de satisfaire
+les marges de stabilité. La méthode graphique était la plus efficace, mais une résolution analytique
+était possible. Le jury trouve dommage que cette compétence classique n’ait pas été suffisamment bien
+maîtrisée.
+\item Q28 - Question bien traitée lorsque Q26 et Q27 l’ont été aussi. Dans le cas contraire, il était impossible
+de conclure correctement.
+\item Q29 - Question assez facile portant sur la manipulation de la fonction de transfert du correcteur ;
+abordée correctement par une grande majorité des candidats.
+\item Q30 - Mêmes remarques que pour la question 26.
+\item Q31 - Le tracé demandé était relativement classique. Le jury a constaté beaucoup trop d’erreurs pour
+une question d’une difficulté très relative.
+\item Q32 - Cette question demandait au candidat de relever 3 valeurs caractéristiques sur les courbes,
+et d’en déduire si oui ou non l’exigence 1.2 était satisfaite. Les relevés sont la plupart du temps très
+approximatifs et l’analyse de la satisfaction du cahier des charges manque de rigueur. Il fallait passer
+en revue les 4 exigences et comparer les relevés aux valeurs seuil définies dans le cahier des charges. Il
+ne suffit pas d’affirmer sans preuve qu’une exigence est satisfaite !
+\item Q33 - Question classique destinée à mettre en évidence les limites d’un modèle linéaire. Beaucoup
+trop de candidats confondent courbes expérimentales et simulation.
+\end{itemize}
+
+Extrait du rapport CCINP -- PSI -- 2021
+\begin{itemize}
+\item Q1. Question globalement bien traitée. Quelques candidats réussissent tout de même à écrire des formules
+non homogènes.
+\item Q3. Question assez bien traitée. Il est vivement recommandé d’expliquer un résultat littéral avant de faire
+l’application numérique.
+\item Q5. Question assez bien traitée, même si la constante de temps du modèle du 1er ordre n’est pas toujours bien
+identifiée.
+\item Q6. Question moyennement bien traitée. La solution temporelle était donnée à la question précédente, il n’y
+avait pourtant pas de difficultés. Tous les candidats ne connaissent pas la réponse d’un système du
+1
+er ordre suite à une entrée de type rampe.
+\item Q7. Question bien traitée dans l’ensemble par les candidats. Il fallait exprimer les résultats sous forme
+canonique comme la question le stipulait.
+\item Q8. Question globalement bien traitée. La relation entre les gains de l’adaptateur, du codeur et du
+transmetteur a posé beaucoup de difficultés aux candidats.
+\item Q9. Question qui a donné lieu à la découverte de nouveaux noms de correcteurs… Quand le terme
+proportionnel-intégral a été fourni, la justification a trop souvent été d’améliorer la stabilité !
+\item Q10. Question assez peu traitée par les candidats. Pour ceux qui l’ont faite, il y a toujours des confusions
+entre la constante de temps de la fonction de transfert en boucle fermée et le temps de réponse à 5 %.
+\item Q11. Question où le seuil a été majoritairement donné comme réponse. Toutefois beaucoup de copies ont
+parlé d’hystérésis…
+\item Q12. Question souvent très mal traitée. La masse équivalente a souvent été justifiée en donnant la masse de
+l’ensemble sans se référer à l’énergie cinétique de l’ensemble. Les autres grandeurs ont rarement été
+cherchées.
+\item Q13. et Q14. Questions assez bien traitées par le peu de candidats qui les ont abordées.
+\item Q15. Question globalement bien traitée. On notera quelques erreurs de signes tout de même.
+\item Q16. Question assez bien traitée par les candidats ayant traité la question précédente correctement.
+\item Q19. Question très mal traitée. On note le manque de culture technologique sans doute dû aux divers
+confinements.
+\item Q20. Très peu de candidats arrivent à expliquer pourquoi le pot reste parallèle au sol en phase d’élévation et
+parlent du parallélogramme déformable.
+\item Q21. Un nombre beaucoup trop important de candidats annonce une mobilité nulle ou encore différente de 1.
+\item Q22. Question où l’on a vu énormément de solutions fausses modifiant la mobilité utile et trop rarement une
+solution correcte. Certains candidats ont travaillé sur le système de la question précédente.
+\item Q23. Les candidats ayant pris soin de bien écrire le bilan des actions mécaniques et connaissant les lois de
+Coulomb ont réussi cette question assez rarement traitée.
+\item Q24. Question ouverte difficile qui a été assez mal traitée quand elle a été tentée. Beaucoup de candidats
+arrivent à trouver le résultat en appliquant le théorème du moment statique sur le pot !
+\item Q25. Question souvent bien traitée. Le bon sens a néanmoins manqué dans quelques copies.
+\item Q28. Question assez mal traitée. Beaucoup de candidats utilisent des théorèmes de statique ; le PFD tout
+court. On retrouve assez souvent la formulation « Théorème de la résultante dynamique au point G en
+projection sur… », il serait bon de ne pas écrire « au point G » même si les correcteurs comprennent
+pourquoi ils le font.
+\item Q30. Question moyennement bien traitée du fait des applications numériques un peu longues et la fin du
+sujet approchant.
+\item Q31. Question mal traitée.
+\item Q32. L’ordre des états a été rarement mis dans le bon ordre.
+\item Q33. Les transitions ont été assez bien complétées (par rapport à l’ordre que les candidats ont donné aux
+états à la question précédente). Seule l’incrémentation du compteur a été rarement réalisée.
+\end{itemize}
+%
+%\textbf{Remarques}
+%\begin{itemize}
+%\item Question 1 : lors de la réalisation du schéma cinématique, l'algnement des liaisons doit être respecté, comme c'est le cas dans le mécanisme réel. Les couleurs des pièces participant aux la liaison doivent être respectées (une liaisons met deux pièces en relation, il faut respecter la couleur de l'axe et du corps de la liaison \textit{etc}.). 
+%\item Question 2 : beaucoup d'entre vous ont du mal à identifier quelles sont les liaisons en parallèle et en série dans le mécanisme donné. Par ailleurs, intuiter une liaison équivalente ne suffit pas. Il faut justifier par le calcul. 
+%Enfin, dans le cas des liaisons hélicoïdales et pivot qui étaient en série. On trouve une liaison avec une composante en $\omega_x$ et en $V_x$ parmi lesquelles il y a 3 inconnues indépendantes. La liaison équivalente est donc une liaison pivot glissant.
+%\item Question 3 : deux raisonnements élémentaires de cinématiques non maîtrisés par la plupart d'entre vous : décomposition du vecteur vitesse, utilisation de la formule de Varignon.
+%\item Question 5, il s'agissait de projeter le vecteur $\vect{n}$ dnas la base $\base{x_0}{y_0}{z_0}$. Beaucoup y parviennent sans erreur.
+%\item Question 6 et 7 : calcul de la norme d'un vecteur qui n'aurait pas du poser de problème... puis application numérique...
+%\item Question 8 : la résolution du capteur n'aurait pas dû poser de problème (il fallait aussi prendre en compte l'existence d'un réducteur).
+%\item Question 9 : attention, il s'agissait d'isoler l'ensemble motorisé. Cet ensemble était situé entre 2 rotules qui sont des glisseurs... le PFS indique directement que l'action est dans la direction joignant le centre des rotules.
+%\item Question 10 : question délicate sur le papier ... mais qui ne se passe pas si mal en écrivant la démarche méthodiquement. 
+%\item Question 11 : il s'agissait de LA QUESTION d'hyperstatisme... que peu ont vu.
+%\item Question 12 : question sans vraiment de diffuculté. 
+%\item Question 13 : bien traitée par la plupart.
+%\item Question 14 à 16 : questions qui n'auraient pas dû poser de difficulté. 
+%\item Question 17 à 20 : questions difficiles. Beaucoup d'entre vous les ont sauter et on eu raison... mais n'ont pas pris suffisamment de points ailleurs...
+%\item Question 21 : il faut savoir tracer le diagramme de Bode d'un retard. Le module de $e^{-Tj\omega}$ est 1. La phase est $-T\omega$ (en rad).
+%\item Question 22 : beaucoup d'aspects dans cette question, mais il faut tout traiter avec rigueur : 
+%\begin{itemize}
+%\item déterminer des marges avec et sans retard;
+%\item exprimer les conditions de stablité;
+%\item tracer le Bode d'un correcteur.
+%\end{itemize}
+%Même si cette question peut paraître difficile vous devez être capables de traiter tous les aspects de la question.
+%\item Question 23 : TB.
+%\item Question 24 : beaucoup d'erreurs dans le calcul du module et de la phase d'une fonction de transfert. \textbf{Il faut s'entrainer abolument !!}
+%\item Question 25 et 26 : beaucoup d'erreurs sur ces questions. Ce n'est pas normal. \textbf{Il faut s'entrainer abolument !!}
+%\item Question 27 : cette question doit être absolument traitée. Il faut déterminer des valeurs numériques sur des courbes et valider (ou non) le cahier des charges. \textbf{A faire !}
+%\end{itemize}
+%
+
+
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}

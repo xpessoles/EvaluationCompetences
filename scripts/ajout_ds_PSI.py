@@ -25,10 +25,10 @@ discipline = 'SII'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 6
-date_eval = "27/02/2023"
+num_eval  = 7
+date_eval = "24/04/2023"
 dossier_notes = "2022_2023"
-fichier_notes = "DS_06_CCINP_Trooper.xlsx"
+fichier_notes = "PSI_DS_07_CCINP.xlsx"
 
 COEF_DS = 1
 

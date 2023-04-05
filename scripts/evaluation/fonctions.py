@@ -522,6 +522,7 @@ def get_questions_eval(id_eval,bdd):
 
 def calc_note_eval(bareme,notes_eleve):
     id_eleve = notes_eleve[0]["id_eleve"]
+    print(id_eleve)
     note_brute = 0
     total_brut = 0
     note_traitee = 0
@@ -854,7 +855,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+"_CCINP.pdf"
+                        str(evaluation.num_eval)+"_CCMP.pdf"
         shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
