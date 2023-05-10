@@ -68,7 +68,20 @@
 
 \textbf{Commentaires généraux}
 
-
+\begin{itemize}
+\item  L’algorithme de dichotomie n’est pas suffisamment maîtrisé. Beaucoup de candidats confondent
+notamment (b-a)/2 et (a+b)/2 pour le calcul du milieu du segment [a, b]. Rappelons également qu’un
+test d’égalité entre deux flottants (visant à tester si l’on est tombé exactement sur une solution au
+cours de la dichotomie) n’est pas pertinent. La condition d’arrêt précisée dans l’énoncé n’a pas toujours
+été respectée.
+\item La complexité de l’algorithme de dichotomie n’est pas toujours connue. Parmi les candidats
+qui la détermine, la résolution de l’inéquation $\dfrac{b-a}{2^n}\leq \varepsilon$ a donné lieu à des erreurs regrettables de
+manipulation du logarithme.
+\item Beaucoup d’erreurs ont été commises concernant le calcul du pas utilisé pour la construction
+d’une subdivision régulière de 500 points de l’intervalle \cde{[t1, t2]}. Outre les erreurs de syntaxe évoquées
+dans les commentaires généraux (concernant l’utilisation de \cde{range} et l’erreur de syntaxe $10^(-6)$),
+beaucoup de copies ont oublié que si $t \geq 1$, alors $m = 0$.
+\end{itemize}
 
 \input{f1}
 

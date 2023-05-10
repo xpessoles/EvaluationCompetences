@@ -25,10 +25,10 @@ discipline = 'Info'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 5
-date_eval = "03/02/2023"
+num_eval  = 8
+date_eval = "28/04/2023"
 dossier_notes = "2022_2023"
-fichier_notes = "MPSI_Info_DS_05.xlsx"
+fichier_notes = "MPSI_Info_DS_08.xlsx"
 
 COEF_DS = 1
 
