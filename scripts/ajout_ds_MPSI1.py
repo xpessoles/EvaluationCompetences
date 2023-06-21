@@ -18,17 +18,17 @@ from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
 
 
-## Paramètres 
+## Paramètres
 classe = 'MPSI1'
 filiere = "All"
 discipline = 'Info'
 annee = "2023" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 8
-date_eval = "28/04/2023"
+num_eval  = 10
+date_eval = "09/06/2023"
 dossier_notes = "2022_2023"
-fichier_notes = "MPSI_Info_DS_08.xlsx"
+fichier_notes = "MPSI1_Info_DS_10.xlsx"
 
 COEF_DS = 1
 
