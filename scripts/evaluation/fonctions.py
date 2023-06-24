@@ -818,7 +818,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
 
     bilan_evals = []
 
-
+    print(len(eleves))
     for eleve in eleves : 
         # Récup du bareme Liste de Questions
         bareme = get_questions_eval(id_eval,bdd)
@@ -826,7 +826,6 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
         # Récupération des notes d'un élève
         # Dictionnaire de notes d'un éleve
         notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
-        
         # Calcul de l'élève
         note_eval_eleve = calc_note_eval(bareme,notes_eleve)
         # On écrit ca dans la base de données
@@ -855,7 +854,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+"_CCMP.pdf"
+                        str(evaluation.num_eval)+".pdf"
         shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
