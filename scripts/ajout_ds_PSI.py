@@ -18,17 +18,17 @@ from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
 
 
-## Paramètres 
+## Paramètres
 classe = 'PSIe'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2023" # Année de passage du concours
+annee = "2024" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 7
-date_eval = "24/04/2023"
-dossier_notes = "2022_2023"
-fichier_notes = "PSI_DS_07_CCINP.xlsx"
+num_eval  = 1
+date_eval = "25/09/2023"
+dossier_notes = "2023_2024"
+fichier_notes = "PSI_DS_01.xlsx"
 
 COEF_DS = 1
 
