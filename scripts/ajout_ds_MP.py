@@ -18,19 +18,19 @@ from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
 
 
-## Paramètres 
+## Paramètres
 classe = 'MP'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2023" # Année de passage du concours
+annee = "2024" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "24/03/2023"
-dossier_notes = "2022_2023"
-fichier_notes = "MP_DS_04_CCMP.xlsx"
+num_eval  = 1
+date_eval = "5/10/2023"
+dossier_notes = "2023_2024"
+fichier_notes = "MP_DS_01.xlsx"
 
-COEF_DS = 1
+COEF_DS = 1.7
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
