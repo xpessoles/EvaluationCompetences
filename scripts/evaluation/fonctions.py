@@ -380,6 +380,7 @@ def get_nb_eleves(evaluation,bdd):
     req = "SELECT COUNT (id) FROM eleves WHERE "+\
         "classe='"+classe+"'"+\
         " AND annee='"+str(annee)+"'"
+    
     res = exec_select(bdd,req)
     nb = res[0][0]
     return int(nb)
