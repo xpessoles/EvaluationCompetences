@@ -528,7 +528,7 @@ def calc_note_eval(bareme,notes_eleve):
     total_brut = 0
     note_traitee = 0
     total_traite = 0
-    
+    print(">>>>",notes_eleve)
     for i in range(len(bareme)):
         note_quest = notes_eleve[i]['note_question']
         poids_question = bareme[i].poids
@@ -812,7 +812,6 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.close()
 
 def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
-
     # Récupération des élèves
     eleves = get_eleves(classe,annee,bdd)
     id_eval = is_eval_exist(evaluation,bdd)
