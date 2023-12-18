@@ -392,6 +392,7 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
     id_eval = evaluation.id_eval
     nb_quest = evaluation.nb_ques
     for note in notes :
+        
         # On récupère l'id de l'élève
         num_el = note[1]
         
@@ -400,7 +401,6 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
             " AND"+" classe='"+classe +"'"+\
             " AND"+" annee="+str(annee)
         
-
         res = exec_select(bdd,req)
      
         id_eleve = res[0][0]
@@ -523,12 +523,11 @@ def get_questions_eval(id_eval,bdd):
 
 def calc_note_eval(bareme,notes_eleve):
     id_eleve = notes_eleve[0]["id_eleve"]
-    print(id_eleve)
     note_brute = 0
     total_brut = 0
     note_traitee = 0
     total_traite = 0
-    print(">>>>",notes_eleve)
+    #print(">>>>",notes_eleve)
     for i in range(len(bareme)):
         note_quest = notes_eleve[i]['note_question']
         poids_question = bareme[i].poids
@@ -813,20 +812,24 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
 
 def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
     # Récupération des élèves
+
     eleves = get_eleves(classe,annee,bdd)
     id_eval = is_eval_exist(evaluation,bdd)
 
     bilan_evals = []
 
-    print(len(eleves))
+    #print(len(eleves))
     for eleve in eleves : 
+
+
         # Récup du bareme Liste de Questions
         bareme = get_questions_eval(id_eval,bdd)
-        
+
         # Récupération des notes d'un élève
         # Dictionnaire de notes d'un éleve
         notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
         # Calcul de l'élève
+        #print(bareme,notes_eleve)
         note_eval_eleve = calc_note_eval(bareme,notes_eleve)
         # On écrit ca dans la base de données
         insert_note_eval_bdd(eleve.id,id_eval,note_eval_eleve,bdd)
@@ -854,7 +857,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+".pdf"
+                        str(evaluation.num_eval)+"_02.pdf"
         shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
