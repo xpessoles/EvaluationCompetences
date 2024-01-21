@@ -4,7 +4,7 @@
     pdfauthor={Xavier Pessoles}]{hyperref}
 \input{style/new_style}
 \input{style/macros_SII}
-\input{entetes_PTSI}
+\input{entetes}
 \usepackage{multicol}
 \usepackage{siunitx}
 
@@ -66,22 +66,76 @@
 \vspace{6cm}
 
 
-\textbf{Commentaires généraux}
-Toujours beaucoup d'hétérogénéité entre tous les élèves. Le parcours des listes, les algorithmes de recherche de maximum et les algorithmes d’intégration ne sont pas bien connus. 
-Le cours sur la représentation des nombres est insuffisamment maîtrisé également.
+\textbf{Remarques générales -- Rapport du jury}
+\subsection*{Partie 2}
+(...)
 
+Les douze questions de cette partie ne présentent pas de problèmes particuliers et ont d’ailleurs été très
+bien réussies par la majorité des candidats. Toutefois, le jury constate un manque de rigueur mathématique
+et un manque de bon sens physique.
 
-\textbf{Remarques}
-\begin{itemize}
-\item Beaucoup d'entre vous font des erreurs de conversions pour la vitesse. Erreur fréquente : diviser par 3,6 au lieu de multiplier.
-\item Il ne faut pas hésiter à utiliser la fonction de la conversion de la question précédente. En effet, on considère en général que la fonction réalisée à la question $n$ fonctionne pour la question $n+1$.
-\item Beaucoup d'élèves ne savent pas ce que c'est qu'une instruction. Il s'agit simplement d'une ligne qu'on écrirait pour appeler une fonction par exemple. 
-\item Des erreurs dans le recherche du maximum. Beaucoup d'élèves compare deux éléments successifs au lieu de comparer le maximum (local) à l'élément en cours.
-\item Trop de difficultés pour réaliser l'intégration d'une liste de nombres. 
-\item Les questions sur la représentation des nombre sont à refaire. 
-\end{itemize}
+Le jury insiste sur l’importance du vocabulaire. Il y a, par exemple, régulièrement une confusion entre le
+principe fondamental de la dynamique et le théorème de la résultante dynamique.
+La question 3 porte sur un calcul de distance parcourue à partir d’une loi de vitesse imposée. Ce calcul
+classique a été réussi de manière mitigée.
 
+Un grand nombre de candidats ne justifie pas correctement la nullité du moment dynamique au centre
+de gravité dans le cas du mouvement de translation.
 
+La question 12, impliquant une représentation spatiale du système n’a été que rarement réussie par les
+candidats. Ces derniers se contentant de comparer la valeur de la longueur de guidage de la question
+précédente à la valeur imposée par le cahier des charges, sans prendre en compte la longueur totale du
+système et la longueur de la plateforme. Pour ce type d’étude, il est conseillé de poser la problématique
+en faisant un simple schéma dans les deux positions extrêmes.
+
+\subsection*{Partie 3}
+(...)
+
+Pour argumenter les réponses aux questions 15 et 33, il fallait comparer les marges de stabilité aux valeurs
+du cahier des charges, ce qui n’a pas été fait de manière systématique. De plus, le relevé de la marge de
+phase a souvent été erroné.
+
+À la question 16, l’arbitrage entre les deux valeurs possibles du facteur d’amortissement n’est très souvent
+pas justifié. Il fallait évoquer la présence d’une résonance.
+
+À la question 25, la présentation des avantages et inconvénients d’une correction proportionnelle est trop
+souvent un simple rappel du cours et n’est pas contextualisée. En complément des notions du cours, il
+fallait s’appuyer sur les résultats obtenus précédemment, en III.B.1 et III.B.2, pour invalider le choix de
+ce type de correction, dans le contexte du problème étudié. Pour la deuxième partie de la question, le
+choix d’une correction Proportionnelle Intégrale n’a souvent pas été argumenté, mais présenté comme une
+alternative à la correction proportionnelle sans rappel aux avantages que peut apporter cette correction.
+Le réglage du correcteur PI, dont la démarche était traduite sous forme d’un algorithme codé en Python, a
+été difficilement retranscrit par les candidats. La question 27 portant sur la définition de la marge de phase
+n’a été que très peu réussie. Le jury regrette le manque de recul mathématique sur les réponses apportées
+aux questions 28 et 29. Il y a trop souvent confusion entre l’argument d’un complexe et l’arc-tangente
+d’un nombre.
+
+À la question 35, deux réponses possibles ont été acceptées pour la validation de l’exigence : une sur la
+précision totale à l’aide du correcteur PI et une basée sur l’exploitation de la courbe fournie et une comparaison de la valeur observée par rapport à celle du cahier des charges. Le jury rappelle que pour valider
+une performance précisée dans le cahier des charges ou le diagramme des exigences, il faut nécessairement
+rappeler le niveau du critère de cette performance, indiquer la valeur atteinte, l’éventuel écart et enfin
+conclure : tout oubli d’un de ces points montre un manque de rigueur et de maitrise de la démarche.
+
+\subsection*{Partie 4}
+(...)
+
+Le jury regrette le manque de recul sur les hypothèses nécessaires à certains calculs comme le calcul de la
+vitesse à la question 37. Dans cette question, il fallait évoquer le non glissement et l’inextensibilité de la
+courroie. Il y a trop souvent une confusion entre la notion de glissement et la notion de frottement. Par
+exemple, le mouvement de roulement sans glissement relatif entre deux solides en contact est facilité par
+la présence de frottement de glissement.
+À la question 40, la différenciation entre puissances extérieures et intérieures a rarement été explicitée.
+Notamment l’action de pesanteur qui n’est souvent pas classée comme une action extérieure. De plus, le
+jury tient à rappeler que la nullité de certaines puissances doit être justifiée. Ce n’est pas parce qu’elles
+sont nulles qu’elles ne doivent pas apparaitre dans l’inventaire. On citera par exemple, dans le contexte
+de cette étude, la puissance des actions de liaisons entre solides internes au système étudié. Ce manque de
+rigueur dans l’inventaire des puissances des actions intérieures et extérieures a conduit un grand nombre
+de candidats à donner une expression erronée de l’équation obtenue par l’application du théorème de
+l’énergie cinétique.
+
+Pour répondre à la question 48, il fallait retracer le parcours effectué et positionner la démarche de conception sur le logigramme donné. Très peu de candidats ont abordé cette question de manière pertinente.
+Toutefois, quelques candidats ont pris des initiatives de présentation permettant de rendre compte de la
+séquentialité de la démarche, ce qui a été apprécié par le jury.
 
 
 \input{f1}

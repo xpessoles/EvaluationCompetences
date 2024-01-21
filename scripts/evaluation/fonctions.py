@@ -650,7 +650,7 @@ def calc_moyenne_classe(liste_evals):
         moyenne_brute.append(l["note_brute"])
     return sum(moyenne_brute)/len(moyenne_brute)
 
-def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd,coef_ds):
+def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd,coef_ds,ord_origine):
     
     id_eleve = eleve.id
     nom = eleve.nom
@@ -682,7 +682,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.write("\\Large \\textbf{\\textsf{"+nom.upper()+" "+prenom+"}} \n \n")  
     
     fid.write(" \\normalsize Note brute "+str(round(note_brute,2))+"/20 \n \n")
-    fid.write(" \\normalsize Note harmonisée "+str(round(coef_ds*note_brute,2))+"/20 \n \n")
+    fid.write(" \\normalsize Note harmonisée "+str(round(coef_ds*note_brute+ord_origine,2))+"/20 \n \n")
     fid.write("Rang "+str(rang_brut)+"\n \n")
     #fid.write("Note brute "+str(round(bilan_el[1],2))+"/20 \n \n")
     
@@ -810,7 +810,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     # ===== FIN NOTES PAR QUESTIONS =====
     fid.close()
 
-def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
+def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine):
     # Récupération des élèves
 
     eleves = get_eleves(classe,annee,bdd)
@@ -848,7 +848,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds):
         print(eleve.nom)
         notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
         
-        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds)
+        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds,ord_origine)
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
         os.system("pdflatex FicheDS.tex")
