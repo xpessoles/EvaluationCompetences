@@ -25,13 +25,15 @@ discipline = 'SII'
 annee = "2024" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "04/12/2023"
+num_eval  = '7'
+date_eval = "12/02/2023"
 dossier_notes = "2023_2024"
-fichier_notes = "PSI_DS_03_02.xlsx"
+fichier_notes = "DS_05_X_2021_v3.xlsx"
+ext = "_X"
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
 COEF_DS = 1
+ord_origine = 0
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
@@ -50,7 +52,7 @@ add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
 print("Génération bilan indiv")
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS)
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ord_origine,ext)
 
 # # Génération du bilan de compétences
 #eleves = get_eleves(classe,annee,bdd)

@@ -254,7 +254,6 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]
             valeurs = ligne[2:2+nb_item]
-            
             if sum(valeurs)>0 : # Il y a des valeurs sur la ligne donc la compétence est évaluée
                 
                
@@ -532,7 +531,14 @@ def calc_note_eval(bareme,notes_eleve):
         note_quest = notes_eleve[i]['note_question']
         poids_question = bareme[i].poids
         note_quest_bareme = bareme[i].note
+        
         if note_quest!="NT":
+            try :
+                x = (float(note_quest)*note_quest_bareme)
+            except ValueError : 
+            
+                print("Value Error : ", note_quest,note_quest_bareme,id_eleve)
+            
             note_traitee += float(note_quest)*note_quest_bareme
             total_traite += note_quest_bareme*poids_question
         else : 
@@ -682,6 +688,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.write("\\Large \\textbf{\\textsf{"+nom.upper()+" "+prenom+"}} \n \n")  
     
     fid.write(" \\normalsize Note brute "+str(round(note_brute,2))+"/20 \n \n")
+    
     fid.write(" \\normalsize Note harmonisée "+str(round(coef_ds*note_brute+ord_origine,2))+"/20 \n \n")
     fid.write("Rang "+str(rang_brut)+"\n \n")
     #fid.write("Note brute "+str(round(bilan_el[1],2))+"/20 \n \n")
@@ -810,7 +817,8 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     # ===== FIN NOTES PAR QUESTIONS =====
     fid.close()
 
-def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine):
+def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine,ext):
+    # ext : extension pour le fichier PDF
     # Récupération des élèves
 
     eleves = get_eleves(classe,annee,bdd)
@@ -857,7 +865,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
                         eleve.nom+"_"+\
                         eleve.prenom+"_"+\
                         evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+"_02.pdf"
+                        str(evaluation.num_eval)+ext+".pdf"
         shutil.move("FicheDS.pdf",fichier_eleve)
         os.chdir("..")
         
