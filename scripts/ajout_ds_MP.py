@@ -23,15 +23,16 @@ classe = 'MP'
 filiere = "PCSI-PSI"
 discipline = 'SII'
 annee = "2024" # Année de passage du concours
-bdd = "BDD_lk;:!<<  bhhgguiop2022_2023.db"
+bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "11/01/2024"
+num_eval  = 5
+date_eval = "16/02/2024"
 dossier_notes = "2023_2024"
-fichier_notes = "MP_DS_04.xlsx"
+fichier_notes = "MP_DS_04_CCINP_2023.xlsx"
 
-COEF_DS = 1.3
-ORD_ORIGINE = -.5
+COEF_DS = 1.2
+ORD_ORIGINE = 1
+EXT = ""
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
@@ -49,7 +50,7 @@ notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ORD_ORIGINE)
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ORD_ORIGINE,EXT)
 
 # # Génération du bilan de compétences
 #eleves = get_eleves(classe,annee,bdd)
