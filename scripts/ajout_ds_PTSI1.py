@@ -26,10 +26,10 @@ discipline = 'Info'
 annee = "2024" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 2
-date_eval = "14/14/2023"
+num_eval  = 3
+date_eval = "14/03/2024"
 dossier_notes = "2023_2024"
-fichier_notes = "PTSI1_DS_02.xlsx"
+fichier_notes = "PTSI1_DS_03.xlsx"
 
 COEF_DS = 1
 
@@ -49,7 +49,7 @@ notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS)
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,0,"")
 
 # # Génération du bilan de compétences
 #eleves = get_eleves(classe,annee,bdd)
