@@ -26,10 +26,10 @@ discipline = 'Info'
 annee = "2024" # Année de passage du concours
 bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = 3
-date_eval = "14/03/2024"
+num_eval  = 4
+date_eval = "29/04/2024"
 dossier_notes = "2023_2024"
-fichier_notes = "PTSI1_DS_03.xlsx"
+fichier_notes = "PTSI1_DS_04.xlsx"
 
 COEF_DS = 1
 
