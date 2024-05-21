@@ -19,7 +19,7 @@ from evaluation.fonctions import generation_bilan_competences
 
 
 ## Paramètres
-classe = 'PTSI1'
+classe = 'PTSI2'
 filiere = "All"
 filiere = "All"
 discipline = 'Info'
@@ -29,7 +29,7 @@ type_eval = "DS"
 num_eval  = 4
 date_eval = "29/04/2024"
 dossier_notes = "2023_2024"
-fichier_notes = "PTSI1_DS_04.xlsx"
+fichier_notes = "PTSI2_DS_04.xlsx"
 
 COEF_DS = 1
 
