@@ -10,12 +10,13 @@
 *.gz
 *.xls
 scripts/Competences/Eleves_PSIe_2022_2023.xlsx
+scripts/Competences/*.xlsx
+scripts/2023_2024/*.xlsx
 scripts/BDD_2022_2023.db
 scripts/evaluation/BDD_2022_2023.db
 scripts/2022_2023/
 scripts/compil/f1.tex
-scripts/compil/f1.tex
-scripts/compil/f1.tex
+scripts/2023_2024/*.xlsx
 scripts/Competences/MPSI_Info_DS_01.xlsx
 scripts/Competences/Eleves_MPSI1_2022_2023.xlsx
 scripts/Competences/Eleves_PTSI2_2022_2023.xlsx
@@ -23,7 +24,6 @@ scripts/BDD_2022_2023_SAVE.db
 scripts/ajout_ds_PTSI2.py
 scripts/Competences/Eleves_MP_2022_2023.xlsx
 scripts/Competences/Eleves_PTSI1_2022_2023.xlsx
-*.xlsx
 Correction_DOC/03_04/Eleves_MP_2023_2024.csv
 Correction_DOC/01_etiquettes/liste_MP.csv
 Correction_DOC.zip
