@@ -18,7 +18,9 @@ class Competence :
         self.nom_court = ""
         self.semestre = ""
         self.filiere = filiere
-        
+        # Association entre les compétences persos et 
+        # les codes des compétences du programme
+        self.code_prog = "" 
     
     def creer_comp(self,ligne:list):
         # compter le nombre de None
@@ -37,6 +39,7 @@ class Competence :
             self.code = ligne[0]
             self.nom_long = ligne[1]
             self.nom_court = ligne[2]
+ 
             
     def make_req(self):
         req = 'INSERT INTO competences \

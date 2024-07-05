@@ -18,7 +18,7 @@ from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
 
 
-## Paramètres 
+## Paramètres
 classe = 'PSIe'
 filiere = "PCSI-PSI"
 discipline = 'SII'
@@ -46,10 +46,10 @@ add_bareme_bdd(bareme,filiere, bdd)
 notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
-# # # Génération des bilans indivisualisés
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd)
-
-# # Génération du bilan de compétences
-eleves = get_eleves(classe,annee,bdd)
-eleve = eleves[0]
-generation_bilan_competences(eleve,classe,filiere,discipline,bdd)
+# # # # Génération des bilans indivisualisés
+# generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd)
+#
+# # # Génération du bilan de compétences
+# eleves = get_eleves(classe,annee,bdd)
+# eleve = eleves[0]
+# generation_bilan_competences(eleve,classe,filiere,discipline,bdd)
