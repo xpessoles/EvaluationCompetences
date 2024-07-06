@@ -818,7 +818,8 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.close()
 
 def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine,ext):
-    # ext : extension pour le fichier PDF
+    # ext : extension pour le fichier PDF (par exemple s'il y a un sujet 
+    # CCMP:"_CCMP", un sujet CCS :"_CCS")
     # Récupération des élèves
 
     eleves = get_eleves(classe,annee,bdd)

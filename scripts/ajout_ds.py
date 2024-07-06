@@ -23,13 +23,15 @@ classe = 'PSIe'
 filiere = "PCSI-PSI"
 discipline = 'SII'
 annee = "2022" # Année de passage du concours
-bdd = "BDD_Evaluation.db"
+bdd = "BDD_Evaluation_test.db"
 type_eval = "DS"
 num_eval  = 3
 date_eval = "3/12/2021"
 dossier_notes = "Competences"
 fichier_notes = "DS_03.xlsx"
-
+ext = ""
+coef_ds = 1
+ord_origine = 1
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
@@ -47,7 +49,7 @@ notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # # Génération des bilans indivisualisés
-# generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd)
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine,ext)
 #
 # # # Génération du bilan de compétences
 # eleves = get_eleves(classe,annee,bdd)
