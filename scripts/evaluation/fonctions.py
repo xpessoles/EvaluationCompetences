@@ -39,6 +39,7 @@ def read_file_competences(dossier_comp, fichier_comp,filiere,discipline) -> list
     # Lire un fichier de competences       
             
     xlsx_file = Path(dossier_comp, fichier_comp)
+    
     wb_obj = openpyxl.load_workbook(xlsx_file) 
     
     # Read the active sheet:
@@ -48,10 +49,16 @@ def read_file_competences(dossier_comp, fichier_comp,filiere,discipline) -> list
     
     competences = []
     for row in sheet.iter_rows(max_row=nb_ligne):
+        if len(row) > 5:
+            print("PEUT ETRE TROP DE COLONNES DANS LE FICHIER")
+            
+        #print(row)
+        
         ligne = []
         for cell in row:
             ligne.append(cell.value)
         
+        print(ligne)
         nb_none = 0
         for e in ligne : 
             if e==None :
@@ -657,7 +664,9 @@ def calc_moyenne_classe(liste_evals):
     return sum(moyenne_brute)/len(moyenne_brute)
 
 def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_el,bdd,coef_ds,ord_origine):
-    
+    """
+    Création des spécificités du .tex spécifiques à l'évaluation. 
+    """
     id_eleve = eleve.id
     nom = eleve.nom
     prenom = eleve.prenom
@@ -674,6 +683,10 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     req = "SELECT commentaire FROM commentaires_eleves WHERE "+\
         " id_eleve="+str(id_eleve)+" AND"+\
         " id_eval="+str(id_eval)
+    
+    # Recup de la note par competences du DS
+    eval_comp_ds = eval_competences_ds(bareme,bdd)
+    eval_comp_ds = sorted(eval_comp_ds.items(), key=lambda t: t[0])
     
     
     commentaire = exec_select(bdd, req)[0][0]
@@ -815,6 +828,18 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     fid.write("\\end{center} \n")
     fid.write("\\normalsize \n \n")
     # ===== FIN NOTES PAR QUESTIONS =====
+    
+    
+    #### Bilan de compétence sur le DS. 
+    
+    fid.write("\\noindent \\textbf{Bilan par compétences}\n \n")
+    
+    fid.write("\\begin{itemize} \n")
+    for comp in eval_comp_ds :
+        r = comp[1]["note"]/comp[1]["note_total"]
+        r = str(int(100*r))
+        fid.write("\\item \\textbf{"+comp[0]+"} : "+comp[1][comp[0]]+ "\\hfill Réussite : " + r +"\\% \n")
+    fid.write("\\end{itemize} \n")    
     fid.close()
 
 def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine,ext):
@@ -850,7 +875,8 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
 
     # Ajouter le classement de l'évaluation
     liste_evals = classement_eval(bilan_evals)
-
+    
+    
     for eleve in eleves :
         
         # Ecriture fichier tex
@@ -860,6 +886,8 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
         ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds,ord_origine)
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
+        
+        print(' >> ICI << ')
         os.system("pdflatex FicheDS.tex")
         os.system("pdflatex FicheDS.tex")
         fichier_eleve = eleve.get_num()+"_"+\
@@ -981,3 +1009,32 @@ def generation_bilan_competences(eleve,classe,filiere,discipline,bdd) :
                 fid.write("\\end{center} \n")
                 
     fid.close()
+
+def eval_competences_ds(bareme,bdd):
+    """
+    Pour un DS donné : 
+        - faire la liste des compétences évaluées
+        - pour chaque compétence : 
+                - trouver le nom long
+                - donner la note de l'élève
+                - donner la la note totale 
+        On renvout un dico de dico :
+         { code_comp:{'nom':nom long,'note':int, 'note_tot':int}}
+    """
+    eval_comp_ds = {}
+    for q in bareme :
+        if q.code_comp not in eval_comp_ds : 
+            req = "SELECT nom_long from competences WHERE"+\
+                " code='"+str(q.code_comp)+"'"
+            res = exec_select(bdd,req)
+            d={q.code_comp:res[0][0],"note":0,"note_total":0} 
+            eval_comp_ds[q.code_comp] = d
+            
+    for q in bareme :
+        eval_comp_ds[q.code_comp]['note']+= q.note
+        eval_comp_ds[q.code_comp]['note_total']+= q.poids
+    
+    return eval_comp_ds
+    
+            
+         

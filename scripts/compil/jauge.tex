@@ -1,0 +1,31 @@
+\documentclass[tikz]{standalone}
+\tikzset{
+  cnt radius/.store in=\minradius,
+  cnt min line width/.store in=\minlinewidth,
+  cnt max line width/.store in=\maxlinewidth,
+  cnt add val/.code n args={3}{% arguments: color, diameter, proportion
+    \begin{pgfinterruptpath}
+    \draw[line width={\maxlinewidth*.8},draw=#1,line cap=round,
+    ]
+    (\tikzlastnode) ++(90:{(#2)/2}) arc(90:{90-((#3)*360)}:{(#2)/2});
+    \end{pgfinterruptpath}
+  },
+  cnt/.style args={#1 color #2 with #3}{% arguments: number, color, proportion
+    circle,inner sep=0,node contents={},draw=#2,line width=\minlinewidth,
+    minimum size={2*\minradius+(#1*2*\maxlinewidth)},append after command={
+      \pgfextra{\pgfkeysalso{/tikz/cnt add val={#2}{2*\minradius+(#1*2*\maxlinewidth)}{#3}}}
+    },
+  },
+  cnt label/.style={text=#1,font=\sffamily\bfseries,yscale=1.2,align=flush center},
+}
+
+\begin{document}
+\begin{tikzpicture}
+  \begin{scope}[cnt radius=1.5cm,cnt min line width=.5mm,cnt max line width=3mm]
+   % \node[cnt=1 color lime with .7];
+    \node[cnt=2 color orange with .8];
+    %\node[cnt=3 color cyan!50!black with .9];
+    \node[cnt label=cyan!50!black,text width=3cm]{\Huge 74\%};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

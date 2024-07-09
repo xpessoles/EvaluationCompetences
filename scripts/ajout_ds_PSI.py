@@ -22,13 +22,13 @@ from evaluation.fonctions import generation_bilan_competences
 classe = 'PSIe'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2024" # Année de passage du concours
-bdd = "BDD_2022_2023.db"
+annee = "2025" # Année de passage du concours
+bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = '8'
+num_eval  = '1'
 date_eval = "18/03/2024"
 dossier_notes = "2023_2024"
-fichier_notes = "DS_06_CCS_2013.xlsx"
+fichier_notes = "DS_06_CCS_2013_BIS.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
