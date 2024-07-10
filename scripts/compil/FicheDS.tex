@@ -7,9 +7,13 @@
 \input{entetes_PTSI}
 \usepackage{multicol}
 \usepackage{siunitx}
-\usepackage{progressbar}
+
+\usepackage{tkz-kiviat}
 \fichetrue
 %\fichefalse
+
+
+
 
 \proftrue
 \proffalse
@@ -76,6 +80,16 @@
 
 \input{f1}
 
-%\input{comp}
+\begin{tikzpicture}[label distance=.15cm]
+	\tkzKiviatDiagram[gap=.25,radial style/.style ={->},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=4pt,
+		fill=red!20](2,0,4,8,10)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=4pt,fill=blue!20,	opacity=.5](9,6,8,4,5)
+\end{tikzpicture}
 
 \end{document}
