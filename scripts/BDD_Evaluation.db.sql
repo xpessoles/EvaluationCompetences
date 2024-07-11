@@ -18,7 +18,10 @@ CREATE TABLE IF NOT EXISTS "questions_eleves" (
 	"id_eleve"	INTEGER,
 	"id_eval"	INTEGER,
 	"id_question"	INTEGER,
-	"note_question"	TEXT²
+	"note_question"	TEXT,
+	"poids"	INTEGER,
+	"note"	INTEGER,
+	"code_comp"	TEXT
 );
 CREATE TABLE IF NOT EXISTS "commentaires_eleves" (
 	"id_eleve"	INTEGER,

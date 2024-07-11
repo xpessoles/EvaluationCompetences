@@ -417,13 +417,19 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
             id_question= bareme[i].id_ques
             n = note[index_note]
             # On ajoute la question à la BDD
-            req = "INSERT INTO questions_eleves "+\
-                "(id_eleve,id_eval,id_question,note_question) VALUES ("+\
-                    str(id_eleve)+","+\
-                    str(id_eval)+","+\
-                    str(id_question)+",'"+\
-                    str(n)+"')"
-            
+            # req = "INSERT INTO questions_eleves "+\
+            #     "(id_eleve,id_eval,id_question,note_question,poids,coef,code_comp) VALUES ("+\
+            #         str(id_eleve)            +","+\
+            #         str(id_eval)             +","+\
+            #         str(id_question)         +",'"+\
+            #         str(n)                   +",'"+\
+            #         str(bareme[i].poids)     +",'"+\ 
+            #         str(bareme[i].note)      +",'"+\ 
+            #         str(bareme[i].code_comp) +"')"
+            req = "INSERT INTO questions_eleves " +"(id_eleve,id_eval,id_question,note_question,poids,note,code_comp) VALUES ("+str(id_eleve)+","+str(id_eval)+","+str(id_question)+",'"+str(n)+"',"+str(bareme[i].poids)+","+str(bareme[i].note)+",'"+str(bareme[i].code_comp) +"')"                    
+            # print(req)
+            ## Poids : sur 5 ou 10        
+            ## note de la question relativement aux autres
             exec_insert(bdd,req)
             
         # Pour chaque éval, on met le commentaire
@@ -888,15 +894,18 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
         os.chdir("compil")
         
         print(' >> ICI << ')
-        os.system("pdflatex FicheDS.tex")
-        os.system("pdflatex FicheDS.tex")
-        fichier_eleve = eleve.get_num()+"_"+\
-                        eleve.nom+"_"+\
-                        eleve.prenom+"_"+\
-                        evaluation.type_eval+"_"+\
-                        str(evaluation.num_eval)+ext+".pdf"
-        shutil.move("FicheDS.pdf",fichier_eleve)
+        # os.system("pdflatex FicheDS.tex")
+        # os.system("pdflatex FicheDS.tex")
+        # fichier_eleve = eleve.get_num()+"_"+\
+        #                 eleve.nom+"_"+\
+        #                 eleve.prenom+"_"+\
+        #                 evaluation.type_eval+"_"+\
+        #                 str(evaluation.num_eval)+ext+".pdf"
+        # shutil.move("FicheDS.pdf",fichier_eleve)
+        
         os.chdir("..")
+        #******************
+        creer_bilan_comp_individuel(eleve.id,id_eval,annee,filiere,bdd)
         
 
 def get_comp_id(code_comp,discipline, filiere, bdd):
@@ -1037,11 +1046,80 @@ def eval_competences_ds(bareme,bdd):
     return eval_comp_ds
     
 
-def creer_bilan_comp_individuel():
+def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
     """
     Créer un fichier individuel
     """
     
+    dico_comp = {
+        'SYS-01':{},'SYS-02':{},'SYS-03':{},'SYS-04':{},'SYS-05':{},'SYS-06':{},\
+        'GEO-01':{},'GEO-02':{},'GEO-03':{},'GEO-04':{},\
+        'CIN-01':{},'CIN-02':{},'CIN-03':{},'CIN-04':{},'CIN-05':{},\
+        'STAT-01':{},'STAT-02':{},'STAT-03':{},'STAT-04':{},'STAT-05':{},\
+        'CHS-01':{},'CHS-02':{},'CHS-03':{},'CHS-04':{},'CHS-05':{},\
+        'DYN-01':{},'DYN-02':{},'DYN-03':{},'DYN-04':{},'DYN-05':{},'DYN-06':{},\
+        'TEC-01':{},'TEC-02':{},'TEC-03':{},'TEC-04':{},'TEC-05':{},\
+        'SLCI-01':{},'SLCI-02':{},'SLCI-03':{},'SLCI-04':{},'SLCI-05':{},'SLCI-06':{},'SLCI-07':{},'SLCI-08':{},'SLCI-09':{},'SLCI-10':{},'SLCI-11':{},\
+        'PERF-01':{},'PERF-02':{},'PERF-03':{},'PERF-04':{},'PERF-05':{},'PERF-06':{},\
+        'COR-01':{},'COR-02':{},'COR-03':{},'COR-04':{},'COR-05':{},'COR-06':{},\
+        'NL-01':{},'NL-02':{},\
+        'SEQ-01':{},'SEQ-02':{},'SEQ-03':{},\
+        'NUM-01':{},'NUM-02':{},'NUM-03':{},'NUM-04':{},'NUM-05':{}}
+    
+    
+    
+    
+    
+    # Pour un élève calcule la moyenne de sa note par compétence
+    req = "SELECT note_question,poids,note,code_comp FROM questions_eleves WHERE "+\
+            "id_eleve="+str(id_eleve)+ " AND id_eval = "+str(id_eval) 
+    data = exec_select(bdd,req)
+
+    for code_comp in dico_comp :
+        note_comp = 0
+        note_tot = 0
+        for ligne in data : 
+            if ligne[3] == code_comp :
+                note_tot += ligne[1]*ligne[2]
+                if ligne[0] == "NT" :
+                    note_comp += 0
+                else :
+                    note_comp += float(ligne[0])
+        if note_tot == 0 :
+            note_comp = 0
+        else :
+            note_comp = note_comp/note_tot*5            
+        note_comp = {"note_comp":note_comp,"note_moyenne":0}
+        dico_comp[code_comp] = note_comp
+        
+        
+        
+    # Pour une comp calcule la moyenne de la classe par compétence
+    req = "SELECT note_question,poids,note,code_comp FROM questions_eleves WHERE "+\
+            "id_eval = "+str(id_eval) 
+    data = exec_select(bdd,req)
+
+    for code_comp in dico_comp :
+        note_comp = 0
+        note_tot = 0
+        for ligne in data : 
+            if ligne[3] == code_comp :
+                note_tot += ligne[1]*ligne[2]
+                if ligne[0] == "NT" :
+                    note_comp += 0
+                else :
+                    note_comp += float(ligne[0])
+        
+        if note_tot == 0 :
+            note_comp = 0
+        else :
+            note_comp = note_comp/note_tot*5            
+        dico_comp[code_comp]["note_moyenne"] = note_comp
+        
+        
+        
+        
+    return dico_comp
     # Création du fichier de compétences pour SYS
     # Il faudrait une table avec  
     # SYS-01, moyenne_eleve(SYS-01),moyenne_classe(SYS-01)

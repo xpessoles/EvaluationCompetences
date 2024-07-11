@@ -16,6 +16,7 @@ from evaluation.fonctions import add_evaluation_bdd,del_evaluation_bdd
 from evaluation.fonctions import read_notes,add_notes_bdd,get_eleves
 from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
+from evaluation.fonctions import creer_bilan_comp_individuel
 
 
 ## Paramètres
