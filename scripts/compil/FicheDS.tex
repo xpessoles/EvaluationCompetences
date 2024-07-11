@@ -1,9 +1,10 @@
-\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
+\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
 \usepackage[%
     pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
     pdfauthor={Xavier Pessoles}]{hyperref}
 \input{style/new_style}
-\input{style/macros_SII}
+%\input{../../../Style/macros_SII}
+\input{../../../Style/environment_v2}
 \input{entetes_PTSI}
 \usepackage{multicol}
 \usepackage{siunitx}
@@ -13,7 +14,13 @@
 %\fichefalse
 
 
-
+%\newcommand{\progress}[1]{
+%    \begin{tikzpicture}
+%        \fill[ocre!20, rounded corners =1 mm] (0,0) rectangle (#1/100*2.5,.4);
+%         \draw[ocre,thick, rounded corners =1 mm] (0,0) rectangle (2.5,.4);
+%         \node at (1.25,0.2) {\textcolor{black}{#1~\%}};
+%    \end{tikzpicture}
+%}
 
 \proftrue
 \proffalse
@@ -37,7 +44,7 @@
 
 
 \def\columnseprulecolor{\color{ocre}}
-\setlength{\columnseprule}{0.4pt} 
+\setlength{\columnseprule}{0pt} 
 
 
 \begin{tikzpicture}[remember picture,overlay]
@@ -71,25 +78,242 @@
 %
 
 \textbf{Remarques générales}
-%\begin{itemize}
-%\item Ensemble satisfaisant. Les fonctions de bases sont globalement bien codées.
-%\item Le cours sur les variants invariants complexité et plutôt bien appréhendé. 
-%\item Les questions sur la bordure ont eu un succès très mitigé. Il s'agissait d'ajouter une bordure et pas de remplacer les pixels du bords par des pixels noirs. 
-%\end{itemize}
+\begin{itemize}
+\item Ensemble satisfaisant. Les fonctions de bases sont globalement bien codées. \hfill \progress{60}
+\item Le cours sur les variants invariants complexité et plutôt bien appréhendé. \hfill \progress{60}
+\item Les questions sur la bordure ont eu un succès très mitigé. Il s'agissait d'ajouter une bordure et pas de remplacer les pixels du bords par des pixels noirs. \hfill \progress{75}
+\end{itemize}
 
 
 \input{f1}
 
-\begin{tikzpicture}[label distance=.15cm]
-	\tkzKiviatDiagram[gap=.25,radial style/.style ={->},lattice style/.style ={blue!30}]%
+\newpage
+
+%\begin{multicols}{2}
+%\begin{tikzpicture}[scale=1, label distance = .5cm]
+%	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+%		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05,STAT-06}
+%	\tkzKiviatLine[thick,color=red,
+%		mark=ball,
+%		ball color=red,
+%		mark size=3pt,
+%		fill=red!20](3,2,3,4,5,1)
+%	\tkzKiviatLine[thick,color=blue,mark=ball,
+%		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3,3)
+%\end{tikzpicture}
+%\end{multicols}
+
+\begin{minipage}[c]{.3\linewidth}
+
+\begin{tikzpicture}[scale=1]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{SYS-01,SYS-02,SYS-03,SYS-04,SYS-05,SYS-06}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5,1)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3,2)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allSysComp
+\normalsize
+
+\end{minipage}
+
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
 		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
 	\tkzKiviatLine[thick,color=red,
 		mark=ball,
 		ball color=red,
-		mark size=4pt,
-		fill=red!20](2,0,4,8,10)
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
 	\tkzKiviatLine[thick,color=blue,mark=ball,
-		mark size=4pt,fill=blue!20,	opacity=.5](9,6,8,4,5)
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
 \end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+
+\allGeoComp
+
+\end{minipage}
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allCinComp
+\normalsize
+\end{minipage}
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allStatComp
+\normalsize
+\end{minipage}
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allChsComp
+\normalsize
+\end{minipage}
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allDynComp
+\normalsize
+\end{minipage}
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allTecComp
+\normalsize
+\end{minipage}
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05,STAT-06,STAT-07,STAT-08,STAT-09,STAT-10,STAT-11}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5,2,3,4,5,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3,2,3,4,5,4,5)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allSlciComp
+\normalsize
+\end{minipage}
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=bleuxp,mark=ball,
+		mark size=2pt,fill=bleuxp!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+\footnotesize
+\allPerfComp
+\normalsize
+\end{minipage}
+
+
+
+\begin{minipage}[c]{.3\linewidth}
+\begin{tikzpicture}[scale=1, label distance = .5cm]
+	\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]%
+		{STAT-01,STAT-02,STAT-03,STAT-04,STAT-05}
+	\tkzKiviatLine[thick,color=red,
+		mark=ball,
+		ball color=red,
+		mark size=3pt,
+		fill=red!20](3,2,3,4,5)
+	\tkzKiviatLine[thick,color=blue,mark=ball,
+		mark size=3pt,fill=blue!20,	opacity=.5](3,3,3,3,3)
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.6\linewidth}
+
+
+\allCorComp
+
+\end{minipage}
+
+
 
 \end{document}

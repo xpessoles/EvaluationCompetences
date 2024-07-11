@@ -178,14 +178,13 @@
 }
 
 
-\fancyfoot[C]{\rule{12cm}{.5pt}}
-\renewcommand{\footrulewidth}{0.2pt}
+%\fancyfoot[C]{\rule{12cm}{.5pt}}
+%\renewcommand{\footrulewidth}{0.2pt}
 \fancyfoot[C]{\footnotesize{\bfseries \thepage}}
 \fancyfoot[L]{ 
 \begin{minipage}[c]{.4\linewidth}
 \noindent\footnotesize{{\xxauteur}}
 \end{minipage}}
-
 
 \fancyfoot[R]{\footnotesize{\xxpied}
 \ifthenelse{\isodd{\value{page}}}{
@@ -219,8 +218,8 @@
 %\fancyfoot[C]{\bfseries \thepage} % numéro de la page en cours en gras
 % et centré en pied~de~page.
 \fancyfoot[R]{\footnotesize{\xxpied}}
-\fancyfoot[C]{\rule{12cm}{.5pt}}
-\renewcommand{\footrulewidth}{0.2pt}
+%\fancyfoot[C]{\rule{12cm}{.5pt}}
+%\renewcommand{\footrulewidth}{0.2pt}
 \fancyfoot[C]{\footnotesize{\bfseries \thepage}}
 \fancyfoot[L]{ 
 \begin{minipage}[c]{.4\linewidth}
@@ -337,8 +336,8 @@
 \newtheorem{exerciseT}{Exercice}[section]
 
 \theoremstyle{blacknumex}
-%\newtheorem{exampleT}{Example}[chapter]
-\newtheorem{exempleT}{Exemple}[section]
+
+
 \newtheorem{termT}{Terminal\\}[section]
 \newtheorem{pyT}{Python\\}[section]
 \newtheorem{sciT}{Scilab\\}[section]
@@ -362,8 +361,6 @@
 \newtheorem{titrepartieT}[]{}
 \newtheorem{titrechapitreT}[]{}
 
-\theoremstyle{correctionbox}
-\newtheorem{correctionT}[dummy]{\color{violet}{Correction}}
 
 %----------------------------------------------------------------------------------------
 %	DEFINITION OF COLORED BOXES
@@ -519,22 +516,6 @@ linewidth=4pt,
 innerbottommargin=5pt]{chBox}
 
 
-% Boite pour les exemples
-\newmdenv[skipabove=7pt,
-skipbelow=7pt,
-rightline=false,
-leftline=true,
-topline=false,
-bottomline=false,
-linecolor=gray,
-backgroundcolor=white,
-innerleftmargin=5pt,
-innerrightmargin=5pt,
-innertopmargin=5pt,
-leftmargin=0cm,
-rightmargin=0cm,
-linewidth=4pt,
-innerbottommargin=5pt]{exBox}
 
 % Boite pour le terminal
 \newmdenv[skipabove=7pt,
@@ -624,61 +605,10 @@ linewidth=4pt,
 innerbottommargin=5pt]{sqlBox}
 
 
-% Creates an environment for each type of theorem and assigns it a theorem text style from the "Theorem Styles" section above and a colored box from above
-\newenvironment{theorem}{\begin{tBox}\begin{theoremeT}}{\end{theoremeT}\end{tBox}}
-\newenvironment{resultat}{\begin{tBox}\begin{resultatT}}{\end{resultatT}\end{tBox}}
-\newenvironment{methode}{\begin{tBox}\begin{methodeT}}{\end{methodeT}\end{tBox}}
-\newenvironment{savoir}{\begin{tBox}\begin{savoirT}}{\end{savoirT}\end{tBox}}
-\newenvironment{obj}{\begin{tBox}\begin{objectifT}}{\end{objectifT}\end{tBox}}
-\newenvironment{corrige}{\begin{coBox}\begin{correctionT}}{\end{correctionT}\end{coBox}}
-\newenvironment{exercise}{\begin{eBox}\begin{exerciseT}}{\hfill{\color{ocre}\tiny\ensuremath{\blacksquare}}\end{exerciseT}\end{eBox}}				  
-\newenvironment{exercice}{\begin{eBox}\begin{exerciseT}}{\hfill{\color{ocre}\tiny\ensuremath{\blacksquare}}\end{exerciseT}\end{eBox}}				  
 
-\newenvironment{definition}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}	
-\newenvironment{rappel}{\begin{dBox}\begin{rappelT}}{\end{rappelT}\end{dBox}}	
-\newenvironment{defi}{\begin{dBox}\begin{definitionT}}{\end{definitionT}\end{dBox}}	
-\newenvironment{demo}{\begin{demoBox}\begin{demoT}}{\end{demoT}\end{demoBox}}	
-%\newenvironment{exemple}{\begin{exempleT}}{\hfill{\tiny\ensuremath{\blacksquare}}\end{exempleT}}		
-\newenvironment{corollary}{\begin{cBox}\begin{corollaryT}}{\end{corollaryT}\end{cBox}}
-\newenvironment{hypo}{\begin{hyBox}\begin{hypoT}}{\end{hypoT}\end{hyBox}}	\newenvironment{exemple}{\begin{exBox}\begin{exempleT}}{\hfill{\tiny\ensuremath{\blacksquare}}\end{exempleT}\end{exBox}}	
 \newenvironment{titrepartie}{\begin{pBox}\begin{titrepartieT}}{\end{titrepartieT}\end{pBox}}	
 \newenvironment{titrechapitre}{\begin{chBox}\begin{titrechapitreT}}{\end{titrechapitreT}\end{chBox}}	
 
-\newenvironment{term}{ \begin{termBox}\begin{termT}}{\end{termT}\end{termBox}}
-\newenvironment{py}{ \begin{pyBox}\begin{pyT}}{\end{pyT}\end{pyBox}}
-\newenvironment{sci}{ \begin{sciBox}\begin{sciT}}{\end{sciT}\end{sciBox}}
-\newenvironment{pseudo}{ \begin{pseudoBox}\begin{pseudoT}}{\end{pseudoT}\end{pseudoBox}}
-\newenvironment{envsql}{ \begin{sqlBox}\begin{sqlT}}{\end{sqlT}\end{sqlBox}}
-
-
-%----------------------------------------------------------------------------------------
-%	REMARK ENVIRONMENT
-%----------------------------------------------------------------------------------------
-
-\newenvironment{remark}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
-\begin{list}{}{
-\leftmargin=35pt % Indentation on the left
-\rightmargin=25pt}\item\ignorespaces % Indentation on the right
-\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
-\node[draw=ocre!60,line width=1pt,circle,fill=ocre!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{ocre}{R}};\end{tikzpicture}} % Orange R in a circle
-\advance\baselineskip -1pt}{\end{list}\vskip5pt} % Tighter line spacing and white space after remark
-
-\newenvironment{rem}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
-\begin{list}{}{
-\leftmargin=35pt % Indentation on the left
-\rightmargin=25pt}\item\ignorespaces % Indentation on the right
-\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
-\node[draw=ocre!60,line width=1pt,circle,fill=ocre!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{ocre}{R}};\end{tikzpicture}} % Orange R in a circle
-\advance\baselineskip -1pt}{\end{list}\vskip5pt} % Tighter line spacing and white space after remark
-
-
-\newenvironment{warn}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
-\begin{list}{}{
-\leftmargin=35pt % Indentation on the left
-\rightmargin=25pt}\item\ignorespaces % Indentation on the right
-\makebox[-2.5pt]{\begin{tikzpicture}[overlay]
-\node[draw=red!60,line width=1pt,circle,fill=red!25,font=\sffamily\bfseries,inner sep=2pt,outer sep=0pt] at (-15pt,0pt){\textcolor{black}{!}};\end{tikzpicture}} % Point d'exclamation dans un cercle
-\advance\baselineskip -1pt}{\end{list}\vskip5pt} % Tighter line spacing and white space after remark
 
 
 %----------------------------------------------------------------------------------------
