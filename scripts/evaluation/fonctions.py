@@ -1036,5 +1036,13 @@ def eval_competences_ds(bareme,bdd):
     
     return eval_comp_ds
     
-            
-         
+
+def creer_bilan_comp_individuel():
+    """
+    Créer un fichier individuel
+    """
+    
+    # Création du fichier de compétences pour SYS
+    # Il faudrait une table avec  
+    # SYS-01, moyenne_eleve(SYS-01),moyenne_classe(SYS-01)
+    
