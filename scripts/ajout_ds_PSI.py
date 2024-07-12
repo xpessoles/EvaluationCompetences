@@ -26,7 +26,7 @@ discipline = 'SII'
 annee = "2025" # Année de passage du concours
 bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = '1'
+num_eval  = '6'
 date_eval = "18/03/2024"
 dossier_notes = "2023_2024"
 fichier_notes = "DS_06_CCS_2013_BIS.xlsx"
@@ -59,3 +59,4 @@ generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ord_orig
 #eleves = get_eleves(classe,annee,bdd)
 #eleve = eleves[0]
 #generation_bilan_competences(eleve,classe,filiere,discipline,bdd)
+

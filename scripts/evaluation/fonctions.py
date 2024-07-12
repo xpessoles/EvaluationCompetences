@@ -58,7 +58,7 @@ def read_file_competences(dossier_comp, fichier_comp,filiere,discipline) -> list
         for cell in row:
             ligne.append(cell.value)
         
-        print(ligne)
+        #print(ligne)
         nb_none = 0
         for e in ligne : 
             if e==None :
@@ -247,20 +247,18 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
             ligne_poids.append(cell.value)
 
     ligne_poids=ligne_poids[2:2+nb_item]
-
     bareme = []
-
-
     for row in sheet.iter_rows(max_row=nb_ligne):
         
         ligne = []
         for cell in row:
-             ligne.append(cell.value)
-   
+            ligne.append(cell.value)
+            
         # On vérifie que la ligne est une compétence évaluable
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]
             valeurs = ligne[2:2+nb_item]
+            #print(ligne)
             if sum(valeurs)>0 : # Il y a des valeurs sur la ligne donc la compétence est évaluée
                 
                
@@ -268,7 +266,6 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
                 for i in range(len(valeurs)):
                     if valeurs[i]!=0 :
                         l_index_q.append(i)
-                
         
                 for index_q in l_index_q :
                     # On supprime le Q
@@ -413,6 +410,7 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
 
         # Pour chacune des questions on met la note
         for i in range(nb_quest):
+            #print(i)
             index_note = i+2
             id_question= bareme[i].id_ques
             n = note[index_note]
@@ -690,9 +688,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
         " id_eleve="+str(id_eleve)+" AND"+\
         " id_eval="+str(id_eval)
     
-    # Recup de la note par competences du DS
-    eval_comp_ds = eval_competences_ds(bareme,bdd)
-    eval_comp_ds = sorted(eval_comp_ds.items(), key=lambda t: t[0])
+
     
     
     commentaire = exec_select(bdd, req)[0][0]
@@ -837,14 +833,19 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     
     
     #### Bilan de compétence sur le DS. 
+    # Recup de la note par competences du DS
+    eval_comp_ds = eval_competences_ds(bareme,bdd,id_eval,id_eleve)
+    eval_comp_ds = sorted(eval_comp_ds.items(), key=lambda t: t[0])
     
     fid.write("\\noindent \\textbf{Bilan par compétences}\n \n")
     
     fid.write("\\begin{itemize} \n")
     for comp in eval_comp_ds :
-        r = comp[1]["note"]/comp[1]["note_total"]
+        r = comp[1]["note_eleve"]/comp[1]["note_total"]
         r = str(int(100*r))
-        fid.write("\\item \\textbf{"+comp[0]+"} : "+comp[1][comp[0]]+ "\\hfill Réussite : " + r +"\\% \n")
+        xx = comp[0].split("-")
+        xx =" \\footnotesize \\xpComp{"+xx[0]+"}{"+xx[1]+"} \\normalsize \hspace{.2cm}" 
+        fid.write("\\item "+xx+comp[1]['nom_long']+ "\\hfill \progress{"+r+"}\n")
     fid.write("\\end{itemize} \n")    
     fid.close()
 
@@ -890,22 +891,32 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
         notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
         
         ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds,ord_origine)
+        
+        
+        #******************
+        fid = codecs.open("compil/f1.tex", "a", "utf-8")
+        fid.write("\\newpage \n")
+        fid.write("\\textbf{Bilan de compétences} \n\n")
+        radar = creer_bilan_comp_individuel(eleve.id,id_eval,annee,filiere,bdd)
+        fid.write(radar)
+        fid.close()
+        
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")
         
         print(' >> ICI << ')
-        # os.system("pdflatex FicheDS.tex")
-        # os.system("pdflatex FicheDS.tex")
-        # fichier_eleve = eleve.get_num()+"_"+\
-        #                 eleve.nom+"_"+\
-        #                 eleve.prenom+"_"+\
-        #                 evaluation.type_eval+"_"+\
-        #                 str(evaluation.num_eval)+ext+".pdf"
-        # shutil.move("FicheDS.pdf",fichier_eleve)
+        os.system("pdflatex FicheDS.tex")
+        os.system("pdflatex FicheDS.tex")
+        fichier_eleve = eleve.get_num()+"_"+\
+                        eleve.nom+"_"+\
+                        eleve.prenom+"_"+\
+                        evaluation.type_eval+"_"+\
+                        str(evaluation.num_eval)+ext+".pdf"
+        shutil.move("FicheDS.pdf",fichier_eleve)
         
         os.chdir("..")
-        #******************
-        creer_bilan_comp_individuel(eleve.id,id_eval,annee,filiere,bdd)
+        
+        
         
 
 def get_comp_id(code_comp,discipline, filiere, bdd):
@@ -1019,7 +1030,7 @@ def generation_bilan_competences(eleve,classe,filiere,discipline,bdd) :
                 
     fid.close()
 
-def eval_competences_ds(bareme,bdd):
+def eval_competences_ds(bareme,bdd,id_eval,id_eleve):
     """
     Pour un DS donné : 
         - faire la liste des compétences évaluées
@@ -1030,18 +1041,38 @@ def eval_competences_ds(bareme,bdd):
         On renvout un dico de dico :
          { code_comp:{'nom':nom long,'note':int, 'note_tot':int}}
     """
+
+    ### Pour un bareme donné, on cherche la note associée à chaque compétence
     eval_comp_ds = {}
-    for q in bareme :
-        if q.code_comp not in eval_comp_ds : 
-            req = "SELECT nom_long from competences WHERE"+\
-                " code='"+str(q.code_comp)+"'"
-            res = exec_select(bdd,req)
-            d={q.code_comp:res[0][0],"note":0,"note_total":0} 
-            eval_comp_ds[q.code_comp] = d
+    
+    req = "SELECT note_question,poids,note,code_comp FROM questions_eleves " +\
+            "WHERE id_eleve = "+str(id_eleve)+" AND id_eval = "+str(id_eval)
+    res = exec_select(bdd,req)
+    
+    for note in res : 
+        if note[3] not in eval_comp_ds : 
+            req = "SELECT nom_long FROM competences WHERE code = '"+str(note[3]+"'")
+            res2 = exec_select(bdd,req)
+            d={"nom_long":res2[0][0],"note_eleve":0,"note_total":0} 
+            eval_comp_ds[note[3]] = d
+    
+    for note in res : 
+        code_comp = note[3]
+        note_eleve = note[0]
+        if note_eleve == 'NT':
+            note_eleve = 0
+        else : 
+            note_eleve = float(note_eleve)
             
-    for q in bareme :
-        eval_comp_ds[q.code_comp]['note']+= q.note
-        eval_comp_ds[q.code_comp]['note_total']+= q.poids
+        poids = note[1] # Note sur 5
+        note = note[2]  # poids relatif à l'ensemble du DS 
+        
+        # Exemple: poids 5 et note 2 : la question est sur 10
+        eval_comp_ds[code_comp]['note_total']+= poids*note
+        # SI l'élève à 1 ça lui fait 1/5 sont 2/10
+        
+        eval_comp_ds[code_comp]['note_eleve']+=  note_eleve*note
+        
     
     return eval_comp_ds
     
@@ -1072,7 +1103,7 @@ def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
     
     # Pour un élève calcule la moyenne de sa note par compétence
     req = "SELECT note_question,poids,note,code_comp FROM questions_eleves WHERE "+\
-            "id_eleve="+str(id_eleve)+ " AND id_eval = "+str(id_eval) 
+            "id_eleve="+str(id_eleve)#+ " AND id_eval = "+str(id_eval) 
     data = exec_select(bdd,req)
 
     for code_comp in dico_comp :
@@ -1080,11 +1111,11 @@ def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
         note_tot = 0
         for ligne in data : 
             if ligne[3] == code_comp :
-                note_tot += ligne[1]*ligne[2]
+                note_tot += ligne[2]
                 if ligne[0] == "NT" :
                     note_comp += 0
                 else :
-                    note_comp += float(ligne[0])
+                    note_comp += float(ligne[0])/ligne[1]*ligne[2]
         if note_tot == 0 :
             note_comp = 0
         else :
@@ -1095,8 +1126,8 @@ def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
         
         
     # Pour une comp calcule la moyenne de la classe par compétence
-    req = "SELECT note_question,poids,note,code_comp FROM questions_eleves WHERE "+\
-            "id_eval = "+str(id_eval) 
+    req = "SELECT note_question,poids,note,code_comp FROM questions_eleves"
+    # WHERE "+"id_eval = "+str(id_eval) 
     data = exec_select(bdd,req)
 
     for code_comp in dico_comp :
@@ -1104,11 +1135,11 @@ def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
         note_tot = 0
         for ligne in data : 
             if ligne[3] == code_comp :
-                note_tot += ligne[1]*ligne[2]
+                note_tot += ligne[2]
                 if ligne[0] == "NT" :
                     note_comp += 0
                 else :
-                    note_comp += float(ligne[0])
+                    note_comp += float(ligne[0])/ligne[1]*ligne[2]
         
         if note_tot == 0 :
             note_comp = 0
@@ -1117,10 +1148,65 @@ def creer_bilan_comp_individuel(id_eleve,id_eval,annee,filiere,bdd):
         dico_comp[code_comp]["note_moyenne"] = note_comp
         
         
-        
-        
-    return dico_comp
-    # Création du fichier de compétences pour SYS
+    k_sys = ('SYS-01','SYS-02','SYS-03','SYS-04','SYS-05','SYS-06')
+    k_geo = ('GEO-01','GEO-02','GEO-03','GEO-04')
+    k_cin = ('CIN-01','CIN-02','CIN-03','CIN-04','CIN-05')
+    k_sta = ('STAT-01','STAT-02','STAT-03','STAT-04','STAT-05')
+    k_chs = ('CHS-01','CHS-02','CHS-03','CHS-04','CHS-05')
+    k_dyn = ('DYN-01','DYN-02','DYN-03','DYN-04','DYN-05','DYN-06')
+    k_tec = ('TEC-01','TEC-02','TEC-03','TEC-04','TEC-05')
+    k_slci= ('SLCI-01','SLCI-02','SLCI-03','SLCI-04','SLCI-05','SLCI-06','SLCI-07','SLCI-08','SLCI-09','SLCI-10','SLCI-11')
+    k_per = ('PERF-01','PERF-02','PERF-03','PERF-04','PERF-05','PERF-06')
+    k_cor = ('COR-01','COR-02','COR-03','COR-04','COR-05','COR-06')
+    k_nl  = ('NL-01','NL-02')
+    k_seq = ('SEQ-01','SEQ-02','SEQ-03')
+    k_num = ('NUM-01','NUM-02','NUM-03','NUM-04','NUM-05')
+    
+    liste_k = [(k_sys,'\\allSysComp'),(k_geo,'\\allGeoComp'),
+                (k_cin,'\\allCinComp'),(k_sta,'\\allStatComp'),
+                (k_chs,'\\allChsComp'),(k_dyn,'\\allDynComp'),
+                (k_tec,'\\allTecComp'),(k_slci,'\\allSlciComp'),
+                (k_per,'\\allPerfComp'),(k_cor,'\\allCorComp'),
+                (k_nl,'\\allNlComp'),(k_seq,'\\allSeqComp'),
+                (k_num,'\\allNumComp')]
+    
+    
+    all_radar = ""
+    for macro_comp in liste_k :
+        # On calcule la note des élèves par competences
+        notes_eleve = ""
+        notes_classe = ""
+        ch_comp = ""
+        for k in macro_comp[0]:
+            ch_comp += str(k)+"," 
+            notes_eleve += str(dico_comp[k]['note_comp'])+","
+            notes_classe += str(dico_comp[k]['note_moyenne'])+","
+        ch_comp = ch_comp[:-1]
+        notes_eleve = notes_eleve[:-1]
+        notes_classe = notes_classe[:-1]
+        radar = write_radar(ch_comp,notes_eleve,notes_classe,macro_comp[1])
+        all_radar += radar
+    
+    return all_radar    # Création du fichier de compétences pour SYS
     # Il faudrait une table avec  
     # SYS-01, moyenne_eleve(SYS-01),moyenne_classe(SYS-01)
     
+def write_radar(ch_comp,notes_eleves,notes_classe,comp):
+    # ECRITURE DU RADAR POur un élève, une compétence
+    # radar est une chaine de caractère à écrie dans le fichier
+
+    radar = ""
+    radar += "\\begin{minipage}[c]{.3\\linewidth} \n"
+    radar += "\\begin{tikzpicture}[scale=1, label distance = .5cm]\n"
+    radar += "    \\tkzKiviatDiagram[lattice=5,gap=.3,space=.3,step=1,radial style/.style ={-latex},lattice style/.style ={blue!30}]{"+ch_comp+"}\n"
+    radar += "    \\tkzKiviatLine[thick,color=red,mark=ball,ball color=red,mark size=3pt,fill=red!20]("+notes_eleves+")\n"
+    radar += "    \\tkzKiviatLine[very thick, dotted, color=blue,mark=ball,mark size=1pt,fill=blue!20,	opacity=.5]("+notes_classe+")\n"
+    radar += "\\end{tikzpicture} \n"
+    radar += "\\end{minipage}\\hfill \n"
+    radar += "\\begin{minipage}[c]{.6\\linewidth} \n"
+    
+    radar += "\\footnotesize \n"
+    radar += comp +"\n"
+    radar += "\\normalsize \n"
+    radar += "\\end{minipage} \n"
+    return radar
