@@ -398,7 +398,7 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
         
         # On récupère l'id de l'élève
         num_el = note[1]
-        
+        # print(num_el)
         req = "SELECT id from eleves WHERE"+\
             " num="+str(num_el) +\
             " AND"+" classe='"+classe +"'"+\
@@ -407,7 +407,8 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
         res = exec_select(bdd,req)
      
         id_eleve = res[0][0]
-
+        
+        
         # Pour chacune des questions on met la note
         for i in range(nb_quest):
             #print(i)
@@ -862,7 +863,7 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
     #print(len(eleves))
     for eleve in eleves : 
 
-
+        print(eleve.nom)
         # Récup du bareme Liste de Questions
         bareme = get_questions_eval(id_eval,bdd)
 
