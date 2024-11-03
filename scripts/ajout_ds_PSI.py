@@ -25,15 +25,15 @@ filiere = "PCSI-PSI"
 discipline = 'SII'
 annee = "2025" # Année de passage du concours
 bdd = "2024_2025_BDD.db"
-type_eval = "DM"
-num_eval  = '1'
-date_eval = "30/09/2024"
+type_eval = "DS"
+num_eval  = '2'
+date_eval = "14/10/2024"
 dossier_notes = "2024_2025"
-fichier_notes = "DM_01_SEIS.xlsx"
+fichier_notes = "DS_02_Robovolc.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
-COEF_DS = 1
+COEF_DS = 1.6
 ord_origine = 0
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
