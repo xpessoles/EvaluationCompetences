@@ -1,0 +1,124 @@
+\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+%\input{../../../Style/macros_SII}
+\input{../../../Style/environment_v2}
+\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+
+\usepackage{tkz-kiviat}
+\fichetrue
+%\fichefalse
+
+
+%\newcommand{\progress}[1]{
+%    \begin{tikzpicture}
+%        \fill[ocre!20, rounded corners =1 mm] (0,0) rectangle (#1/100*2.5,.4);
+%         \draw[ocre,thick, rounded corners =1 mm] (0,0) rectangle (2.5,.4);
+%         \node at (1.25,0.2) {\textcolor{black}{#1~\%}};
+%    \end{tikzpicture}
+%}
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+%%\renewcommand{\xxactivite}{DS 1}
+\renewcommand{\xxtitreexo}{Devoir du 14 octobre 2024}
+%\renewcommand{\discipline}{Sciences Industrielles de l'Ingénieur}
+%\renewcommand{\classe}{PSI $\star$}
+%\renewcommand{\xxnumpartie}{PSI $\star$}
+%\renewcommand{\xxsourceexo}{PSI $\star$}
+%\renewcommand{\xxchapitre}{PSI $\star$}
+%\renewcommand{\xxnumpartie}{PSI $\star$}	
+%\renewcommand{\xxpartie}{PSI $\star$}
+
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+%
+
+\textbf{Remarques générales}
+\begin{itemize}
+\item La technologie des capteurs n'est pas maîtrisée. Un codeur est un capteur de position angulaire, une génératrice tachymétrique est un capteur de vitesse angulaire. 
+\item Lors du calcul de $h$, il faut absolument décrire le calcul des mobilités, des inconnues et des équations. 
+\item Beaucoup trop d'entre vous se sont arrangés pour avoir un modèle isostatique. J'ai largement préféré les élèves qui ne trouvaient pas 0 et qui expliquais ne pas voir les mobilités non vues. 
+\item En statique, la rédaction de la mathode est indispensable : 
+\begin{enumerate}
+\item Système isolé,
+\item BAME, 
+\item énoncé du théorème, 
+\item calculs et résultat.
+\end{enumerate}
+\item On ne peut pas comparer $R$ et $L$ pour négliger $L$. Ce ne sont pas les mêmes grandeurs physiques. 
+\item Le calcul d'écart statique et de trainage avec les résultats du cours n'est pas suffisamment su et employé. 
+Cela provoque des erreurs et des longueurs dans les calculs. 
+\item Trop de diagrammes de Bode sont faux. 
+\end{itemize}
+%
+%\textbf{Remarques particulières}
+%\begin{itemize}
+%\item Des confusions entre stabilité, notamment à la question 19. Attention, la question portait sur la stabilité. (De plus la précision ne peut être déterminée que si le système est stable).
+%\item Pour la stabilité, un système en BF \textbf{d'ordre 1 ou d'ordre 2} est stable si les coefficients sont tous \textbf{strictement} positifs. Pour des ordres supérieurs, cette condition n'est pas pas suffisante (mais elle est nécessaire).
+%\item Attention à utiliser des unités adaptées. On ne va pas exprimer une vitesse en \si{W.N^{-1}}...
+%\item Attention à calculer l'écart statique que quand c'est nécessaire, sinon utiliser le tableau du cours (en liaison avec la classe de la BO).
+%\item Pour calculer l'argument d'une fonction de transfert, si on a des polynômes de degré 1, c'est génial, car on n'est dans le bon domaine de définition de l'arctan... Donc ne développez pas les formes factorisées...
+%\item Attention à calculer les fonctions de transfert demandées... et pas celle que vous voudriez qu'on vous demande.  
+%\end{itemize}
+
+\input{f1}
+
+
+
+
+
+\end{document}

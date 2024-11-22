@@ -1,26 +1,15 @@
-\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
 \usepackage[%
     pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
     pdfauthor={Xavier Pessoles}]{hyperref}
 \input{style/new_style}
-%\input{../../../Style/macros_SII}
-\input{../../../Style/environment_v2}
+\input{style/macros_SII}
 \input{entetes_PTSI}
 \usepackage{multicol}
 \usepackage{siunitx}
 
-\usepackage{tkz-kiviat}
 \fichetrue
 %\fichefalse
-
-
-%\newcommand{\progress}[1]{
-%    \begin{tikzpicture}
-%        \fill[ocre!20, rounded corners =1 mm] (0,0) rectangle (#1/100*2.5,.4);
-%         \draw[ocre,thick, rounded corners =1 mm] (0,0) rectangle (2.5,.4);
-%         \node at (1.25,0.2) {\textcolor{black}{#1~\%}};
-%    \end{tikzpicture}
-%}
 
 \proftrue
 \proffalse
@@ -37,16 +26,6 @@
 
 \begin{document}
 %\chapterimage{png/Fond_Cin}
-%%\renewcommand{\xxactivite}{DS 1}
-\renewcommand{\xxtitreexo}{Devoir du 7 novembre 2024}
-%\renewcommand{\discipline}{Sciences Industrielles de l'Ingénieur}
-%\renewcommand{\classe}{PSI $\star$}
-%\renewcommand{\xxnumpartie}{PSI $\star$}
-%\renewcommand{\xxsourceexo}{PSI $\star$}
-%\renewcommand{\xxchapitre}{PSI $\star$}
-%\renewcommand{\xxnumpartie}{PSI $\star$}	
-%\renewcommand{\xxpartie}{PSI $\star$}
-
 \input{style/new_pagegarde}
 %\vspace{4.5cm}
 \pagestyle{fancy}
@@ -54,7 +33,7 @@
 
 
 \def\columnseprulecolor{\color{ocre}}
-\setlength{\columnseprule}{0pt} 
+\setlength{\columnseprule}{0.4pt} 
 
 
 \begin{tikzpicture}[remember picture,overlay]
@@ -85,7 +64,6 @@
 \end{tikzpicture}
 
 \vspace{6cm}
-%
 
 
 \textbf{Commentaires généraux}

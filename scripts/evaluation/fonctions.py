@@ -253,7 +253,7 @@ def read_bareme(dossier_notes, fichier_notes, evaluation:Evaluation,bdd) -> list
         ligne = []
         for cell in row:
             ligne.append(cell.value)
-            
+        #print(ligne)
         # On vérifie que la ligne est une compétence évaluable
         if ligne[0]!=None and is_competence_evaluable(ligne[0],bdd) :
             code_comp = ligne[0]
@@ -901,6 +901,67 @@ def generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,coef_ds,ord_
         radar = creer_bilan_comp_individuel(eleve.id,id_eval,annee,filiere,bdd)
         fid.write(radar)
         fid.close()
+        
+        plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
+        os.chdir("compil")
+        
+        print(' >> ICI << ')
+        os.system("pdflatex FicheDS.tex")
+        os.system("pdflatex FicheDS.tex")
+        fichier_eleve = eleve.get_num()+"_"+\
+                        eleve.nom+"_"+\
+                        eleve.prenom+"_"+\
+                        evaluation.type_eval+"_"+\
+                        str(evaluation.num_eval)+ext+".pdf"
+        shutil.move("FicheDS.pdf",fichier_eleve)
+        
+        os.chdir("..")
+
+def generation_bilan_eval_indiv_INFO(classe,annee,filiere,evaluation,bdd,coef_ds,ord_origine,ext):
+    # ext : extension pour le fichier PDF (par exemple s'il y a un sujet 
+    # CCMP:"_CCMP", un sujet CCS :"_CCS")
+    # Récupération des élèves
+
+    eleves = get_eleves(classe,annee,bdd)
+    id_eval = is_eval_exist(evaluation,bdd)
+
+    bilan_evals = []
+
+    #print(len(eleves))
+    for eleve in eleves : 
+
+        print(eleve.nom)
+        # Récup du bareme Liste de Questions
+        bareme = get_questions_eval(id_eval,bdd)
+
+        # Récupération des notes d'un élève
+        # Dictionnaire de notes d'un éleve
+        notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
+        # Calcul de l'élève
+        #print(bareme,notes_eleve)
+        note_eval_eleve = calc_note_eval(bareme,notes_eleve)
+        # On écrit ca dans la base de données
+        insert_note_eval_bdd(eleve.id,id_eval,note_eval_eleve,bdd)
+        
+        # On ajoute les compétences évaluées dans la base.
+        insert_comp_bdd(eleve,id_eval,notes_eleve,bareme,filiere,bdd)
+        
+        bilan_evals.append(note_eval_eleve)
+
+    # Ajouter le classement de l'évaluation
+    liste_evals = classement_eval(bilan_evals)
+    
+    
+    for eleve in eleves :
+        
+        # Ecriture fichier tex
+        print(eleve.nom)
+        notes_eleve = get_questions_eleve(evaluation,eleve,bdd)
+        
+        ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,"compil/f1.tex",bdd,coef_ds,ord_origine)
+        
+        
+        #******************
         
         plot_notes_brute(eleve.id,bilan_evals,"compil/histo.pdf")
         os.chdir("compil")

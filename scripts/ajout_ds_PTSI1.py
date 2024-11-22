@@ -15,6 +15,7 @@ from evaluation.fonctions import read_bareme,add_bareme_bdd
 from evaluation.fonctions import add_evaluation_bdd,del_evaluation_bdd
 from evaluation.fonctions import read_notes,add_notes_bdd,get_eleves
 from evaluation.fonctions import generation_bilan_eval_indiv
+from evaluation.fonctions import generation_bilan_eval_indiv_INFO
 from evaluation.fonctions import generation_bilan_competences
 
 
@@ -23,13 +24,13 @@ classe = 'PTSI2'
 filiere = "All"
 filiere = "All"
 discipline = 'Info'
-annee = "2024" # Année de passage du concours
-bdd = "BDD_2022_2023.db"
+annee = "2025" # Année de passage du concours
+bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "29/04/2024"
-dossier_notes = "2023_2024"
-fichier_notes = "PTSI2_DS_04.xlsx"
+num_eval  = 1
+date_eval = "07/11/2024"
+dossier_notes = "2024_2025"
+fichier_notes = "PTSI2_DS_01.xlsx"
 
 COEF_DS = 1
 
@@ -49,7 +50,9 @@ notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
 
 # # # Génération des bilans indivisualisés
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,0,"")
+#generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,0,"")
+
+generation_bilan_eval_indiv_INFO(classe,annee,filiere,evaluation,bdd,COEF_DS,0,"")
 
 # # Génération du bilan de compétences
 #eleves = get_eleves(classe,annee,bdd)
