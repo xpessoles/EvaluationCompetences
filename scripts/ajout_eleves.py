@@ -8,10 +8,10 @@ Created on Wed Dec 15 22:03:05 2021
 dossier_eleve = "Competences"
 #fichier_eleve = "Eleves_PTSI1_2022_2023.xlsx"
 #"Eleves_MP_2022_2023.xlsx"
-fichier_eleve ="Eleves_PTSI2_2024_2025.xlsx"
+fichier_eleve ="Eleves_MP_2024_2025.xlsx"
 #"Eleves_PTSI1_2023_2024.xlsx"
 #"Eleves_PTSI2_2023_2024.xlsx"#"Eleves_MP_2023_2024.xlsx"#
-classe = "PTSI2"#PSIe"#PTSI1"#PTSI2"#"MPSI1"#'PSIe'
+classe = "MP"#PSIe"#PTSI1"#PTSI2"#"MPSI1"#'PSIe'
 annee = "2025" # Année de passage du concours des spés
 bdd = "2024_2025_BDD.db"
 
