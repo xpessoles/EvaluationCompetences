@@ -5,7 +5,7 @@
 \input{style/new_style}
 %\input{../../../Style/macros_SII}
 \input{../../../Style/environment_v2}
-\input{entetes_MP}
+\input{entetes}
 \usepackage{multicol}
 \usepackage{siunitx}
 
@@ -38,7 +38,7 @@
 \begin{document}
 %\chapterimage{png/Fond_Cin}
 %%\renewcommand{\xxactivite}{DS 1}
-\renewcommand{\xxtitreexo}{Devoir du 8 novembre 2024}
+\renewcommand{\xxtitreexo}{Devoir du 20 décembre 2024}
 %\renewcommand{\discipline}{Sciences Industrielles de l'Ingénieur}
 %\renewcommand{\classe}{PSI $\star$}
 %\renewcommand{\xxnumpartie}{PSI $\star$}
@@ -87,24 +87,27 @@
 \vspace{6cm}
 %
 
-
-\textbf{Commentaires généraux -- Points d'amélioration}
+\textbf{Remarques générales}
 \begin{itemize}
-\item Les graphes de liaisons ne sont pas faits avec suffisamment de rigueur :
-\begin{itemize}
-\item les couple moteur, ressorts sont à positionner \textbf{ENTRE 2 PIECES} si bien que si c'est deux pièces sont isolées ensembles, ces couples n'apparaissent plus dans le BAME;
-\item les frottements sont à mettre sur les liaisons.
+\item Assez bon devoir pour la plupart d'entre vous. 
+\item Attention, les moments d'inertie sont en \si{kg.m^2}...
+\item Il faut tâcher d'être plus concis dans la rédaction et plus rapide. 
 \end{itemize}
-\item Lors du BAME, toutes les actions sont à NOMMER et à inventorier (même si elles n'apparaissent pas dans le théorème utilisé.
-\item Les formules n'étaient pas encore maîtrisées, mais je pense que cela s'est amélioré. 
-\item En asservissement, les résultats sur la précision (en lien avec la classe) et la stabilité ne sont pas toujours suffisamment maîtrisés.
-\item En théorie des mécanismes, ne pas oublier de préciser les mobilités, de donner l'origine des inconnes et des équations. 
-\item Lorsqu'un système est hyperstatique, cela lui apporte de la rigidité et une plus grande fiabilité. Il est alors plus cher à fabriquer car il faut une plus grande précision dans la fabrication des pièces. 
-\end{itemize}
-
+%
+%\textbf{Remarques particulières}
+%\begin{itemize}
+%\item Des confusions entre stabilité, notamment à la question 19. Attention, la question portait sur la stabilité. (De plus la précision ne peut être déterminée que si le système est stable).
+%\item Pour la stabilité, un système en BF \textbf{d'ordre 1 ou d'ordre 2} est stable si les coefficients sont tous \textbf{strictement} positifs. Pour des ordres supérieurs, cette condition n'est pas pas suffisante (mais elle est nécessaire).
+%\item Attention à utiliser des unités adaptées. On ne va pas exprimer une vitesse en \si{W.N^{-1}}...
+%\item Attention à calculer l'écart statique que quand c'est nécessaire, sinon utiliser le tableau du cours (en liaison avec la classe de la BO).
+%\item Pour calculer l'argument d'une fonction de transfert, si on a des polynômes de degré 1, c'est génial, car on n'est dans le bon domaine de définition de l'arctan... Donc ne développez pas les formes factorisées...
+%\item Attention à calculer les fonctions de transfert demandées... et pas celle que vous voudriez qu'on vous demande.  
+%\end{itemize}
 
 \input{f1}
 
-%\input{comp}
+
+
+
 
 \end{document}
