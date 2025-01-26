@@ -26,14 +26,14 @@ discipline = 'SII'
 annee = "2025" # Année de passage du concours
 bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = '1'
-date_eval = "8/11/2024"
+num_eval  = '2'
+date_eval = "6/01/2025"
 dossier_notes = "2024_2025"
-fichier_notes = "DS_01_MP_RepliqueInsight.xlsx"
+fichier_notes = "DS_02_MP_Stabilisateur.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
-COEF_DS = 1
+COEF_DS = 1.2
 ord_origine = 0
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
