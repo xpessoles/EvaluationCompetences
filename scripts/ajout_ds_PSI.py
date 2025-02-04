@@ -26,11 +26,11 @@ discipline = 'SII'
 annee = "2025" # Année de passage du concours
 bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = '42'
-date_eval = "20/12/2024"
+num_eval  = '51'
+date_eval = "13/01/2025"
 dossier_notes = "2024_2025"
-fichier_notes = "DS_04_Velo_G4E.xlsx"
-ext = "_ATS"
+fichier_notes = "DS_05_Twizy.xlsx"
+ext = "_CCMP"
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
 COEF_DS = 1
