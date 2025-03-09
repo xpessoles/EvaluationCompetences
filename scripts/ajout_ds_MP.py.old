@@ -16,47 +16,43 @@ from evaluation.fonctions import add_evaluation_bdd,del_evaluation_bdd
 from evaluation.fonctions import read_notes,add_notes_bdd,get_eleves
 from evaluation.fonctions import generation_bilan_eval_indiv
 from evaluation.fonctions import generation_bilan_competences
-from evaluation.fonctions import creer_bilan_comp_individuel
 
 
 ## Paramètres
-classe = 'PSIe'
+classe = 'MP'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2025" # Année de passage du concours
-bdd = "2024_2025_BDD.db"
+annee = "2024" # Année de passage du concours
+bdd = "BDD_2022_2023.db"
 type_eval = "DS"
-num_eval  = '6'
-date_eval = "18/02/2025"
-dossier_notes = "2024_2025"
-fichier_notes = "DS_06_Atalante_CCS_2023.xlsx"
-ext = ""
-#fichier_notes = "PSI_DS_03_CCS.xlsx"
+num_eval  = 5
+date_eval = "16/02/2024"
+dossier_notes = "2023_2024"
+fichier_notes = "MP_DS_04_CCINP_2023.xlsx"
 
-COEF_DS = 1
-ord_origine = 0
+COEF_DS = 1.2
+ORD_ORIGINE = 1
+EXT = ""
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 
 # # On ajoute l'EVAL à la BDD
 add_evaluation_bdd(evaluation,bdd)
-#
-# # # On lit le bareme
+
+# # On lit le bareme
 bareme = read_bareme(dossier_notes, fichier_notes, evaluation,bdd)
-#
-# # # On ajoute le bareme a la BDD
+
+# # On ajoute le bareme a la BDD
 add_bareme_bdd(bareme,filiere, bdd)
-#
-# # # On ajoute les notes de chacun des élèves dans la base de donnée
+
+# # On ajoute les notes de chacun des élèves dans la base de donnée
 notes = read_notes(dossier_notes, fichier_notes, evaluation, bdd)
 add_notes_bdd(notes,evaluation,bareme,bdd)
-#
-# # # # Génération des bilans indivisualisés
-print("Génération bilan indiv")
-generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ord_origine,ext)
+
+# # # Génération des bilans indivisualisés
+generation_bilan_eval_indiv(classe,annee,filiere,evaluation,bdd,COEF_DS,ORD_ORIGINE,EXT)
 
 # # Génération du bilan de compétences
 #eleves = get_eleves(classe,annee,bdd)
 #eleve = eleves[0]
 #generation_bilan_competences(eleve,classe,filiere,discipline,bdd)
-
