@@ -5,9 +5,10 @@
 \input{style/new_style}
 %\input{../../../Style/macros_SII}
 \input{../../../Style/environment_v2}
-\input{entetes_MP}
+\input{entetes_PTSI}
 \usepackage{multicol}
 \usepackage{siunitx}
+\usepackage{pdfpages}
 
 \usepackage{tkz-kiviat}
 \fichetrue
@@ -38,7 +39,7 @@
 \begin{document}
 %\chapterimage{png/Fond_Cin}
 %%\renewcommand{\xxactivite}{DS 1}
-\renewcommand{\xxtitreexo}{Devoir du 8 novembre 2024}
+\renewcommand{\xxtitreexo}{Devoir du 13 janvier 2025}
 %\renewcommand{\discipline}{Sciences Industrielles de l'Ingénieur}
 %\renewcommand{\classe}{PSI $\star$}
 %\renewcommand{\xxnumpartie}{PSI $\star$}
@@ -87,20 +88,18 @@
 \vspace{6cm}
 %
 
-
-\textbf{Commentaires généraux}
-\begin{itemize}
-\item Beaucoup de bonne volonté et de bonnes intentions. Vous cherchez à appliquer les méthodes vues en cours et c'est très encourageant. Des maladresses persistent, mais cela va s'améliorer.
-\item La cinématique est à renforcer. Beaucoup d'entre vous utilisent la décomposition du vecteur vitesse puis la formule du changement de point. Bien souvent, dans cette relation, vous passez par un point de vitesse non nulle...
-\item En statique, vous chercher à appliquer la méthode, mais cela n'aboutit pas toujours. Il faut persévérer et aller au bout du raisonnement.
-\item Il faut s'entrainer davantage en calcul de fonctions de transfert. Cela permettra de gagner du temps... et des points.
-\end{itemize}
-
-
-
+%\textbf{Remarques générales}
+%\begin{itemize}
+%\item Trop de projections maladroites dans l'écriture de la loi entrée -- sortie. Revoir le cas des projections quand les axes de rotations sont identiques. 
+%\item Des projections inutiles dans les calculs de vitesses et accélérations ce qui conduit à des expressions biens trop lourdes.
+%\item Des erreurs dans les formules de dynamique. Attention aux confusions torseur cinématiques et statiques. Attention à utiliser la bonne résultante lors de l'utilisation de la formule de changement de point.
+%\item Pour qu'un système soit stable il faut que tous les pôles soient \textbf{à partie réélle strictement négative}.
+%\end{itemize}
 
 \input{f1}
 
-%\input{comp}
+%\includepdf[pages=-]{CCS_2023_SI.pdf}
+
+
 
 \end{document}

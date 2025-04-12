@@ -1,19 +1,15 @@
-\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\documentclass[10pt,fleqn]{article} % Default font size and left-justified equations
 \usepackage[%
     pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
     pdfauthor={Xavier Pessoles}]{hyperref}
 \input{style/new_style}
-%\input{../../../Style/macros_SII}
-\input{../../../Style/environment_v2}
+\input{style/macros_SII}
 \input{entetes_PTSI}
 \usepackage{multicol}
 \usepackage{siunitx}
-\usepackage{pdfpages}
 
-\usepackage{tkz-kiviat}
 \fichetrue
 %\fichefalse
-
 
 \proftrue
 \proffalse
@@ -72,11 +68,23 @@
 
 \textbf{Commentaires généraux}
 \begin{itemize}
-\item Beaucoup de vous on fait l'effort de rédiger méthodiquement les démonstrations de terminaison et de correction des algorithmes. C'est très bien.
-\item Les questions de complexité ont été moins bien traitées. Il faut s'améliorer sur ce point. 
-\item Les questions de programmation ne présentaient pas de difficultés majeures. Il faut savoir les refaire.
-
+\item Le travail régulier semble porter ses fruits. Et le niveau général est assez bon.
+\item Il faut être rigoureux dans la rédaction : 
+\begin{itemize}
+\item rigoureux dans les indentations;
+\item rigoureux dans l'utilisation des parcours par indices ou par valeurs;
+\item rigoureux dans la lecture des questions dans le but de founir les réponses demandées.
 \end{itemize}
+\item Q2 et 3 : attention aux confusions \lstinline{print} -- \lstinline{return} : s'il n'y a pas de fonction, il ne peut pas y avoir de \lstinline{return}.
+\item Q5 : on demander de renvoyer \textbf{l'indice} et pas la lettre.
+\item Q6 : on souhaiter compter le nombre de lettres \textbf{différentes}. Un \lstinline{if} n'impose pas forcément un \lstinline{else}.
+\item Q10 : il est préférable de claculer les moyennes avant la boucle plutôt que de les recalculer à chaque itération.
+\item Q12 : la plupart d'entre vous n'utilisent pas le fonction précédente pour définir a et b.
+\item Q13 : des oubli du carré.
+\item Q14 : il faut faire attention lors de la suppression des éléments d'une liste. Il est << préférable >> de recréer une nouvelle liste ou d'utiliser une boucle for en partant par la fin...
+\item Q15 : question de synthèse ou il fallait utiliser les fonctions définies précédemment.
+\end{itemize}
+
 
 
 
