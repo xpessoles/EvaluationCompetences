@@ -22,15 +22,14 @@ from evaluation.fonctions import generation_bilan_competences
 ## Paramètres
 classe = 'PTSI2'
 filiere = "All"
-filiere = "All"
 discipline = 'Info'
 annee = "2025" # Année de passage du concours
 bdd = "2024_2025_BDD.db"
 type_eval = "DS"
-num_eval  = 4
-date_eval = "13/03/2025"
+num_eval  = 5
+date_eval = "9/06/2025"
 dossier_notes = "2024_2025"
-fichier_notes = "PTSI2_DS_04.xlsx"
+fichier_notes = "PTSI2_DS_05.xlsx"
 
 COEF_DS = 1
 
