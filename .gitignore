@@ -36,3 +36,5 @@ scripts/BDD_Evaluation_test.db
 scripts/2024_2025_BDD.db
 /scripts/2024_2025
 *.synctex(busy)
+/scripts/2025_2026
+scripts/2025_2026_BDD.db
