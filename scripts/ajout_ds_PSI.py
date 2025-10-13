@@ -25,11 +25,11 @@ filiere = "PCSI-PSI"
 discipline = 'SII'
 annee = "2026" # Année de passage du concours
 bdd = "2025_2026_BDD.db"
-type_eval = "DS"
-num_eval  = '2'
-date_eval = "3/10/2025"
+type_eval = "DM"
+num_eval  = '1'
+date_eval = "29/09/2025"
 dossier_notes = "2025_2026"
-fichier_notes = "DS_02_CCS_MP_2023.xlsx"
+fichier_notes = "DM_01_CCS_MP_2025.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
