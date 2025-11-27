@@ -1,0 +1,107 @@
+\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+%\input{../../../Style/macros_SII}
+\input{../../../Style/environment_v2}
+\input{entetes_SII}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{pdfpages}
+
+\usepackage{tkz-kiviat}
+\fichetrue
+%\fichefalse
+
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Commentaires généraux}
+
+\begin{itemize}
+\item Q1. Pour une loi en trapèze, comme on l'a vu en TP, les phases doivent être \textbf{synchronisées}. Pour la position, il y a continuité en \textbf{tangence} entre les phases d'accélération et les phases à vitesse constante.
+\item Q2. Dans le cas présenté ici, la vitesse maxi n'est pas atteinte. Il fallait donc penser à calculer la vitesse atteinte. 
+\item Q3. On demander d'intégrer avec la méthode des trapèzes (et pas des rectangles). Lorsqu'on intègre il ne faut pas oublier de cumuler la valeur intégrée (somme des instants précédents + instant présent).
+
+\item Q4. Beaucoup ont oublié la liaison non normalisée entre 8 et 4... attention à bien lire le texte.
+
+\item Q5. Les mobilités ne sont pas bien décrites. Il faut être plus précis dans vos réponses. 
+
+\item Q8. C'est une formulation de question un peu particulière... En d'autres termes on demande ici si toutes les inconnues de liaisons peuvent être déterminées. Pour y répondre, il vaut vérifier que le problème est isostatique. 
+\item Q9. Dans un vérin l'action du fluide est \textbf{\large{ENTRE DEUX PIECES}}.
+\item Q10 et 11 Globalement, ces questions sont mal traitées car \textbf{les ensembles de solides soumis à deux glisseurs sont mal identifiés} (ce qui est lié à un mauvais graphe de liaisons) la \textbf{stratégie de résolution à l'aide du PFS n'est pas bien comprise}.
+\item Q12. Passer par les pièces 7 et 8 suffisait, ce qui simplifiait beaucoup les calculs....
+\item Q16. Vous avez trop perdu de temps sur cette question. Il faut savoir la refaire en un temps raisonnable... et savoir situer le centre de gravitéd'un triangle. Programme de 1ère.
+\item Q20, 21, 22, 26 et 27. Beaucoup trop d'erreurs pour identifier et calculer les fonctions de transfert. Il faut savoir refaire ces questions vite et sans faute.
+
+%\item C'était un DS largement abordable. Globalement, le résultat est assez décevant.
+%\item Seule une grosse moitié et un gros tiers d'entre vous sont capables de donner la résolution d'un codeur et de tracer un signal PWM. 
+%\item La méthode pour déterminer une fermeture géométrique n'est pas acquise pour tout le monde. 
+%\item Certains d'entre vous ne savent pas distinguer une liaison pivot glissant par rapport à une glissière, une liaison sphère-cylindre par rapport à une liaison ponctuelle.
+%\item Des confusions entre résultante et moment dans l'écriture des torseurs. 
+%\item Le paramétrage donné pour les rotules n'est quasiment jamais utilisé. 
+%\item Beaucoup trop d'erreurs sur les questions en asservissements. Beaucoup de questions étaient cependant accessibles. 
+%\item Les rapports de transmissions sont globalement à revoir : erreurs sur les signes des rapports, erreurs dans l'hélicoïdale. 
+\end{itemize}
+
+
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}
