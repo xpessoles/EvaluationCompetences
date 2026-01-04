@@ -26,10 +26,10 @@ discipline = 'SII'
 annee = "2026" # Année de passage du concours
 bdd = "2025_2026_BDD.db"
 type_eval = "DS"
-num_eval  = '3'
-date_eval = "3/11/2025"
+num_eval  = '4'
+date_eval = "12/12/2025"
 dossier_notes = "2025_2026"
-fichier_notes = "DS_03_Helico_Lola.xlsx"
+fichier_notes = "DS_04_RapidFire.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
