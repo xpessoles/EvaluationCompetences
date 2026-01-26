@@ -405,7 +405,7 @@ def add_notes_bdd(notes,evaluation:Evaluation,bareme,bdd):
             " AND"+" annee="+str(annee)
         
         res = exec_select(bdd,req)
-     
+
         id_eleve = res[0][0]
         
         
