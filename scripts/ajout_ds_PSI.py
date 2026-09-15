@@ -23,13 +23,13 @@ from evaluation.fonctions import creer_bilan_comp_individuel
 classe = 'PSIe'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2026" # Année de passage du concours
-bdd = "2025_2026_BDD.db"
+annee = "2027" # Année de passage du concours
+bdd = "2026_2027_BDD.db"
 type_eval = "DS"
-num_eval  = '6'
-date_eval = "02/02/2026"
-dossier_notes = "2025_2026"
-fichier_notes = "DS_06_SEIS.xlsx"
+num_eval  = '1'
+date_eval = "07/09/2026"
+dossier_notes = "2026_2027"
+fichier_notes = "DS_01_CCMP_2021.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 

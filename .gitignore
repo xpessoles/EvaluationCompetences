@@ -39,3 +39,9 @@ scripts/2024_2025_BDD.db
 /scripts/2025_2026
 scripts/2025_2026_BDD.db
 scripts/2024_2026_BDD.db
+*.db
+/scripts/2026_2027
+*.fls
+*.fdb_latexmk
+*.ind
+*.ilg

@@ -19,8 +19,11 @@
 
 \usepackage{tikz} % Required for drawing custom shapes
 
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 \usepackage[french]{babel} % English language/hyphenation
 \frenchbsetup{StandardLists=true} % Pour éviter la collision babel enumitem pour les listes
+\usepackage{csquotes}
 
 \usepackage{enumitem} % Customize lists
 \setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
@@ -45,8 +48,6 @@
 %\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
 \usepackage[adobe-utopia]{mathdesign}
 \usepackage{microtype} % Slightly tweak font spacing for aesthetics
-\usepackage[utf8]{inputenc} % Required for including letters with accents
-\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY AND INDEX
@@ -156,8 +157,7 @@
 %----------------------------------------------------------------------------------------
 
 \usepackage{fancyhdr} % Required for header and footer configuration
-
-
+\setlength{\headheight}{46pt}
 
 \pagestyle{fancy}
  \renewcommand{\headrulewidth}{0pt}

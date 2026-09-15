@@ -838,6 +838,7 @@ def ecriture_notes_eleves_tex(eleve,notes_eleve,id_eval,bareme,liste_evals,file_
     eval_comp_ds = eval_competences_ds(bareme,bdd,id_eval,id_eleve)
     eval_comp_ds = sorted(eval_comp_ds.items(), key=lambda t: t[0])
     
+    fid.write("\\newpage \n \n")
     fid.write("\\noindent \\textbf{Bilan par compétences}\n \n")
     
     fid.write("\\begin{itemize} \n")
