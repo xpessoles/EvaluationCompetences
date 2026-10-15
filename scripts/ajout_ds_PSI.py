@@ -26,11 +26,11 @@ discipline = 'SII'
 annee = "2027" # Année de passage du concours
 bdd = "2026_2027_BDD.db"
 type_eval = "DS"
-num_eval  = '1'
+num_eval  = '2'
 date_eval = "07/09/2026"
 dossier_notes = "2026_2027"
-fichier_notes = "DS_01_CCMP_2021.xlsx"
-ext = ""
+fichier_notes = "DS_02_CCMP_2009_Roburoc.xlsx"
+ext = "_CCMP"
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
 COEF_DS = 1
