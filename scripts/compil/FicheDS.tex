@@ -72,19 +72,28 @@
 
 
 \textbf{Commentaires généraux et conseils}
-\begin{itemize}
-\item En modélisation multiphysique il faut savoir positionner un capteur de façon plus rigoureuse. 
-\item La résolution d'un codeur $n$ fentes à 2 voies en quadrature est donnée par $\dfrac{2\pi}{4 \times n}$.
-\item Concernant la précision, pour un système non perturbé, il faut absolument : 
-\begin{itemize}
-\item Calculer la FTBO,
-\item Calculer le gain de la BO,
-\item Déterminer la classe de la BO,
-\item Conclure sur la précision en fonction du type d'entrée (type de précision).
-\end{itemize}
-\end{itemize}
 
-
+À propos des liaisons équivlentes :
+\begin{itemize}
+\item les torseurs cinématiques et statiques des liaisons ne sont pas parfaitement sus;
+\item mes conseils pour plutôt écrire les torseur en ligne ne sont pas suffisamment respectés;
+\item les points d'applications des torseurs doivent être écrits.
+\end{itemize}
+À propos de l'hyperstatisme :
+\begin{itemize}
+\item des erreurs dans le calcul des mobilités : les mobilités des roues sont trop souvent omises !
+\item des erreurs dans le décompte des pièces : attention, il faut compter toutes les pièces, moins le bâti (d'où le $-1$ dans la formule);
+\item attention à ne pas mélanger méthode statique et cinématique dans le calcul de $h$.
+\end{itemize}
+À propos de la statique :
+\begin{itemize}
+\item le raisonnement du solide soumis à 2 glisseurs n'est pas suffisamment maîtrisé : souvent le cas est identifié. Il faut alors conclure sur la forme de du torseur (tout calcul est inutile);
+\item beaucoup d'entre vous arrivent  à abourtir à la résolution des problèmes de statique... vous devez TOUS y arriver :).
+\end{itemize}
+À propos du calcul des rapport de transmission :
+\begin{itemize}
+\item aïe aïe aïe, il faut bosser son cours sur les transmissions !
+\end{itemize}
 
 \input{f1}
 

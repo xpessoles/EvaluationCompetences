@@ -1,0 +1,93 @@
+\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+%\input{../../../Style/macros_SII}
+\input{style/environment_v2}
+\input{entetes_SII}
+%\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{pdfpages}
+
+\usepackage{tkz-kiviat}
+\fichetrue
+%\fichefalse
+
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Commentaires généraux et conseils}
+\begin{itemize}
+\item En modélisation multiphysique il faut savoir positionner un capteur de façon plus rigoureuse. 
+\item La résolution d'un codeur $n$ fentes à 2 voies en quadrature est donnée par $\dfrac{2\pi}{4 \times n}$.
+\item Concernant la précision, pour un système non perturbé, il faut absolument : 
+\begin{itemize}
+\item Calculer la FTBO,
+\item Calculer le gain de la BO,
+\item Déterminer la classe de la BO,
+\item Conclure sur la précision en fonction du type d'entrée (type de précision).
+\end{itemize}
+\end{itemize}
+
+
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}
