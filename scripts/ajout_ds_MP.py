@@ -23,19 +23,19 @@ from evaluation.fonctions import creer_bilan_comp_individuel
 classe = 'MP'
 filiere = "PCSI-PSI"
 discipline = 'SII'
-annee = "2026" # Année de passage du concours
-bdd = "2025_2026_BDD.db"
+annee = "2027" # Année de passage du concours
+bdd = "2026_2027_BDD.db"
 type_eval = "DS"
-num_eval  = '3'
-date_eval = "27/02/2026"
-dossier_notes = "2025_2026"
-fichier_notes = "MP_DS_03_CCS_MP_2025.xlsx"
+num_eval  = '1'
+date_eval = "6/11/2026"
+dossier_notes = "2026_2027"
+fichier_notes = "DS_01_MP_CARGO_robt.xlsx"
 ext = ""
 #fichier_notes = "PSI_DS_03_CCS.xlsx"
 
 COEF_DS = 1
 
-ord_origine = 3
+ord_origine = 2
 
 evaluation = Evaluation(classe,annee,type_eval,num_eval,date_eval)
 

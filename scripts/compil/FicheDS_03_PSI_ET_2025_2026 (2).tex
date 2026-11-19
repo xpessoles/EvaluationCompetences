@@ -1,0 +1,102 @@
+\documentclass[10pt,fleqn]{book} % Default font size and left-justified equations
+\usepackage[%
+    pdftitle={Modélisation systèmes multiphysiques : Modélisation par fonction de transfert et schéma-blocs},
+    pdfauthor={Xavier Pessoles}]{hyperref}
+\input{style/new_style}
+%\input{../../../Style/macros_SII}
+\input{style/environment_v2}
+\input{entetes_SII}
+%\input{entetes}
+\usepackage{multicol}
+\usepackage{siunitx}
+\usepackage{pdfpages}
+
+\usepackage{tkz-kiviat}
+\fichetrue
+%\fichefalse
+
+
+\proftrue
+\proffalse
+
+\tdtrue
+\tdfalse
+
+\courstrue
+\coursfalse
+
+\setcounter{secnumdepth}{5}
+%---------------------------------------------------------------------------
+
+
+\begin{document}
+%\chapterimage{png/Fond_Cin}
+\input{style/new_pagegarde}
+%\vspace{4.5cm}
+\pagestyle{fancy}
+\thispagestyle{plain}
+
+
+\def\columnseprulecolor{\color{ocre}}
+\setlength{\columnseprule}{0.4pt} 
+
+
+\begin{tikzpicture}[remember picture,overlay]
+\draw[anchor=west] (-2cm,-4cm) node {\huge\sffamily\bfseries\color{black} %
+\begin{minipage}{5cm}
+\begin{center}
+\LARGE\sffamily\color{ocre}\textbf{\textsc{\xxactivite}}
+
+\begin{center}
+\xxfigures
+\end{center}
+
+\end{center}
+\end{minipage} \hfill
+\begin{minipage}[c]{12cm}
+\begin{titrechapitre}
+\renewcommand{\baselinestretch}{1.1} 
+\large\sffamily\textbf{\textsc{\xxtitreexo}}
+
+\small\sffamily{\textbf{\textit{\color{black!70}\xxsourceexo}}}
+\vspace{.5cm}
+
+\renewcommand{\baselinestretch}{1} 
+\normalsize\normalfont
+%\xxcompetences
+\end{titrechapitre}
+\end{minipage}};
+\end{tikzpicture}
+
+\vspace{6cm}
+
+
+\textbf{Commentaires généraux et conseils}
+
+À propos des liaisons équivlentes :
+\begin{itemize}
+\item les torseurs cinématiques et statiques des liaisons ne sont pas parfaitement sus;
+\item mes conseils pour plutôt écrire les torseur en ligne ne sont pas suffisamment respectés;
+\item les points d'applications des torseurs doivent être écrits.
+\end{itemize}
+À propos de l'hyperstatisme :
+\begin{itemize}
+\item des erreurs dans le calcul des mobilités : les mobilités des roues sont trop souvent omises !
+\item des erreurs dans le décompte des pièces : attention, il faut compter toutes les pièces, moins le bâti (d'où le $-1$ dans la formule);
+\item attention à ne pas mélanger méthode statique et cinématique dans le calcul de $h$.
+\end{itemize}
+À propos de la statique :
+\begin{itemize}
+\item le raisonnement du solide soumis à 2 glisseurs n'est pas suffisamment maîtrisé : souvent le cas est identifié. Il faut alors conclure sur la forme de du torseur (tout calcul est inutile);
+\item beaucoup d'entre vous arrivent  à abourtir à la résolution des problèmes de statique... vous devez TOUS y arriver :).
+\end{itemize}
+À propos du calcul des rapport de transmission :
+\begin{itemize}
+\item aïe aïe aïe, il faut bosser son cours sur les transmissions !
+\end{itemize}
+
+\input{f1}
+
+%\input{comp}
+
+\end{document}
